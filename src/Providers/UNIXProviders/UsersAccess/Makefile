@@ -32,7 +32,7 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/UsersAccess
+DIR = Providers/UNIXProviders/UsersAccess
 
 include $(ROOT)/mak/config.mak
 
@@ -124,19 +124,16 @@ else
 	SOURCE += ../Account/UNIX_Account_STUB.cpp
 endif
 
-
-
-
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \

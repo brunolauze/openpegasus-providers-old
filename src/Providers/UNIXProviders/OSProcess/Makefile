@@ -32,7 +32,7 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/OSProcess
+DIR = Providers/UNIXProviders/OSProcess
 
 include $(ROOT)/mak/config.mak
 
@@ -165,19 +165,16 @@ else
 	SOURCE += ../Process/UNIX_Process_STUB.cpp
 endif
 
-
-
-
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \

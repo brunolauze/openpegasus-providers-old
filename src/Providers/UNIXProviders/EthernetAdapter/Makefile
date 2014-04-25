@@ -32,7 +32,7 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/EthernetAdapter
+DIR = Providers/UNIXProviders/EthernetAdapter
 
 include $(ROOT)/mak/config.mak
 
@@ -88,19 +88,16 @@ else
 	SOURCE += ../EthernetPort/UNIX_EthernetPort_STUB.cpp
 endif
 
-
-
-
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \

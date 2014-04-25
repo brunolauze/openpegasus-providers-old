@@ -32,13 +32,13 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/AllocationCapabilities
+DIR = Providers/UNIXProviders/AllocationCapabilities
 
 include $(ROOT)/mak/config.mak
 
 LIBRARY = UNIX_AllocationCapabilitiesProvider
 
-EXTRA_INCLUDES += -I/usr/local/include -I./..
+EXTRA_INCLUDES += -I./..
 
 
 SOURCES = \
@@ -83,16 +83,16 @@ else
 	SOURCES += UNIX_AllocationCapabilities_STUB.cpp
 endif
 
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \

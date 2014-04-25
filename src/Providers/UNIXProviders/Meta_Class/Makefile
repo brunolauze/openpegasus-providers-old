@@ -32,7 +32,7 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/Meta_Class
+DIR = Providers/UNIXProviders/Meta_Class
 
 include $(ROOT)/mak/config.mak
 
@@ -47,17 +47,17 @@ SOURCES = \
 	Meta_ClassProvider.cpp \
 	Meta_ClassMain.cpp
 
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegrepository \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegrepository \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil
 

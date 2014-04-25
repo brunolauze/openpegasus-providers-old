@@ -32,7 +32,7 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/SCSIController
+DIR = Providers/UNIXProviders/SCSIController
 
 include $(ROOT)/mak/config.mak
 
@@ -84,16 +84,16 @@ else
 	SOURCES += UNIX_SCSIController_STUB.cpp
 endif
 
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \

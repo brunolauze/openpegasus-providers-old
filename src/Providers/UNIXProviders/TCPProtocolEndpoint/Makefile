@@ -32,7 +32,7 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/TCPProtocolEndpoint
+DIR = Providers/UNIXProviders/TCPProtocolEndpoint
 
 include $(ROOT)/mak/config.mak
 
@@ -83,16 +83,16 @@ else
 	SOURCES += UNIX_TCPProtocolEndpoint_STUB.cpp
 endif
 
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \

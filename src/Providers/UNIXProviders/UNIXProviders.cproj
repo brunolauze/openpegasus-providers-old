@@ -3855,6 +3855,15 @@
     <None Include="SCSIController\UNIX_SCSIController_ZOS.hxx" />
     <None Include="SCSIController\UNIX_SCSIControllerMain.cpp" />
     <None Include="pkg_compat.h" />
+    <None Include="CreateDirectoryAction\Makefile" />
+    <None Include="DeviceFile\Makefile" />
+    <None Include="Directory\Makefile" />
+    <None Include="DiskDrive\Makefile" />
+    <None Include="EthernetPort\Makefile" />
+    <None Include="FileSystem\Makefile" />
+    <None Include="LogicalDisk\Makefile" />
+    <None Include="MessageLog\Makefile" />
+    <None Include="Processor\Makefile" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Account\" />

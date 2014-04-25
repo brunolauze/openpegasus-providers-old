@@ -32,7 +32,7 @@
 ROOT = ../../../..
 
 
-DIR = Providers/ManagedSystem/UNIXProviders/CurrentTime
+DIR = Providers/UNIXProviders/CurrentTime
 
 include $(ROOT)/mak/config.mak
 
@@ -83,16 +83,16 @@ else
 	SOURCES += UNIX_CurrentTime_STUB.cpp
 endif
 
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
-
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread
 
 include $(ROOT)/mak/dynamic-library.mak
