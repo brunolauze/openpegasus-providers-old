@@ -816,6 +816,7 @@
     <Compile Include="SCSIController\UNIX_SCSIController_TRU64.cpp" />
     <Compile Include="SCSIController\UNIX_SCSIController_VMS.cpp" />
     <Compile Include="SCSIController\UNIX_SCSIController_ZOS.cpp" />
+    <Compile Include="NFS\UNIX_NFS_FREEBSD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CIMHelper.h" />
@@ -2449,7 +2450,6 @@
     <None Include="NFS\UNIX_NFS_AIX.hxx" />
     <None Include="NFS\UNIX_NFS_DARWIN.hpp" />
     <None Include="NFS\UNIX_NFS_DARWIN.hxx" />
-    <None Include="NFS\UNIX_NFS_FREEBSD.hpp" />
     <None Include="NFS\UNIX_NFS_FREEBSD.hxx" />
     <None Include="NFS\UNIX_NFS_HPUX.hpp" />
     <None Include="NFS\UNIX_NFS_HPUX.hxx" />
@@ -2998,7 +2998,6 @@
     <None Include="TCPProtocolEndpoint\UNIX_TCPProtocolEndpointMain.cpp" />
     <None Include="ActiveConnection\UNIX_ActiveConnectionMain.cpp" />
     <None Include="NFS\UNIX_NFS_FREEBSD_mntopt.h" />
-    <None Include="NFS\UNIX_NFS_FREEBSD.cpp" />
     <None Include="PhysicalMemory\Makefile" />
     <None Include="PhysicalMemory\UNIX_PhysicalMemory.h" />
     <None Include="PhysicalMemory\UNIX_PhysicalMemoryDeps.h" />
@@ -3864,6 +3863,7 @@
     <None Include="LogicalDisk\Makefile" />
     <None Include="MessageLog\Makefile" />
     <None Include="Processor\Makefile" />
+    <None Include="NFS\UNIX_NFS_FREEBSD.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Account\" />

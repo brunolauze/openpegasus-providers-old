@@ -46,6 +46,9 @@ static char sccsid[] = "@(#)mount_nfs.c	8.11 (Berkeley) 5/4/95";
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD: head/sbin/mount_nfs/mount_nfs.c 247856 2013-03-05 22:41:35Z jkim $");
 
+#define STRSIZ  (MNTNAMLEN+MNTPATHLEN+100)
+#define PATH_MOUNTTAB	"/var/db/mounttab"
+
 #include <sys/param.h>
 #include <sys/linker.h>
 #include <sys/module.h>
@@ -134,13 +137,10 @@ enum tryret {
 };
 
 static int	fallback_mount(struct iovec *iov, int iovlen);
-static int	sec_name_to_num(char *sec);
 static char	*sec_num_to_name(int num);
 static int	getnfsargs(char *, struct iovec **iov, int *iovlen);
-/* void	set_rpc_maxgrouplist(int); */
 static struct netconfig *getnetconf_cached(const char *netid);
 static const char	*netidbytype(int af, int sotype);
-static void	usage(void) __dead2;
 static int	xdr_dir(XDR *, char *);
 static int	xdr_fh(XDR *, struct nfhret *);
 static enum tryret nfs_tryproto(struct addrinfo *ai, char *hostp, char *spec,
@@ -154,7 +154,7 @@ int mount_nfs(char *spec, char *name)
 	int iovlen;
 	int osversion;
 	//char *p;
-	char *fstype;
+	char *fstype = NULL;
 	char mntpath[MAXPATHLEN], errmsg[255];
 	char hostname[MAXHOSTNAMELEN + 1], *gssname, gssn[MAXHOSTNAMELEN + 50];
 
@@ -525,6 +525,25 @@ fallback_mount(struct iovec *iov, int iovlen)
 	return nmount(newiov, newiovlen, 0);
 }
 
+/*
+ * Add an entry to PATH_MOUNTTAB for each mounted NFS filesystem,
+ * so the client can notify the NFS server even after reboot.
+ */
+int
+add_mtab(char *hostp, char *dirp)
+{
+	FILE *mtabfile;
+
+	if ((mtabfile = fopen(PATH_MOUNTTAB, "a")) == NULL)
+		return (0);
+	else {
+		fprintf(mtabfile, "%ld\t%s\t%s\n",
+		    (long)time(NULL), hostp, dirp);
+		fclose(mtabfile);
+		return (1);
+	}
+}
+/*
 static int
 sec_name_to_num(char *sec)
 {
@@ -538,19 +557,20 @@ sec_name_to_num(char *sec)
 		return (AUTH_SYS);
 	return (-1);
 }
+*/
 
 static char *
 sec_num_to_name(int flavor)
 {
 	switch (flavor) {
 	case RPCSEC_GSS_KRB5:
-		return ("krb5");
+		return (strdup("krb5"));
 	case RPCSEC_GSS_KRB5I:
-		return ("krb5i");
+		return (strdup("krb5i"));
 	case RPCSEC_GSS_KRB5P:
-		return ("krb5p");
+		return (strdup("krb5p"));
 	case AUTH_SYS:
-		return ("sys");
+		return (strdup("sys"));
 	}
 	return (NULL);
 }
@@ -719,7 +739,7 @@ nfs_tryproto(struct addrinfo *ai, char *hostp, char *spec, char **errstr,
 	struct sockaddr_storage nfs_ss;
 	struct netbuf nfs_nb;
 	struct nfhret nfhret;
-	struct timeval try;
+	struct timeval try_;
 	struct rpc_err rpcerr;
 	CLIENT *clp;
 	struct netconfig *nconf, *nconf_mnt;
@@ -827,10 +847,10 @@ tryagain:
 		}
 	}
 
-	try.tv_sec = 10;
-	try.tv_usec = 0;
+	try_.tv_sec = 10;
+	try_.tv_usec = 0;
 	stat = clnt_call(clp, NFSPROC_NULL, (xdrproc_t)xdr_void, NULL,
-			 (xdrproc_t)xdr_void, NULL, try);
+			 (xdrproc_t)xdr_void, NULL, try_);
 	if (stat != RPC_SUCCESS) {
 		if (stat == RPC_PROGVERSMISMATCH && trymntmode == ANY) {
 			clnt_destroy(clp);
@@ -854,7 +874,7 @@ tryagain:
 		 * sure to copy any locally allocated structures.
 		 */
 		addrlen = nfs_nb.len;
-		addr = malloc(addrlen);
+		addr = (struct sockaddr *)malloc(addrlen);
 		if (addr == NULL)
 			err(1, "malloc");
 		bcopy(nfs_nb.buf, addr, addrlen);
@@ -870,8 +890,8 @@ tryagain:
 	}
 
 	/* Send the MOUNTPROC_MNT RPC to get the root filehandle. */
-	try.tv_sec = 10;
-	try.tv_usec = 0;
+	try_.tv_sec = 10;
+	try_.tv_usec = 0;
 	clp = clnt_tp_create(hostp, MOUNTPROG, mntvers, nconf_mnt);
 	if (clp == NULL) {
 		snprintf(errbuf, sizeof errbuf, "[%s] %s:%s: %s", netid_mnt,
@@ -884,7 +904,7 @@ tryagain:
 	nfhret.vers = mntvers;
 	stat = clnt_call(clp, MOUNTPROC_MNT, (xdrproc_t)xdr_dir, spec, 
 			 (xdrproc_t)xdr_fh, &nfhret,
-	    try);
+	    try_);
 	auth_destroy(clp->cl_auth);
 	if (stat != RPC_SUCCESS) {
 		if (stat == RPC_PROGVERSMISMATCH && trymntmode == ANY) {
@@ -911,9 +931,9 @@ tryagain:
 	 * sure to copy any locally allocated structures.
 	 */
 	addrlen = nfs_nb.len;
-	addr = malloc(addrlen);
+	addr = (struct sockaddr  *)malloc(addrlen);
 	fhsize = nfhret.fhsize;
-	fh = malloc(fhsize);
+	fh = (unsigned char *)malloc(fhsize);
 	if (addr == NULL || fh == NULL)
 		err(1, "malloc");
 	bcopy(nfs_nb.buf, addr, addrlen);
@@ -1005,7 +1025,7 @@ getnetconf_cached(const char *netid)
 
 	if ((nconf = getnetconfigent(netid)) == NULL)
 		return (NULL);
-	if ((p = malloc(sizeof(*p))) == NULL)
+	if ((p = (struct nc_entry *)malloc(sizeof(*p))) == NULL)
 		err(1, "malloc");
 	p->nconf = nconf;
 	p->next = head;
