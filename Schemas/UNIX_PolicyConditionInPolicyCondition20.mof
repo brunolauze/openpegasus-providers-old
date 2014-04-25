@@ -1,0 +1,166 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Component is a generic association used to establish \'part "
+       "of\' relationships between Managed Elements. For example, it "
+       "could be used to define the components or parts of a System." )]
+class CIM_Component {
+
+      [Key, Aggregate, Description ( 
+          "The parent element in the association." )]
+   CIM_ManagedElement REF GroupComponent;
+
+      [Key, Description ( "The child element in the association." )]
+   CIM_ManagedElement REF PartComponent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Aggregation, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "CIM_PolicyComponent is a generic association used to establish "
+       "\'part of\' relationships between the subclasses of "
+       "CIM_Policy. For example, the PolicyConditionInPolicyRule "
+       "association defines that PolicyConditions are part of a "
+       "PolicyRule." )]
+class CIM_PolicyComponent : CIM_Component {
+
+      [Aggregate, Override ( "GroupComponent" ), 
+       Description ( "The parent Policy in the association." )]
+   CIM_Policy REF GroupComponent;
+
+      [Override ( "PartComponent" ), 
+       Description ( "The child/part Policy in the association." )]
+   CIM_Policy REF PartComponent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "PolicyConditions may be aggregated into rules and into "
+       "compound conditions. PolicyConditionStructure is the abstract "
+       "aggregation class for the structuring of policy conditions. \n"
+       "\n"
+       "The Conditions aggregated by a PolicyRule or "
+       "CompoundPolicyCondition are grouped into two levels of lists: "
+       "either an ORed set of ANDed sets of conditions (DNF, the "
+       "default) or an ANDed set of ORed sets of conditions (CNF). "
+       "Individual PolicyConditions in these lists may be negated. The "
+       "property ConditionListType specifies which of these two "
+       "grouping schemes applies to a particular PolicyRule or "
+       "CompoundPolicyCondition instance. \n"
+       "\n"
+       "One or more PolicyTimePeriodConditions may be among the "
+       "conditions associated with a PolicyRule or "
+       "CompoundPolicyCondition via the PolicyConditionStructure "
+       "subclass association. In this case, the time periods are "
+       "simply additional Conditions to be evaluated along with any "
+       "others that are specified." )]
+class CIM_PolicyConditionStructure : CIM_PolicyComponent {
+
+      [Aggregate, Override ( "GroupComponent" ), 
+       Description ( 
+          "This property represents the Policy that contains one or "
+          "more PolicyConditions." )]
+   CIM_Policy REF GroupComponent;
+
+      [Override ( "PartComponent" ), 
+       Description ( 
+          "This property holds the name of a PolicyCondition "
+          "contained by one or more PolicyRule or "
+          "CompoundPolicyCondition instances." )]
+   CIM_PolicyCondition REF PartComponent;
+
+      [Description ( 
+          "Unsigned integer indicating the group to which the "
+          "contained PolicyCondition belongs. This integer segments "
+          "the Conditions into the ANDed sets (when the "
+          "ConditionListType is \"DNF\") or, similarly, into the "
+          "ORed sets (when the ConditionListType is \"CNF\")." )]
+   uint16 GroupNumber;
+
+      [Description ( 
+          "Indication of whether the contained PolicyCondition is "
+          "negated. TRUE indicates that the PolicyCondition IS "
+          "negated, FALSE indicates that it IS NOT negated." )]
+   boolean ConditionNegated;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "A CompoundPolicyCondition aggregates zero or more instances of "
+       "the PolicyCondition class, via the "
+       "PolicyConditionInPolicyCondition association. A "
+       "CompoundPolicyCondition that aggregates zero Conditions is not "
+       "valid; it may, however, be in the process of being defined. "
+       "Note that a CompoundPolicyCondition should have no effect "
+       "until it is valid." )]
+class CIM_PolicyConditionInPolicyCondition : CIM_PolicyConditionStructure {
+
+      [Aggregate, Override ( "GroupComponent" ), 
+       Description ( 
+          "This property represents the CompoundPolicyCondition "
+          "that contains one or more PolicyConditions." )]
+   CIM_CompoundPolicyCondition REF GroupComponent;
+
+      [Override ( "PartComponent" ), 
+       Description ( 
+          "This property holds the name of a PolicyCondition "
+          "contained by one or more PolicyRules." )]
+   CIM_PolicyCondition REF PartComponent;
+
+
+};
+
+
+
+class UNIX_PolicyConditionInPolicyCondition : CIM_PolicyConditionInPolicyCondition
+{
+
+};
+

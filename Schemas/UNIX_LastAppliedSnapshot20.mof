@@ -1,0 +1,101 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Association, Version ( "2.32.0" ), 
+    UMLPackagePath ( "CIM::System::SystemElements" ), 
+    Description ( 
+       "The CIM_LastAppliedSnapshot association associates an instance "
+       "of the CIM_VirtualSystemSettingData class representing a "
+       "virtual system snapshot that was most recently applied to a "
+       "virtual system, and the instance of the CIM_ComputerSystem "
+       "class representing the related virtual system.\n"
+       "An instance of this assocation indicates that the referenced "
+       "snapshot is the snapshot the was last applied to the virtual "
+       "system from the set of snapshots taken from that virtual "
+       "system. For each virtual system at any time there is at most "
+       "one snapshot the last applied snapshot." )]
+class CIM_LastAppliedSnapshot : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Min ( 0 ), 
+       Max ( 1 ), 
+       Description ( 
+          "Reference to the instance of the "
+          "CIM_VirtualSystemSettingData class representing the "
+          "virtual system snapshot that was last applied to the "
+          "virtual system." )]
+   CIM_VirtualSystemSettingData REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Min ( 0 ), 
+       Max ( 1 ), 
+       Description ( 
+          "Reference to the instance of the CIM_ComputerSystem "
+          "class representing the virtual system upon which the "
+          "virtual system snapshot represented by the instance of "
+          "the CIM_VirtualSystemSettingData class referenced by the "
+          "Antecedent property was most recently applied." )]
+   CIM_ComputerSystem REF Dependent;
+
+
+};
+
+
+
+class UNIX_LastAppliedSnapshot : CIM_LastAppliedSnapshot
+{
+
+};
+

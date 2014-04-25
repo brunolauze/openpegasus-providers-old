@@ -1,0 +1,119 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Component is a generic association used to establish \'part "
+       "of\' relationships between Managed Elements. For example, it "
+       "could be used to define the components or parts of a System." )]
+class CIM_Component {
+
+      [Key, Aggregate, Description ( 
+          "The parent element in the association." )]
+   CIM_ManagedElement REF GroupComponent;
+
+      [Key, Description ( "The child element in the association." )]
+   CIM_ManagedElement REF PartComponent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Aggregation, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "CIM_PolicyComponent is a generic association used to establish "
+       "\'part of\' relationships between the subclasses of "
+       "CIM_Policy. For example, the PolicyConditionInPolicyRule "
+       "association defines that PolicyConditions are part of a "
+       "PolicyRule." )]
+class CIM_PolicyComponent : CIM_Component {
+
+      [Aggregate, Override ( "GroupComponent" ), 
+       Description ( "The parent Policy in the association." )]
+   CIM_Policy REF GroupComponent;
+
+      [Override ( "PartComponent" ), 
+       Description ( "The child/part Policy in the association." )]
+   CIM_Policy REF PartComponent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_PolicySetValidityPeriod" }, 
+    Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "The PolicyRuleValidityPeriod aggregation represents scheduled "
+       "activation and deactivation of a PolicyRule. If a PolicyRule "
+       "is associated with multiple policy time periods via this "
+       "association, then the Rule is active if at least one of the "
+       "time periods indicates that it is active. (In other words, the "
+       "PolicyTimePeriodConditions are ORed to determine whether the "
+       "Rule is active.) A Time Period may be aggregated by multiple "
+       "PolicyRules. A Rule that does not point to a "
+       "PolicyTimePeriodCondition via this association is, from the "
+       "point of view of scheduling, always active. It may, however, "
+       "be inactive for other reasons. For example, the Rule\'s "
+       "Enabled property may be set to \"disabled\" (value=2)." )]
+class CIM_PolicyRuleValidityPeriod : CIM_PolicyComponent {
+
+      [Deprecated { "CIM_PolicySetValidityPeriod.GroupComponent" }, 
+       Aggregate, Override ( "GroupComponent" ), 
+       Description ( 
+          "This property contains the name of a PolicyRule that "
+          "contains one or more PolicyTimePeriodConditions." )]
+   CIM_PolicyRule REF GroupComponent;
+
+      [Deprecated { "CIM_PolicySetValidityPeriod.PartComponent" }, 
+       Override ( "PartComponent" ), 
+       Description ( 
+          "This property contains the name of a "
+          "PolicyTimePeriodCondition defining the valid time "
+          "periods for one or more PolicyRules." )]
+   CIM_PolicyTimePeriodCondition REF PartComponent;
+
+
+};
+
+
+
+class UNIX_PolicyRuleValidityPeriod : CIM_PolicyRuleValidityPeriod
+{
+
+};
+

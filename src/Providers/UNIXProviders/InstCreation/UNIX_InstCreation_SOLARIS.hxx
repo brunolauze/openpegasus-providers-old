@@ -1,0 +1,11 @@
+#ifdef PEGASUS_OS_SOLARIS
+
+
+#ifndef __UNIX_INSTCREATION_PRIVATE_H
+#define __UNIX_INSTCREATION_PRIVATE_H
+
+
+#endif
+
+
+#endif

@@ -1,0 +1,502 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "ManagedElement is an abstract class that provides a common "
+       "superclass (or top of the inheritance tree) for the "
+       "non-association classes in the CIM Schema." )]
+class CIM_ManagedElement {
+
+      [Description ( 
+          "InstanceID is an optional property that may be used to "
+          "opaquely and uniquely identify an instance of this class "
+          "within the scope of the instantiating Namespace. Various "
+          "subclasses of this class may override this property to "
+          "make it required, or a key. Such subclasses may also "
+          "modify the preferred algorithms for ensuring uniqueness "
+          "that are defined below.\n"
+          "To ensure uniqueness within the NameSpace, the value of "
+          "InstanceID should be constructed using the following "
+          "\"preferred\" algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "(:), and where <OrgID> must include a copyrighted, "
+          "trademarked, or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID or that is a registered ID assigned to the "
+          "business entity by a recognized global authority. (This "
+          "requirement is similar to the <Schema Name>_<Class Name> "
+          "structure of Schema class names.) In addition, to ensure "
+          "uniqueness, <OrgID> must not contain a colon (:). When "
+          "using this algorithm, the first colon to appear in "
+          "InstanceID must appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be reused to identify different underlying "
+          "(real-world) elements. If not null and the above "
+          "\"preferred\" algorithm is not used, the defining entity "
+          "must assure that the resulting InstanceID is not reused "
+          "across any InstanceIDs produced by this or other "
+          "providers for the NameSpace of this instance. \n"
+          "If not set to null for DMTF-defined instances, the "
+          "\"preferred\" algorithm must be used with the <OrgID> "
+          "set to CIM." )]
+   string InstanceID;
+
+      [Description ( 
+          "The Caption property is a short textual description "
+          "(one- line string) of the object." ), 
+       MaxLen ( 64 )]
+   string Caption;
+
+      [Description ( 
+          "The Description property provides a textual description "
+          "of the object." )]
+   string Description;
+
+      [Description ( 
+          "A user-friendly name for the object. This property "
+          "allows each instance to define a user-friendly name in "
+          "addition to its key properties, identity data, and "
+          "description information. \n"
+          "Note that the Name property of ManagedSystemElement is "
+          "also defined as a user-friendly name. But, it is often "
+          "subclassed to be a Key. It is not reasonable that the "
+          "same property can convey both identity and a "
+          "user-friendly name, without inconsistencies. Where Name "
+          "exists and is not a Key (such as for instances of "
+          "LogicalDevice), the same information can be present in "
+          "both the Name and ElementName properties. Note that if "
+          "there is an associated instance of "
+          "CIM_EnabledLogicalElementCapabilities, restrictions on "
+          "this properties may exist as defined in ElementNameMask "
+          "and MaxElementNameLen properties defined in that class." )]
+   string ElementName;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "An abstract class defining the common properties of the policy "
+       "managed elements derived from CIM_Policy. The subclasses are "
+       "used to create rules and groups of rules that work together to "
+       "form a coherent set of policies within an administrative "
+       "domain or set of domains." )]
+class CIM_Policy : CIM_ManagedElement {
+
+      [Description ( 
+          "A user-friendly name of this policy-related object." )]
+   string CommonName;
+
+      [Description ( 
+          "An array of keywords for characterizing / categorizing "
+          "policy objects. Keywords are of one of two types: \n"
+          "- Keywords defined in this and other MOFs, or in DMTF "
+          "white papers. These keywords provide a vendor- "
+          "independent, installation-independent way of "
+          "characterizing policy objects. \n"
+          "- Installation-dependent keywords for characterizing "
+          "policy objects. Examples include \'Engineering\', "
+          "\'Billing\', and \'Review in December 2000\'. \n"
+          "This MOF defines the following keywords: \'UNKNOWN\', "
+          "\'CONFIGURATION\', \'USAGE\', \'SECURITY\', \'SERVICE\', "
+          "\'MOTIVATIONAL\', \'INSTALLATION\', and \'EVENT\'. These "
+          "concepts are self-explanatory and are further discussed "
+          "in the SLA/Policy White Paper. One additional keyword is "
+          "defined: \'POLICY\'. The role of this keyword is to "
+          "identify policy-related instances that may not be "
+          "otherwise identifiable, in some implementations. The "
+          "keyword \'POLICY\' is NOT mutually exclusive of the "
+          "other keywords specified above." )]
+   string PolicyKeywords[];
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "PolicySet is an abstract class that represents a set of "
+       "policies that form a coherent set. The set of contained "
+       "policies has a common decision strategy and a common set of "
+       "policy roles (defined via the PolicySetInRole Collection "
+       "association). Subclasses include PolicyGroup and PolicyRule." )]
+class CIM_PolicySet : CIM_Policy {
+
+      [Description ( 
+          "PolicyDecisionStrategy defines the evaluation method "
+          "used for policies contained in the PolicySet. There are "
+          "two values currently defined: \n"
+          "- \'First Matching\' (1) executes the actions of the "
+          "first rule whose conditions evaluate to TRUE. The "
+          "concept of \'first\' is determined by examining the "
+          "priority of the rule within the policy set (i.e., by "
+          "examining the property, PolicySetComponent.Priority). "
+          "Note that this ordering property MUST be maintained when "
+          "processing the PolicyDecisionStrategy. \n"
+          "- \'All\' (2) executes the actions of ALL rules whose "
+          "conditions evaluate to TRUE, in the set. As noted above, "
+          "the order of processing of the rules is defined by the "
+          "property, PolicySetComponent.Priority (and within a "
+          "rule, the ordering of the actions is defined by the "
+          "property, PolicyActionStructure.ActionOrder). Note that "
+          "when this strategy is defined, processing MUST be "
+          "completed of ALL rules whose conditions evaluate to "
+          "TRUE, regardless of errors in the execution of the rule "
+          "actions." ), 
+       ValueMap { "1", "2" }, 
+       Values { "First Matching", "All" }]
+   uint16 PolicyDecisionStrategy;
+
+      [Deprecated { "CIM_PolicySetInRoleCollection" }, 
+       Description ( 
+          "The PolicyRoles property represents the roles associated "
+          "with a PolicySet. All contained PolicySet instances "
+          "inherit the values of the PolicyRoles of the aggregating "
+          "PolicySet but the values are not copied. A contained "
+          "PolicySet instance may, however, add additional "
+          "PolicyRoles to those it inherits from its aggregating "
+          "PolicySet(s). Each value in PolicyRoles multi-valued "
+          "property represents a role for which the PolicySet "
+          "applies, i.e., the PolicySet should be used by any "
+          "enforcement point that assumes any of the listed "
+          "PolicyRoles values. \n"
+          "\n"
+          "Although not officially designated as \'role "
+          "combinations\', multiple roles may be specified using "
+          "the form: \n"
+          "<RoleName>[&&<RoleName>]* \n"
+          "where the individual role names appear in alphabetical "
+          "order (according to the collating sequence for UCS-2). "
+          "Implementations may treat PolicyRoles values that are "
+          "specified as \'role combinations\' as simple strings. \n"
+          "\n"
+          "This property is deprecated in lieu of the use of an "
+          "association, CIM_PolicySetInRoleCollection. The latter "
+          "is a more explicit and less error-prone approach to "
+          "modeling that a PolicySet has one or more PolicyRoles." )]
+   string PolicyRoles[];
+
+      [Description ( 
+          "Indicates whether this PolicySet is administratively "
+          "enabled, administratively disabled, or enabled for "
+          "debug. The \"EnabledForDebug\" property value is "
+          "deprecated and, when it or any value not understood by "
+          "the receiver is specified, the receiving enforcement "
+          "point treats the PolicySet as \"Disabled\". To determine "
+          "if a PolicySet is \"Enabled\", the containment hierarchy "
+          "specified by the PolicySetComponent aggregation is "
+          "examined and the Enabled property values of the "
+          "hierarchy are ANDed together. Thus, for example, "
+          "everything aggregated by a PolicyGroup may be disabled "
+          "by setting the Enabled property in the PolicyGroup "
+          "instance to \"Disabled\" without changing the Enabled "
+          "property values of any of the aggregated instances. The "
+          "default value is 1 (\"Enabled\")." ), 
+       ValueMap { "1", "2", "3" }, 
+       Values { "Enabled", "Disabled", "Enabled For Debug" }]
+   uint16 Enabled = 1;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "The central class used for representing the \'If Condition "
+       "then Action\' semantics of a policy rule. A PolicyRule "
+       "condition, in the most general sense, is represented as either "
+       "an ORed set of ANDed conditions (Disjunctive Normal Form, or "
+       "DNF) or an ANDed set of ORed conditions (Conjunctive Normal "
+       "Form, or CNF). Individual conditions may either be negated "
+       "(NOT C) or unnegated (C). The actions specified by a "
+       "PolicyRule are to be performed if and only if the PolicyRule "
+       "condition (whether it is represented in DNF or CNF) evaluates "
+       "to TRUE. \n"
+       "\n"
+       "The conditions and actions associated with a PolicyRule are "
+       "modeled, respectively, with subclasses of PolicyCondition and "
+       "PolicyAction. These condition and action objects are tied to "
+       "instances of PolicyRule by the PolicyConditionInPolicyRule and "
+       "PolicyActionInPolicyRule aggregations. \n"
+       "\n"
+       "A PolicyRule may also be associated with one or more policy "
+       "time periods, indicating the schedule according to which the "
+       "policy rule is active and inactive. In this case it is the "
+       "PolicySetValidityPeriod aggregation that provides this "
+       "linkage. \n"
+       "\n"
+       "The PolicyRule class uses the property ConditionListType, to "
+       "indicate whether the conditions for the rule are in DNF "
+       "(disjunctive normal form), CNF (conjunctive normal form) or, "
+       "in the case of a rule with no conditions, as an "
+       "UnconditionalRule. The PolicyConditionInPolicyRule aggregation "
+       "contains two additional properties to complete the "
+       "representation of the Rule\'s conditional expression. The "
+       "first of these properties is an integer to partition the "
+       "referenced PolicyConditions into one or more groups, and the "
+       "second is a Boolean to indicate whether a referenced Condition "
+       "is negated. An example shows how ConditionListType and these "
+       "two additional properties provide a unique representation of a "
+       "set of PolicyConditions in either DNF or CNF. \n"
+       "\n"
+       "Suppose we have a PolicyRule that aggregates five "
+       "PolicyConditions C1 through C5, with the following values in "
+       "the properties of the five PolicyConditionInPolicyRule "
+       "associations: \n"
+       "C1: GroupNumber = 1, ConditionNegated = FALSE \n"
+       "C2: GroupNumber = 1, ConditionNegated = TRUE \n"
+       "C3: GroupNumber = 1, ConditionNegated = FALSE \n"
+       "C4: GroupNumber = 2, ConditionNegated = FALSE \n"
+       "C5: GroupNumber = 2, ConditionNegated = FALSE \n"
+       "\n"
+       "If ConditionListType = DNF, then the overall condition for the "
+       "PolicyRule is: \n"
+       "(C1 AND (NOT C2) AND C3) OR (C4 AND C5) \n"
+       "\n"
+       "On the other hand, if ConditionListType = CNF, then the "
+       "overall condition for the PolicyRule is: \n"
+       "(C1 OR (NOT C2) OR C3) AND (C4 OR C5) \n"
+       "\n"
+       "In both cases, there is an unambiguous specification of the "
+       "overall condition that is tested to determine whether to "
+       "perform the PolicyActions associated with the PolicyRule. \n"
+       "\n"
+       "PolicyRule instances may also be used to aggregate other "
+       "PolicyRules and/or PolicyGroups. When used in this way to "
+       "implement nested rules, the conditions of the aggregating rule "
+       "apply to the subordinate rules as well. However, any side "
+       "effects of condition evaluation or the execution of actions "
+       "MUST NOT affect the result of the evaluation of other "
+       "conditions evaluated by the rule engine in the same evaluation "
+       "pass. That is, an implementation of a rule engine MAY evaluate "
+       "all conditions in any order before applying the priority and "
+       "determining which actions are to be executed." )]
+class CIM_PolicyRule : CIM_PolicySet {
+
+      [Key, Description ( "The scoping System\'s CreationClassName." ), 
+       MaxLen ( 256 ), 
+       Propagated ( "CIM_System.CreationClassName" )]
+   string SystemCreationClassName;
+
+      [Key, Description ( "The scoping System\'s Name." ), 
+       MaxLen ( 256 ), 
+       Propagated ( "CIM_System.Name" )]
+   string SystemName;
+
+      [Key, Description ( 
+          "CreationClassName indicates the name of the class or the "
+          "subclass used in the creation of an instance. When used "
+          "with the other key properties of this class, this "
+          "property allows all instances of this class and its "
+          "subclasses to be uniquely identified." ), 
+       MaxLen ( 256 )]
+   string CreationClassName;
+
+      [Key, Description ( "A user-friendly name of this PolicyRule." ), 
+       MaxLen ( 256 )]
+   string PolicyRuleName;
+
+      [Description ( 
+          "Indicates whether the list of PolicyConditions "
+          "associated with this PolicyRule is in disjunctive normal "
+          "form (DNF), conjunctive normal form (CNF), or has no "
+          "conditions (i.e., is an UnconditionalRule) and is "
+          "automatically evaluated to \"True.\" The default value "
+          "is 1 (\"DNF\")." ), 
+       ValueMap { "0", "1", "2" }, 
+       Values { "Unconditional Rule", "DNF", "CNF" }]
+   uint16 ConditionListType = 1;
+
+      [Description ( 
+          "A free-form string that can be used to provide "
+          "guidelines on how this PolicyRule should be used." )]
+   string RuleUsage;
+
+      [Deprecated { "CIM_PolicySetComponent.Priority" }, 
+       Description ( 
+          "PolicyRule.Priority is deprecated and replaced by "
+          "providing the priority for a rule (and a group) in the "
+          "context of the aggregating PolicySet instead of the "
+          "priority being used for all aggregating PolicySet "
+          "instances. Thus, the assignment of priority values is "
+          "much simpler. \n"
+          "\n"
+          "A non-negative integer for prioritizing this Policy Rule "
+          "relative to other Rules. A larger value indicates a "
+          "higher priority. The default value is 0." )]
+   uint16 Priority = 0;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "A flag indicating that the evaluation of the Policy "
+          "Conditions and execution of PolicyActions (if the "
+          "Conditions evaluate to TRUE) is required. The evaluation "
+          "of a PolicyRule MUST be attempted if the Mandatory "
+          "property value is TRUE. If the Mandatory property is "
+          "FALSE, then the evaluation of the Rule is \'best effort\' "
+          "and MAY be ignored." )]
+   boolean Mandatory;
+
+      [Description ( 
+          "This property gives a policy administrator a way of "
+          "specifying how the ordering of the PolicyActions "
+          "associated with this PolicyRule is to be interpreted. "
+          "Three values are supported: \n"
+          "o mandatory(1): Do the actions in the indicated order, "
+          "or don\'t do them at all. \n"
+          "o recommended(2): Do the actions in the indicated order "
+          "if you can, but if you can\'t do them in this order, do "
+          "them in another order if you can. \n"
+          "o dontCare(3): Do them -- I don\'t care about the order. \n"
+          "The default value is 3 (\"DontCare\")." ), 
+       ValueMap { "1", "2", "3" }, 
+       Values { "Mandatory", "Recommended", "Dont Care" }]
+   uint16 SequencedActions = 3;
+
+      [Description ( 
+          "ExecutionStrategy defines the strategy to be used in "
+          "executing the sequenced actions aggregated by this "
+          "PolicyRule. There are three execution strategies: \n"
+          "\n"
+          "Do Until Success - execute actions according to "
+          "predefined order, until successful execution of a single "
+          "action. \n"
+          "Do All - execute ALL actions which are part of the "
+          "modeled set, according to their predefined order. "
+          "Continue doing this, even if one or more of the actions "
+          "fails. \n"
+          "Do Until Failure - execute actions according to "
+          "predefined order, until the first failure in execution "
+          "of an action instance." ), 
+       ValueMap { "1", "2", "3" }, 
+       Values { "Do Until Success", "Do All", "Do Until Failure" }]
+   uint16 ExecutionStrategy;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::IPsecPolicy" ), 
+    Description ( 
+       "SARule is a base class for defining IKE and IPsec Rules. "
+       "Although concrete (because it subclasses from a concrete "
+       "class), it is not intended to be instantiated. It defines a "
+       "common connection point for associating conditions and actions "
+       "for both types of rules. Note that each valid PolicyGroup "
+       "containing SARules MUST use a unique priority number for the "
+       "Rule in the aggregation, PolicySetComponent.Priority." ), 
+    MappingStrings { "IPSP Policy Model.IETF|SARule" }]
+class CIM_SARule : CIM_PolicyRule {
+
+      [Description ( 
+          "LimitNegotiation is used as part of processing either a "
+          "key exchange or IPsec Rule. Before proceeding with "
+          "either a phase 1 or a phase 2 negotiation, this property "
+          "is checked to determine if the negotiation role of the "
+          "Rule matches that defined for the negotiation being "
+          "undertaken (e.g., Initiator, Responder, or Both). If "
+          "this check fails, then the negotiation is stopped. Note "
+          "that this only applies to new negotiations and has no "
+          "effect on either renegotiation or refresh operations "
+          "with peers for which an established Security Association "
+          "already exists." ), 
+       ValueMap { "1", "2", "3" }, 
+       Values { "Initiator-Only", "Responder-Only", "Either" }, 
+       MappingStrings { 
+          "IPSP Policy Model.IETF|SARule.LimitNegotiation" }]
+   uint16 LimitNegotiation;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::IPsecPolicy" ), 
+    Description ( 
+       "IKERule contains the Conditions and Actions for IKE phase 1 "
+       "negotiations or to specify static actions such as Discard." ), 
+    MappingStrings { "IPSP Policy Model.IETF|IKERule" }]
+class CIM_IKERule : CIM_SARule {
+
+      [Description ( 
+          "An IP endpoint may have multiple identities for use in "
+          "different situations. The IdentityContext property "
+          "specifies the specific context/identities which pertain "
+          "to this Rule. The property\'s function is similar to "
+          "that of PolicyRoles. A context may be a VPN name or "
+          "other identifier that selects the appropriate identity. \n"
+          "\n"
+          "IdentityContext is an array of strings. The multiple "
+          "values in the array are logically ORed together in "
+          "matching an IPNetworkIdentity\'s IdentityContext. Each "
+          "value in the array may be a composition of multiple "
+          "context names. When an array value is a composition, the "
+          "individual values are logically ANDed together for "
+          "evaluation purposes. The syntax is: \n"
+          "<ContextName>[&&<ContextName>]* \n"
+          "where the individual context names appear in "
+          "alphabetical order (according to the collating sequence "
+          "for UCS-2). So, for example, the values \'CompanyXVPN\', "
+          "\'CompanyYVPN&&TopSecret\', \'CompanyZVPN&&Confidential\' "
+          "are possible contexts for a Rule. They are matched "
+          "against an IPNetworkIdentity\'s IdentityContext. Any of "
+          "the values may indicate a match and select an Identity, "
+          "since the values in the array are logically ORed." ), 
+       MappingStrings { 
+          "IPSP Policy Model.IETF|IKERule.IdentityContexts" }, 
+       ModelCorrespondence { "CIM_IdentityContext" }]
+   string IdentityContexts[];
+
+
+};
+
+
+
+class UNIX_IKERule : CIM_IKERule
+{
+
+};
+

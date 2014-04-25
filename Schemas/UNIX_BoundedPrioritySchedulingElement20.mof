@@ -1,0 +1,253 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "ManagedElement is an abstract class that provides a common "
+       "superclass (or top of the inheritance tree) for the "
+       "non-association classes in the CIM Schema." )]
+class CIM_ManagedElement {
+
+      [Description ( 
+          "InstanceID is an optional property that may be used to "
+          "opaquely and uniquely identify an instance of this class "
+          "within the scope of the instantiating Namespace. Various "
+          "subclasses of this class may override this property to "
+          "make it required, or a key. Such subclasses may also "
+          "modify the preferred algorithms for ensuring uniqueness "
+          "that are defined below.\n"
+          "To ensure uniqueness within the NameSpace, the value of "
+          "InstanceID should be constructed using the following "
+          "\"preferred\" algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "(:), and where <OrgID> must include a copyrighted, "
+          "trademarked, or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID or that is a registered ID assigned to the "
+          "business entity by a recognized global authority. (This "
+          "requirement is similar to the <Schema Name>_<Class Name> "
+          "structure of Schema class names.) In addition, to ensure "
+          "uniqueness, <OrgID> must not contain a colon (:). When "
+          "using this algorithm, the first colon to appear in "
+          "InstanceID must appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be reused to identify different underlying "
+          "(real-world) elements. If not null and the above "
+          "\"preferred\" algorithm is not used, the defining entity "
+          "must assure that the resulting InstanceID is not reused "
+          "across any InstanceIDs produced by this or other "
+          "providers for the NameSpace of this instance. \n"
+          "If not set to null for DMTF-defined instances, the "
+          "\"preferred\" algorithm must be used with the <OrgID> "
+          "set to CIM." )]
+   string InstanceID;
+
+      [Description ( 
+          "The Caption property is a short textual description "
+          "(one- line string) of the object." ), 
+       MaxLen ( 64 )]
+   string Caption;
+
+      [Description ( 
+          "The Description property provides a textual description "
+          "of the object." )]
+   string Description;
+
+      [Description ( 
+          "A user-friendly name for the object. This property "
+          "allows each instance to define a user-friendly name in "
+          "addition to its key properties, identity data, and "
+          "description information. \n"
+          "Note that the Name property of ManagedSystemElement is "
+          "also defined as a user-friendly name. But, it is often "
+          "subclassed to be a Key. It is not reasonable that the "
+          "same property can convey both identity and a "
+          "user-friendly name, without inconsistencies. Where Name "
+          "exists and is not a Key (such as for instances of "
+          "LogicalDevice), the same information can be present in "
+          "both the Name and ElementName properties. Note that if "
+          "there is an associated instance of "
+          "CIM_EnabledLogicalElementCapabilities, restrictions on "
+          "this properties may exist as defined in ElementNameMask "
+          "and MaxElementNameLen properties defined in that class." )]
+   string ElementName;
+
+
+};
+
+
+// Copyright (c) 2008 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Network::QoS" ), 
+    Description ( 
+       "SchedulingElement represents the configuration information "
+       "that a PacketSchedulingService has for one of the elements "
+       "that it is scheduling. The scheduled element is either a "
+       "QueuingService or another Packet SchedulingService. \n"
+       "\n"
+       "Among the subclasses of this class, some are defined in such a "
+       "way that all of their instances are work conserving. Other "
+       "subclasses, however, have instances that either are or are not "
+       "work conserving. In this class, the boolean property "
+       "WorkConserving indicates whether an instance is or is not work "
+       "conserving. Note that WorkConserving is restricted to TRUE in "
+       "the subclasses that are inherently work conserving, since "
+       "instances of these classes cannot be anything else." )]
+class CIM_SchedulingElement : CIM_ManagedElement {
+
+      [Key, Override ( "InstanceID" ), 
+       Description ( 
+          "Within the scope of the instantiating Namespace, "
+          "InstanceID opaquely and uniquely identifies an instance "
+          "of this class. In order to ensure uniqueness within the "
+          "NameSpace, the value of InstanceID SHOULD be constructed "
+          "using the following \'preferred\' algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "\':\', and where <OrgID> MUST include a copyrighted, "
+          "trademarked or otherwise unique name that is owned by "
+          "the business entity creating/defining the InstanceID, or "
+          "is a registered ID that is assigned to the business "
+          "entity by a recognized global authority. (This is "
+          "similar to the <Schema Name>_<Class Name> structure of "
+          "Schema class names.) In addition, to ensure uniqueness "
+          "<OrgID> MUST NOT contain a colon (\':\'). When using "
+          "this algorithm, the first colon to appear in InstanceID "
+          "MUST appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and SHOULD "
+          "not be re-used to identify different underlying "
+          "(real-world) elements. If the above \'preferred\' "
+          "algorithm is not used, the defining entity MUST assure "
+          "that the resultant InstanceID is not re-used across any "
+          "InstanceIDs produced by this or other providers for this "
+          "instance\'s NameSpace. \n"
+          "For DMTF defined instances, the \'preferred\' algorithm "
+          "MUST be used with the <OrgID> set to \'CIM\'." )]
+   string InstanceID;
+
+      [Write, Description ( 
+          "A boolean property indicating whether the "
+          "PacketSchedulingService tied to this instance (by the "
+          "ElementInSchedulingService aggregation) is treating the "
+          "queue/input tied to this instance, in a work-conserving "
+          "manner. The queue/input is indicated by either the "
+          "QueueToSchedule or SchedulingServiceToSchedule "
+          "association. Note that this property is writeable, "
+          "indicating that an administrator can change the behavior "
+          "of the SchedulingElement - but only for those elements "
+          "that can operate in a non-work conserving mode." )]
+   boolean WorkConserving;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Network::QoS" ), 
+    Description ( 
+       "This class is a subclass of the abstract class "
+       "SchedulingElement. It indicates that a scheduler is taking "
+       "packets from a set of inputs using the priority scheduling "
+       "discipline. As is the case with all subclasses of "
+       "SchedulingElement, the input associated with an instance of "
+       "PrioritySchedulingElement is of one of two types: either a "
+       "queue, or another scheduler. The Priority property represents "
+       "the priority for an input, relative to the priorities of all "
+       "the other inputs to which the scheduler (that aggregates this "
+       "PrioritySchedulingElement) is associated. Inputs to which the "
+       "scheduler is related via other scheduling disciplines do not "
+       "figure in this prioritization. Because scheduling of this type "
+       "is always work conserving, the inherited boolean property, "
+       "WorkConserving, is restricted to TRUE in this class." )]
+class CIM_PrioritySchedulingElement : CIM_SchedulingElement {
+
+      [Override ( "WorkConserving" )]
+   boolean WorkConserving = true;
+
+      [Description ( 
+          "A 16-bit unsigned integer indicating the priority level "
+          "of this SchedulingElement\'s input, relative to the "
+          "other inputs serviced by the SchedulingElement\'s "
+          "aggregating PacketSchedulingService. A larger value "
+          "represents a higher priority." )]
+   uint16 Priority;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Network::QoS" ), 
+    Description ( 
+       "This class is a subclass of the class PriorityScheduling "
+       "Element, which is itself derived from the abstract class "
+       "SchedulingElement. As is the case with all subclasses of "
+       "SchedulingElement, the input associated with an instance of "
+       "BoundedPrioritySchedulingElement is of one of two types: "
+       "either a queue, or another scheduler. BoundedPriority "
+       "SchedulingElement adds an upper bound (BandwidthBound in "
+       "kilobits per second) on how much traffic can be handled from "
+       "an input. This data is specific to that one input. It is "
+       "needed when bounded strict priority scheduling is performed. "
+       "Note that this class inherits from its superclass the "
+       "restriction of the inherited boolean property WorkConserving "
+       "to TRUE." )]
+class CIM_BoundedPrioritySchedulingElement : CIM_PrioritySchedulingElement {
+
+      [Override ( "WorkConserving" )]
+   boolean WorkConserving = true;
+
+      [Description ( 
+          "A 32-bit unsigned integer that defines the upper limit "
+          "on the amount of traffic that can be handled from the "
+          "input (through this SchedulingElement). This is not a "
+          "shaped upper bound, since bursts can occur. It is a "
+          "strict bound, limiting the impact of the input. Units "
+          "are kilobits per second." ), 
+       Units ( "KiloBits per Second" )]
+   uint32 BandwidthBound;
+
+
+};
+
+
+
+class UNIX_BoundedPrioritySchedulingElement : CIM_BoundedPrioritySchedulingElement
+{
+
+};
+

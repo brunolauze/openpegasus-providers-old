@@ -1,0 +1,850 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "ManagedElement is an abstract class that provides a common "
+       "superclass (or top of the inheritance tree) for the "
+       "non-association classes in the CIM Schema." )]
+class CIM_ManagedElement {
+
+      [Description ( 
+          "InstanceID is an optional property that may be used to "
+          "opaquely and uniquely identify an instance of this class "
+          "within the scope of the instantiating Namespace. Various "
+          "subclasses of this class may override this property to "
+          "make it required, or a key. Such subclasses may also "
+          "modify the preferred algorithms for ensuring uniqueness "
+          "that are defined below.\n"
+          "To ensure uniqueness within the NameSpace, the value of "
+          "InstanceID should be constructed using the following "
+          "\"preferred\" algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "(:), and where <OrgID> must include a copyrighted, "
+          "trademarked, or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID or that is a registered ID assigned to the "
+          "business entity by a recognized global authority. (This "
+          "requirement is similar to the <Schema Name>_<Class Name> "
+          "structure of Schema class names.) In addition, to ensure "
+          "uniqueness, <OrgID> must not contain a colon (:). When "
+          "using this algorithm, the first colon to appear in "
+          "InstanceID must appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be reused to identify different underlying "
+          "(real-world) elements. If not null and the above "
+          "\"preferred\" algorithm is not used, the defining entity "
+          "must assure that the resulting InstanceID is not reused "
+          "across any InstanceIDs produced by this or other "
+          "providers for the NameSpace of this instance. \n"
+          "If not set to null for DMTF-defined instances, the "
+          "\"preferred\" algorithm must be used with the <OrgID> "
+          "set to CIM." )]
+   string InstanceID;
+
+      [Description ( 
+          "The Caption property is a short textual description "
+          "(one- line string) of the object." ), 
+       MaxLen ( 64 )]
+   string Caption;
+
+      [Description ( 
+          "The Description property provides a textual description "
+          "of the object." )]
+   string Description;
+
+      [Description ( 
+          "A user-friendly name for the object. This property "
+          "allows each instance to define a user-friendly name in "
+          "addition to its key properties, identity data, and "
+          "description information. \n"
+          "Note that the Name property of ManagedSystemElement is "
+          "also defined as a user-friendly name. But, it is often "
+          "subclassed to be a Key. It is not reasonable that the "
+          "same property can convey both identity and a "
+          "user-friendly name, without inconsistencies. Where Name "
+          "exists and is not a Key (such as for instances of "
+          "LogicalDevice), the same information can be present in "
+          "both the Name and ElementName properties. Note that if "
+          "there is an associated instance of "
+          "CIM_EnabledLogicalElementCapabilities, restrictions on "
+          "this properties may exist as defined in ElementNameMask "
+          "and MaxElementNameLen properties defined in that class." )]
+   string ElementName;
+
+
+};
+
+
+// Copyright (c) 2011 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.28.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_ManagedSystemElement is the base class for the System "
+       "Element hierarchy. Any distinguishable component of a System "
+       "is a candidate for inclusion in this class. Examples of system "
+       "components include: \n"
+       "- software components such as application servers, databases, "
+       "and applications \n"
+       "- operating system components such as files, processes, and "
+       "threads \n"
+       "- device components such as disk drives, controllers, "
+       "processors, and printers \n"
+       "- physical components such as chips and cards." )]
+class CIM_ManagedSystemElement : CIM_ManagedElement {
+
+      [Description ( 
+          "A datetime value that indicates when the object was "
+          "installed. Lack of a value does not indicate that the "
+          "object is not installed." ), 
+       MappingStrings { "MIF.DMTF|ComponentID|001.5" }]
+   datetime InstallDate;
+
+      [Description ( 
+          "The Name property defines the label by which the object "
+          "is known. When subclassed, the Name property can be "
+          "overridden to be a Key property." ), 
+       MaxLen ( 1024 )]
+   string Name;
+
+      [Description ( 
+          "Indicates the current statuses of the element. Various "
+          "operational statuses are defined. Many of the "
+          "enumeration\'s values are self-explanatory. However, a "
+          "few are not and are described here in more detail. \n"
+          "\"Stressed\" indicates that the element is functioning, "
+          "but needs attention. Examples of \"Stressed\" states are "
+          "overload, overheated, and so on. \n"
+          "\"Predictive Failure\" indicates that an element is "
+          "functioning nominally but predicting a failure in the "
+          "near future. \n"
+          "\"In Service\" describes an element being configured, "
+          "maintained, cleaned, or otherwise administered. \n"
+          "\"No Contact\" indicates that the monitoring system has "
+          "knowledge of this element, but has never been able to "
+          "establish communications with it. \n"
+          "\"Lost Communication\" indicates that the ManagedSystem "
+          "Element is known to exist and has been contacted "
+          "successfully in the past, but is currently unreachable. \n"
+          "\"Stopped\" and \"Aborted\" are similar, although the "
+          "former implies a clean and orderly stop, while the "
+          "latter implies an abrupt stop where the state and "
+          "configuration of the element might need to be updated. \n"
+          "\"Dormant\" indicates that the element is inactive or "
+          "quiesced. \n"
+          "\"Supporting Entity in Error\" indicates that this "
+          "element might be \"OK\" but that another element, on "
+          "which it is dependent, is in error. An example is a "
+          "network service or endpoint that cannot function due to "
+          "lower-layer networking problems. \n"
+          "\"Completed\" indicates that the element has completed "
+          "its operation. This value should be combined with either "
+          "OK, Error, or Degraded so that a client can tell if the "
+          "complete operation Completed with OK (passed), Completed "
+          "with Error (failed), or Completed with Degraded (the "
+          "operation finished, but it did not complete OK or did "
+          "not report an error). \n"
+          "\"Power Mode\" indicates that the element has additional "
+          "power model information contained in the Associated "
+          "PowerManagementService association. \n"
+          "\"Relocating\" indicates the element is being relocated.\n"
+          "OperationalStatus replaces the Status property on "
+          "ManagedSystemElement to provide a consistent approach to "
+          "enumerations, to address implementation needs for an "
+          "array property, and to provide a migration path from "
+          "today\'s environment to the future. This change was not "
+          "made earlier because it required the deprecated "
+          "qualifier. Due to the widespread use of the existing "
+          "Status property in management applications, it is "
+          "strongly recommended that providers or instrumentation "
+          "provide both the Status and OperationalStatus "
+          "properties. Further, the first value of "
+          "OperationalStatus should contain the primary status for "
+          "the element. When instrumented, Status (because it is "
+          "single-valued) should also provide the primary status of "
+          "the element." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+          "10", "11", "12", "13", "14", "15", "16", "17", "18", 
+          "19", "..", "0x8000.." }, 
+       Values { "Unknown", "Other", "OK", "Degraded", "Stressed", 
+          "Predictive Failure", "Error", "Non-Recoverable Error", 
+          "Starting", "Stopping", "Stopped", "In Service", 
+          "No Contact", "Lost Communication", "Aborted", "Dormant", 
+          "Supporting Entity in Error", "Completed", "Power Mode", 
+          "Relocating", "DMTF Reserved", "Vendor Reserved" }, 
+       ArrayType ( "Indexed" ), 
+       ModelCorrespondence { 
+          "CIM_ManagedSystemElement.StatusDescriptions" }]
+   uint16 OperationalStatus[];
+
+      [Description ( 
+          "Strings describing the various OperationalStatus array "
+          "values. For example, if \"Stopping\" is the value "
+          "assigned to OperationalStatus, then this property may "
+          "contain an explanation as to why an object is being "
+          "stopped. Note that entries in this array are correlated "
+          "with those at the same array index in OperationalStatus." ), 
+       ArrayType ( "Indexed" ), 
+       ModelCorrespondence { 
+          "CIM_ManagedSystemElement.OperationalStatus" }]
+   string StatusDescriptions[];
+
+      [Deprecated { "CIM_ManagedSystemElement.OperationalStatus" }, 
+       Description ( 
+          "A string indicating the current status of the object. "
+          "Various operational and non-operational statuses are "
+          "defined. This property is deprecated in lieu of "
+          "OperationalStatus, which includes the same semantics in "
+          "its enumeration. This change is made for 3 reasons: \n"
+          "1) Status is more correctly defined as an array. This "
+          "definition overcomes the limitation of describing status "
+          "using a single value, when it is really a multi-valued "
+          "property (for example, an element might be OK AND "
+          "Stopped. \n"
+          "2) A MaxLen of 10 is too restrictive and leads to "
+          "unclear enumerated values. \n"
+          "3) The change to a uint16 data type was discussed when "
+          "CIM V2.0 was defined. However, existing V1.0 "
+          "implementations used the string property and did not "
+          "want to modify their code. Therefore, Status was "
+          "grandfathered into the Schema. Use of the deprecated "
+          "qualifier allows the maintenance of the existing "
+          "property, but also permits an improved definition using "
+          "OperationalStatus." ), 
+       ValueMap { "OK", "Error", "Degraded", "Unknown", "Pred Fail", 
+          "Starting", "Stopping", "Service", "Stressed", 
+          "NonRecover", "No Contact", "Lost Comm", "Stopped" }, 
+       MaxLen ( 10 )]
+   string Status;
+
+      [Description ( 
+          "Indicates the current health of the element. This "
+          "attribute expresses the health of this element but not "
+          "necessarily that of its subcomponents. The possible "
+          "values are 0 to 30, where 5 means the element is "
+          "entirely healthy and 30 means the element is completely "
+          "non-functional. The following continuum is defined: \n"
+          "\"Non-recoverable Error\" (30) - The element has "
+          "completely failed, and recovery is not possible. All "
+          "functionality provided by this element has been lost. \n"
+          "\"Critical Failure\" (25) - The element is "
+          "non-functional and recovery might not be possible. \n"
+          "\"Major Failure\" (20) - The element is failing. It is "
+          "possible that some or all of the functionality of this "
+          "component is degraded or not working. \n"
+          "\"Minor Failure\" (15) - All functionality is available "
+          "but some might be degraded. \n"
+          "\"Degraded/Warning\" (10) - The element is in working "
+          "order and all functionality is provided. However, the "
+          "element is not working to the best of its abilities. For "
+          "example, the element might not be operating at optimal "
+          "performance or it might be reporting recoverable errors. \n"
+          "\"OK\" (5) - The element is fully functional and is "
+          "operating within normal operational parameters and "
+          "without error. \n"
+          "\"Unknown\" (0) - The implementation cannot report on "
+          "HealthState at this time. \n"
+          "DMTF has reserved the unused portion of the continuum "
+          "for additional HealthStates in the future." ), 
+       ValueMap { "0", "5", "10", "15", "20", "25", "30", "..", 
+          "32768..65535" }, 
+       Values { "Unknown", "OK", "Degraded/Warning", 
+          "Minor failure", "Major failure", "Critical failure", 
+          "Non-recoverable error", "DMTF Reserved", "Vendor Specific" }]
+   uint16 HealthState;
+
+      [Description ( 
+          "CommunicationStatus indicates the ability of the "
+          "instrumentation to communicate with the underlying "
+          "ManagedElement. CommunicationStatus consists of one of "
+          "the following values: Unknown, None, Communication OK, "
+          "Lost Communication, or No Contact. \n"
+          "A Null return indicates the implementation (provider) "
+          "does not implement this property. \n"
+          "\"Unknown\" indicates the implementation is in general "
+          "capable of returning this property, but is unable to do "
+          "so at this time. \n"
+          "\"Not Available\" indicates that the implementation "
+          "(provider) is capable of returning a value for this "
+          "property, but not ever for this particular piece of "
+          "hardware/software or the property is intentionally not "
+          "used because it adds no meaningful information (as in "
+          "the case of a property that is intended to add "
+          "additional info to another property). \n"
+          "\"Communication OK \" indicates communication is "
+          "established with the element, but does not convey any "
+          "quality of service. \n"
+          "\"No Contact\" indicates that the monitoring system has "
+          "knowledge of this element, but has never been able to "
+          "establish communications with it. \n"
+          "\"Lost Communication\" indicates that the Managed "
+          "Element is known to exist and has been contacted "
+          "successfully in the past, but is currently unreachable." ), 
+       ValueMap { "0", "1", "2", "3", "4", "..", "0x8000.." }, 
+       Values { "Unknown", "Not Available", "Communication OK", 
+          "Lost Communication", "No Contact", "DMTF Reserved", 
+          "Vendor Reserved" }]
+   uint16 CommunicationStatus;
+
+      [Description ( 
+          "DetailedStatus compliments PrimaryStatus with additional "
+          "status detail. It consists of one of the following "
+          "values: Not Available, No Additional Information, "
+          "Stressed, Predictive Failure, Error, Non-Recoverable "
+          "Error, SupportingEntityInError. Detailed status is used "
+          "to expand upon the PrimaryStatus of the element. \n"
+          "A Null return indicates the implementation (provider) "
+          "does not implement this property. \n"
+          "\"Not Available\" indicates that the implementation "
+          "(provider) is capable of returning a value for this "
+          "property, but not ever for this particular piece of "
+          "hardware/software or the property is intentionally not "
+          "used because it adds no meaningful information (as in "
+          "the case of a property that is intended to add "
+          "additional info to another property). \n"
+          "\"No Additional Information\" indicates that the element "
+          "is functioning normally as indicated by PrimaryStatus = "
+          "\"OK\". \n"
+          "\"Stressed\" indicates that the element is functioning, "
+          "but needs attention. Examples of \"Stressed\" states are "
+          "overload, overheated, and so on. \n"
+          "\"Predictive Failure\" indicates that an element is "
+          "functioning normally but a failure is predicted in the "
+          "near future. \n"
+          "\"Non-Recoverable Error \" indicates that this element "
+          "is in an error condition that requires human "
+          "intervention. \n"
+          "\"Supporting Entity in Error\" indicates that this "
+          "element might be \"OK\" but that another element, on "
+          "which it is dependent, is in error. An example is a "
+          "network service or endpoint that cannot function due to "
+          "lower-layer networking problems." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "..", "0x8000.." }, 
+       Values { "Not Available", "No Additional Information", 
+          "Stressed", "Predictive Failure", "Non-Recoverable Error", 
+          "Supporting Entity in Error", "DMTF Reserved", 
+          "Vendor Reserved" }, 
+       ModelCorrespondence { 
+          "CIM_EnabledLogicalElement.PrimaryStatus", 
+          "CIM_ManagedSystemElement.HealthState" }]
+   uint16 DetailedStatus;
+
+      [Description ( 
+          "OperatingStatus provides a current status value for the "
+          "operational condition of the element and can be used for "
+          "providing more detail with respect to the value of "
+          "EnabledState. It can also provide the transitional "
+          "states when an element is transitioning from one state "
+          "to another, such as when an element is transitioning "
+          "between EnabledState and RequestedState, as well as "
+          "other transitional conditions.\n"
+          "OperatingStatus consists of one of the following values: "
+          "Unknown, Not Available, In Service, Starting, Stopping, "
+          "Stopped, Aborted, Dormant, Completed, Migrating, "
+          "Emmigrating, Immigrating, Snapshotting. Shutting Down, "
+          "In Test \n"
+          "A Null return indicates the implementation (provider) "
+          "does not implement this property. \n"
+          "\"Unknown\" indicates the implementation is in general "
+          "capable of returning this property, but is unable to do "
+          "so at this time. \n"
+          "\"None\" indicates that the implementation (provider) is "
+          "capable of returning a value for this property, but not "
+          "ever for this particular piece of hardware/software or "
+          "the property is intentionally not used because it adds "
+          "no meaningful information (as in the case of a property "
+          "that is intended to add additional info to another "
+          "property). \n"
+          "\"Servicing\" describes an element being configured, "
+          "maintained, cleaned, or otherwise administered. \n"
+          "\"Starting\" describes an element being initialized. \n"
+          "\"Stopping\" describes an element being brought to an "
+          "orderly stop. \n"
+          "\"Stopped\" and \"Aborted\" are similar, although the "
+          "former implies a clean and orderly stop, while the "
+          "latter implies an abrupt stop where the state and "
+          "configuration of the element might need to be updated. \n"
+          "\"Dormant\" indicates that the element is inactive or "
+          "quiesced. \n"
+          "\"Completed\" indicates that the element has completed "
+          "its operation. This value should be combined with either "
+          "OK, Error, or Degraded in the PrimaryStatus so that a "
+          "client can tell if the complete operation Completed with "
+          "OK (passed), Completed with Error (failed), or Completed "
+          "with Degraded (the operation finished, but it did not "
+          "complete OK or did not report an error). \n"
+          "\"Migrating\" element is being moved between host "
+          "elements. \n"
+          "\"Immigrating\" element is being moved to new host "
+          "element. \n"
+          "\"Emigrating\" element is being moved away from host "
+          "element. \n"
+          "\"Shutting Down\" describes an element being brought to "
+          "an abrupt stop. \n"
+          "\"In Test\" element is performing test functions. \n"
+          "\"Transitioning\" describes an element that is between "
+          "states, that is, it is not fully available in either its "
+          "previous state or its next state. This value should be "
+          "used if other values indicating a transition to a "
+          "specific state are not applicable.\n"
+          "\"In Service\" describes an element that is in service "
+          "and operational." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+          "10", "11", "12", "13", "14", "15", "16", "..", "0x8000.." }, 
+       Values { "Unknown", "Not Available", "Servicing", "Starting", 
+          "Stopping", "Stopped", "Aborted", "Dormant", "Completed", 
+          "Migrating", "Emigrating", "Immigrating", "Snapshotting", 
+          "Shutting Down", "In Test", "Transitioning", "In Service", 
+          "DMTF Reserved", "Vendor Reserved" }, 
+       ModelCorrespondence { "CIM_EnabledLogicalElement.EnabledState" }]
+   uint16 OperatingStatus;
+
+      [Description ( 
+          "PrimaryStatus provides a high level status value, "
+          "intended to align with Red-Yellow-Green type "
+          "representation of status. It should be used in "
+          "conjunction with DetailedStatus to provide high level "
+          "and detailed health status of the ManagedElement and its "
+          "subcomponents. \n"
+          "PrimaryStatus consists of one of the following values: "
+          "Unknown, OK, Degraded or Error. \"Unknown\" indicates "
+          "the implementation is in general capable of returning "
+          "this property, but is unable to do so at this time. \n"
+          "\"OK\" indicates the ManagedElement is functioning "
+          "normally. \n"
+          "\"Degraded\" indicates the ManagedElement is functioning "
+          "below normal. \n"
+          "\"Error\" indicates the ManagedElement is in an Error "
+          "condition." ), 
+       ValueMap { "0", "1", "2", "3", "..", "0x8000.." }, 
+       Values { "Unknown", "OK", "Degraded", "Error", 
+          "DMTF Reserved", "Vendor Reserved" }, 
+       ModelCorrespondence { 
+          "CIM_ManagedSystemElement.DetailedStatus", 
+          "CIM_ManagedSystemElement.HealthState" }]
+   uint16 PrimaryStatus;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::Physical" ), 
+    Description ( 
+       "Subclasses of CIM_PhysicalElement define any component of a "
+       "System that has a distinct physical identity. Instances of "
+       "this class can be defined as an object that can be seen or "
+       "touched. All Processes, Files, and LogicalDevices are "
+       "considered not to be Physical Elements. For example, it is not "
+       "possible to touch the functionality of a \'modem.\' You can "
+       "touch only the card or package that implements the modem. The "
+       "same card could also implement a LAN adapter. PhysicalElements "
+       "are tangible ManagedSystemElements that have a physical "
+       "manifestation of some sort. \n"
+       "\n"
+       "Note that the properties of PhysicalElement describe a "
+       "hardware entity. Possible replacement (FRU) information is "
+       "defined by following the ElementFRU association to one or more "
+       "instances of the ReplacementFRU class. This definition allows "
+       "a client to determine what hardware can be replaced (FRUed) "
+       "and what \'spare\' parts might be required by a customer or "
+       "engineer doing the replacement. If it can be instrumented or "
+       "manually determined that an element actually replaced (FRUed) "
+       "another, then this can be described in the model using the "
+       "ElementHasBeenFRUed association." )]
+class CIM_PhysicalElement : CIM_ManagedSystemElement {
+
+      [Key, Description ( 
+          "An arbitrary string that uniquely identifies the "
+          "Physical Element and serves as the key of the Element. "
+          "The Tag property can contain information such as asset "
+          "tag or serial number data. The key for PhysicalElement "
+          "is placed very high in the object hierarchy in order to "
+          "independently identify the hardware or entity, "
+          "regardless of physical placement in or on Cabinets, "
+          "Adapters, and so on. For example, a hotswappable or "
+          "removable component can be taken from its containing "
+          "(scoping) Package and be temporarily unused. The object "
+          "still continues to exist and can even be inserted into a "
+          "different scoping container. Therefore, the key for "
+          "Physical Element is an arbitrary string and is defined "
+          "independently of any placement or location-oriented "
+          "hierarchy." ), 
+       MaxLen ( 256 )]
+   string Tag;
+
+      [Override ( "Description" ), 
+       Description ( "A textual description of the PhysicalElement." ), 
+       MappingStrings { "MIF.DMTF|FRU|003.3" }]
+   string Description;
+
+      [Key, Description ( 
+          "CreationClassName indicates the name of the class or the "
+          "subclass used in the creation of an instance. When used "
+          "with the other key properties of this class, this "
+          "property allows all instances of this class and its "
+          "subclasses to be uniquely identified." ), 
+       MaxLen ( 256 )]
+   string CreationClassName;
+
+      [Override ( "ElementName" ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalName" }]
+   string ElementName;
+
+      [Description ( 
+          "The name of the organization responsible for producing "
+          "the PhysicalElement. This organization might be the "
+          "entity from whom the Element is purchased, but this is "
+          "not necessarily true. The latter information is "
+          "contained in the Vendor property of CIM_Product." ), 
+       MaxLen ( 256 ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalMfgName", 
+          "MIF.DMTF|FRU|003.4" }]
+   string Manufacturer;
+
+      [Description ( 
+          "The name by which the PhysicalElement is generally known." ), 
+       MaxLen ( 256 ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalDescr", 
+          "MIF.DMTF|FRU|003.5" }]
+   string Model;
+
+      [Description ( 
+          "The stock-keeping unit number for this PhysicalElement." ), 
+       MaxLen ( 64 )]
+   string SKU;
+
+      [Description ( 
+          "A manufacturer-allocated number used to identify the "
+          "Physical Element." ), 
+       MaxLen ( 256 ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalSerialNum", 
+          "MIF.DMTF|FRU|003.7" }]
+   string SerialNumber;
+
+      [Description ( 
+          "A string that indicates the version of the PhysicalElement."
+           ), 
+       MaxLen ( 64 ), 
+       MappingStrings { 
+          "MIB.IETF|Entity-MIB.entPhysicalHardwareRev", 
+          "MIF.DMTF|FRU|003.8" }]
+   string Version;
+
+      [Description ( 
+          "The part number assigned by the organization that is "
+          "responsible for producing or manufacturing the "
+          "PhysicalElement." ), 
+       MaxLen ( 256 ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalModelName" }]
+   string PartNumber;
+
+      [Write, Description ( 
+          "OtherIdentifyingInfo captures data in addition to Tag "
+          "information. This information could be used to identify "
+          "a Physical Element. One example is bar code data "
+          "associated with an Element that also has an asset tag. "
+          "Note that if only bar code data is available and is "
+          "unique or able to be used as an Element key, this "
+          "property would be null and the bar code data would be "
+          "used as the class key, in the Tag property." ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalAlias" }]
+   string OtherIdentifyingInfo;
+
+      [Description ( 
+          "Boolean that indicates whether the PhysicalElement is "
+          "powered on (TRUE) or is currently off (FALSE)." )]
+   boolean PoweredOn;
+
+      [Description ( 
+          "The date that this PhysicalElement was manufactured." )]
+   datetime ManufactureDate;
+
+      [Description ( 
+          "A vendor-specific hardware type for the PhysicalElement. "
+          "It describes the specific equipment type for the "
+          "element, as defined by the vendor or manufacturer." ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalVendorType" }]
+   string VendorEquipmentType;
+
+      [Write, Description ( 
+          "User-assigned and writeable asset-tracking identifier "
+          "for the PhysicalElement." ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalAssetID" }]
+   string UserTracking;
+
+      [Description ( 
+          "Boolean that indicates whether this PhysicalElement can "
+          "be FRUed (TRUE) or not (FALSE)." ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalIsFRU" }]
+   boolean CanBeFRUed;
+
+
+};
+
+
+// Copyright (c) 2008 DMTF.  All rights reserved.
+   [Version ( "2.18.0" ), 
+    UMLPackagePath ( "CIM::Physical::Package" ), 
+    Description ( 
+       "The PhysicalPackage class represents PhysicalElements that "
+       "contain or host other components. Examples are a Rack "
+       "enclosure or an adapter Card." )]
+class CIM_PhysicalPackage : CIM_PhysicalElement {
+
+      [Description ( 
+          "The RemovalCapabilites property is used to describe the "
+          "conditions under which a PhysicalPackage can be removed. "
+          "Since all PhysicalPackages are not removable, this "
+          "property defaults to 2, \'Not Applicable\'." ), 
+       ValueMap { "0", "2", "3", "4" }, 
+       Values { "Unknown", "Not Applicable", "Removable when off", 
+          "Removable when on or off" }]
+   uint16 RemovalConditions = 2;
+
+      [Deprecated { "CIM_PhysicalPackage.RemovalConditions" }, 
+       Description ( 
+          "The use of this property is being deprecated. Instead "
+          "RemovalConditions should be used. The RemovalConditions "
+          "property addresses whether a PhysicalPackage is "
+          "removable with or without power being applied. \n"
+          "A PhysicalPackage is Removable if it is designed to be "
+          "taken in and out of the physical container in which it "
+          "is normally found, without impairing the function of the "
+          "overall packaging. A Package can still be Removable if "
+          "power must be \'off\' in order to perform the removal. "
+          "If power can be \'on\' and the Package removed, then the "
+          "Element is both Removable and HotSwappable. For example, "
+          "an extra battery in a laptop is Removable, as is a disk "
+          "drive Package inserted using SCA connectors. However, "
+          "the latter is also HotSwappable. A laptop\'s display is "
+          "not Removable, nor is a non-redundant power supply. "
+          "Removing these components would impact the function of "
+          "the overall packaging or is impossible due to the tight "
+          "integration of the Package." )]
+   boolean Removable;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "The use of this property is being deprecated because it "
+          "is redundant with the FRU class and its associations. A "
+          "PhysicalPackage is Replaceable if it is possible to "
+          "replace (FRU or upgrade) the Element with a physically "
+          "different one. For example, some ComputerSystems allow "
+          "the main Processor chip to be upgraded to one of a "
+          "higher clock rating. In this case, the Processor is said "
+          "to be Replaceable. Another example is a power supply "
+          "Package mounted on sliding rails. All Removable packages "
+          "are inherently Replaceable." )]
+   boolean Replaceable;
+
+      [Deprecated { "CIM_PhysicalPackage.RemovalConditions" }, 
+       Description ( 
+          "The use of this property is being deprecated. Instead "
+          "RemovalConditions should be used. The RemovalConditions "
+          "property addresses whether a PhysicalPackage is "
+          "removable with or without power being applied. \n"
+          "\n"
+          "A PhysicalPackage is HotSwappable if it is possible to "
+          "replace the Element with a physically different but "
+          "equivalent one while the containing Package has power "
+          "applied to it (ie, is \'on\'). For example, a disk drive "
+          "Package inserted using SCA connectors is both Removable "
+          "and HotSwappable. All HotSwappable packages are "
+          "inherently Removable and Replaceable." )]
+   boolean HotSwappable;
+
+      [Description ( "The height of the PhysicalPackage in inches." ), 
+       Units ( "Inches" ), 
+       PUnit ( "inch" )]
+   real32 Height;
+
+      [Description ( "The depth of the PhysicalPackage in inches." ), 
+       Units ( "Inches" ), 
+       PUnit ( "inch" )]
+   real32 Depth;
+
+      [Description ( "The width of the PhysicalPackage in inches." ), 
+       Units ( "Inches" ), 
+       PUnit ( "inch" )]
+   real32 Width;
+
+      [Description ( "The weight of the PhysicalPackage in pounds." ), 
+       Units ( "Pounds" ), 
+       PUnit ( "pound" )]
+   real32 Weight;
+
+      [Description ( 
+          "Enumeration defining the type of the PhysicalPackage. "
+          "Note that this enumeration expands on the list in the "
+          "Entity MIB (the attribute, entPhysicalClass). The "
+          "numeric values are consistent with CIM\'s enum numbering "
+          "guidelines, but are slightly different than the MIB\'s values.\n"
+          "Unknown - indicates that the package type is not known.\n"
+          "Other - The package type does not correspond to an "
+          "existing enumerated value. The value is specified using "
+          "the OtherPackageType property.\n"
+          "The values \"Rack\" through \"Port/Connector\" are "
+          "defined per the Entity-MIB (where the semantics of rack "
+          "are equivalent to the MIB\'s \'stack\' value). The other "
+          "values (for battery, processor, memory, power "
+          "source/generator and storage media package) are self-explanatory.\n"
+          "A value of \"Blade\" should be used when the "
+          "PhysicalPackage contains the operational hardware "
+          "aspects of a ComputerSystem, without the supporting "
+          "mechanicals such as power and cooling. For example, a "
+          "Blade Server includes processor(s) and memory, and "
+          "relies on the containing chassis to supply power and "
+          "cooling. In many respects, a Blade can be considered a "
+          "\"Module/Card\". However, it is tracked differently by "
+          "inventory systems and differs in terms of service "
+          "philosophy. For example, a Blade is intended to be "
+          "hot-plugged into a hosting enclosure without requiring "
+          "additional cabling, and does not require a cover to be "
+          "removed from the enclosure for installation. Similarly, "
+          "a \"Blade Expansion\" has characteristics of a \"Blade\" "
+          "and a \"Module/Card\". However, it is distinct from both "
+          "due to inventory tracking and service philosophy, and "
+          "because of its hardware dependence on a Blade. A Blade "
+          "Expansion must be attached to a Blade prior to inserting "
+          "the resultant assembly into an enclosure." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+          "10", "11", "12", "13", "14", "15", "16", "17" }, 
+       Values { "Unknown", "Other", "Rack", "Chassis/Frame", 
+          "Cross Connect/Backplane", "Container/Frame Slot", 
+          "Power Supply", "Fan", "Sensor", "Module/Card", 
+          "Port/Connector", "Battery", "Processor", "Memory", 
+          "Power Source/Generator", 
+          "Storage Media Package (e.g., Disk or Tape Drive)", 
+          "Blade", "Blade Expansion" }, 
+       MappingStrings { "MIB.IETF|ENTITY-MIB.entPhysicalClass" }, 
+       ModelCorrespondence { "CIM_PhysicalPackage.OtherPackageType" }]
+   uint16 PackageType;
+
+      [Description ( 
+          "A string describing the package when the instance\'s "
+          "PackageType property is 1 (\"Other\")." ), 
+       ModelCorrespondence { "CIM_PhysicalPackage.PackageType" }]
+   string OtherPackageType;
+
+      [Description ( 
+          "An array of strings that identify the component that is "
+          "compatible with, and can be inserted in a slot that "
+          "reports this string as one of the array element in the "
+          "VendorCompatibilityStrings This allows system "
+          "administrators to determine whether it is appropriateto "
+          "insert a package into a slot \n"
+          "In order to ensure uniqueness within the NameSpace, each "
+          "value defined by the vendor for use in the "
+          "VendorCompatibilityStrings property SHOULD be "
+          "constructed using the following \'preferred\' algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "\':\', and where <OrgID> MUST include a copyrighted, "
+          "trademarked or otherwise unique name that is owned by "
+          "the business entity creating/defining the InstanceID, or "
+          "is a registered ID that is assigned to the business "
+          "entity by a recognized global authority (This is similar "
+          "to the <Schema Name>_<Class Name> structure of Schema "
+          "class names.) In addition, to ensure uniqueness <OrgID> "
+          "MUST NOT contain a colon (\':\'). When using this "
+          "algorithm, the first colon to appear in InstanceID MUST "
+          "appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and SHOULD "
+          "not be re-used to identify different underlying "
+          "(real-world) elements." ), 
+       ModelCorrespondence { "CIM_Slot.VendorCompatibilityStrings" }]
+   string VendorCompatibilityStrings[];
+
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "This method is being deprecated. A PhysicalPackage "
+          "cannot determine if it is compatible with another "
+          "object. The IsCompatible method verifies whether the "
+          "referenced PhysicalElement may be contained by or "
+          "inserted into the PhysicalPackage. The return value "
+          "should be 0 if the request was successfully executed, 1 "
+          "if the request is not supported and some other value if "
+          "an error occurred. In a subclass, the set of possible "
+          "return codes could be specified, using a ValueMap "
+          "qualifier on the method. The strings to which the "
+          "ValueMap contents are \'translated\' may also be "
+          "specified in the subclass as a Values array qualifier." )]
+   uint32 IsCompatible(
+         [IN, Description ( 
+             "The element to check for compatibility with this one."
+              )]
+      CIM_PhysicalElement REF ElementToCheck);
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Physical::Package" ), 
+    Description ( 
+       "PackageLocation is a space/hole/shelf, possibly with mounting "
+       "brackets or other connecting hardware, where other "
+       "PhysicalPackages may be placed. This class describes an entity "
+       "that holds something else and is not just a \'place\' (as is "
+       "conveyed by the CIM_Location object). This class has several "
+       "corollaries to HostingBoard. Where a HostingBoard (backplane) "
+       "has connectors/slots to describe the capabilities of holding "
+       "additional PhysicalPackages, a PackageLocation is used to "
+       "describe the same case for the general package, where there "
+       "may or may not be no connectors. Examples of PackageLocations "
+       "would include a disk cage in a tower PC or the chassis area "
+       "where the power supply is mounted." )]
+class CIM_PackageLocation : CIM_PhysicalPackage {
+
+      [Description ( 
+          "LocationCoordinates represent the physical location of "
+          "the the FrameSlot instance. The property is defined as a "
+          "free-form string to allow the location information to be "
+          "described in vendor-unique terminology." )]
+   string LocationCoordinates;
+
+
+};
+
+
+
+class UNIX_PackageLocation : CIM_PackageLocation
+{
+
+};
+

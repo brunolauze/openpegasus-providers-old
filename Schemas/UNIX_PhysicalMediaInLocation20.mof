@@ -1,0 +1,103 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Physical::PhysicalMedia" ), 
+    Description ( 
+       "Within a StorageLibrary, all Media should be accounted for, "
+       "and be present in some Storage Location. This relationship is "
+       "made explicit by the PhysicalMediaInLocation association. In "
+       "addition, one can determine if a Location is empty or full "
+       "based on whether this association exists for the "
+       "StorageMediaLocation." )]
+class CIM_PhysicalMediaInLocation : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Max ( 1 ), 
+       Description ( 
+          "The StorageMediaLocation which holds the PhysicalMedia." )]
+   CIM_StorageMediaLocation REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The Media in the Location." )]
+   CIM_PhysicalMedia REF Dependent;
+
+      [Description ( 
+          "An enumeration expressing which \'Side\' of the Media is "
+          "facing up. Since sides can be named by various schemes "
+          "(0/1 or A/B), both schemes are expressed in the Values "
+          "array of this property. Also, the value 5 (\"Not "
+          "Applicable\" describes that orientation is not pertinent "
+          "for this Media." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5" }, 
+       Values { "Unknown", "Side 0", "Side 1", "Side A", "Side B", 
+          "Not Applicable" }]
+   uint16 Orientation;
+
+      [Description ( 
+          "The date and time that the Media was last placed into "
+          "the referenced Location." )]
+   datetime TimeOfLastPlacement;
+
+
+};
+
+
+
+class UNIX_PhysicalMediaInLocation : CIM_PhysicalMediaInLocation
+{
+
+};
+

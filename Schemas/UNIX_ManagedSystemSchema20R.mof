@@ -1,0 +1,72 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+#pragma include ("Meta_Class20R.mof")
+#pragma include ("UNIX_ComputerSystem20R.mof")
+#pragma include ("UNIX_Process20R.mof")
+#pragma include ("UNIX_CreateDirectoryAction20R.mof")
+#pragma include ("UNIX_DeviceFile20R.mof")
+#pragma include ("UNIX_Directory20R.mof")
+#pragma include ("UNIX_FileSystem20R.mof")
+#pragma include ("UNIX_RemoteFileSystem20R.mof")
+#pragma include ("UNIX_NFS20R.mof")
+#pragma include ("UNIX_LocalFileSystem20R.mof")
+#pragma include ("UNIX_ApplicationSystem20R.mof")
+#pragma include ("UNIX_DatabaseSystem20R.mof")
+#pragma include ("UNIX_VirtualComputerSystem20R.mof")
+#pragma include ("UNIX_Cluster20R.mof")
+#pragma include ("UNIX_CurrentTime20R.mof")
+#pragma include ("UNIX_MessageLog20R.mof")
+#pragma include ("UNIX_OperatingSystem20R.mof")
+#pragma include ("UNIX_Account20R.mof")
+#pragma include ("UNIX_EthernetPort20R.mof")
+#pragma include ("UNIX_DiskDrive20R.mof")
+#pragma include ("UNIX_LogicalDisk20R.mof")
+#pragma include ("UNIX_DiskPartition20R.mof")
+#pragma include ("UNIX_Processor20R.mof")
+#pragma include ("UNIX_EthernetAdapter20R.mof")
+#pragma include ("UNIX_DatabaseService20R.mof")
+#pragma include ("UNIX_SoftwareElement20R.mof")
+#pragma include ("UNIX_BIOSElement20R.mof")
+#pragma include ("UNIX_SoftwareFeature20R.mof")
+#pragma include ("UNIX_BIOSFeature20R.mof")
+#pragma include ("UNIX_Group20R.mof")
+#pragma include ("UNIX_BIOSString20R.mof")
+#pragma include ("UNIX_UsersAccess20R.mof")
+#pragma include ("UNIX_LogEntry20R.mof")
+#pragma include ("UNIX_AccountManagementCapabilities20R.mof")
+#pragma include ("UNIX_AccountOnSystem20R.mof")
+#pragma include ("UNIX_InstalledOS20R.mof")
+#pragma include ("UNIX_SystemBIOS20R.mof")
+#pragma include ("UNIX_OSProcess20R.mof")
+#pragma include ("UNIX_Mount20R.mof")
+#pragma include ("UNIX_ComputerSystemPackage20R.mof")
+#pragma include ("UNIX_InstalledSoftwareElement20R.mof")

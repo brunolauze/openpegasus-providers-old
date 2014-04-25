@@ -1,0 +1,11 @@
+#ifdef PEGASUS_OS_HPUX
+
+
+#ifndef __UNIX_TAPEPARTITION_PRIVATE_H
+#define __UNIX_TAPEPARTITION_PRIVATE_H
+
+
+#endif
+
+
+#endif

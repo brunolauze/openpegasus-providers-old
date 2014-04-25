@@ -1,0 +1,11 @@
+#ifdef PEGASUS_OS_SOLARIS
+
+
+#ifndef __UNIX_ISCSICONNECTION_PRIVATE_H
+#define __UNIX_ISCSICONNECTION_PRIVATE_H
+
+
+#endif
+
+
+#endif

@@ -1,0 +1,101 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Device::StorageLib" ), 
+    Description ( 
+       "Within an automated StorageLibrary, Media should be accessible "
+       "to the various robotics and MediaTransferDevices (Pickers, "
+       "Changers, InterLibraryPorts, etc.). The Library may be "
+       "serviced by different TransferDevices, each responsible for a "
+       "subset of the Library\'s StorageMediaLocations. The Device "
+       "ServicesLocation association indicates that the Transfer "
+       "Device handles Media stored in the referenced Location. For "
+       "example, LibraryPort \'A\' may only service Media from Slots "
+       "1-10, while LibraryPort \'B\' covers Slots 11-33. This detail "
+       "is conveyed by this association." )]
+class CIM_DeviceServicesLocation : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( 
+          "The MediaTransferDevice that handles Media from the "
+          "StorageMediaLocation." )]
+   CIM_MediaTransferDevice REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The MediaLocation that is serviced." )]
+   CIM_StorageMediaLocation REF Dependent;
+
+      [Description ( 
+          "Boolean indicating that the referenced "
+          "StorageMediaLocation is not currently accessible to the "
+          "MediaTransferDevice. For example, the Location could be "
+          "the realization of an InterLibraryPort that is currently "
+          "servicing another Library. The DeviceServicesLocation "
+          "association describes that the TransferDevice COULD "
+          "service the MediaLocation. This boolean indicates that "
+          "that this is temporarily not possible." )]
+   boolean Inaccessible;
+
+
+};
+
+
+
+class UNIX_DeviceServicesLocation : CIM_DeviceServicesLocation
+{
+
+};
+

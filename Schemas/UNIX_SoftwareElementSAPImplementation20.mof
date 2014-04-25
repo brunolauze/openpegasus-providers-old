@@ -1,0 +1,114 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Application::DeploymentModel" ), 
+    Description ( 
+       "An association between a ServiceAccessPoint and how it is "
+       "implemented by one or more executable SoftwareElements. Note "
+       "that this association is restricted to \'executable\' "
+       "Elements. In earlier phases of deployment, the Software "
+       "FeatureSAPImplementation association is adequate and "
+       "recommended. \n"
+       "The relationship between this association and Software "
+       "FeatureSAPImplementation is more fully described here. "
+       "SoftwareElementSAPImplementation allows the description of "
+       "greater granularity than SoftwareFeatureSAPImplementation, "
+       "when a SoftwareFeature is fully deployed and results in "
+       "several executable Elements. These Elements may implement "
+       "several different ServiceAccessPoints. \n"
+       "Since SoftwareFeatures decompose into SoftwareElements, it is "
+       "possible to describe how software implements a SAP by using "
+       "either this association or the SoftwareFeatureSAP "
+       "Implementation relationship. One or the other should be "
+       "chosen. Both associations should not be used for a particular "
+       "AccessPoint, since their information is redundant. \n"
+       "This relationship is especially important when the "
+       "SoftwareFeature and Product aspects are not described for a "
+       "SoftwareElement (ie, when the acquisition and deployment of "
+       "the software is not detailed). In this case, the Software "
+       "ElementSAPImplementation association is the only one available "
+       "to describe how an AccessPoint is implemented in software. "
+       "Since SoftwareFeatures are not instantiated, it is not "
+       "possible to use the SoftwareFeatureSAP Implementation "
+       "association. \n"
+       "The cardinality of this association is many-to-many. A "
+       "ServiceAccessPoint may be provided by more than one Software "
+       "Element. (If this is true, it is assumed that the Software "
+       "Elements operate in conjunction.) And, any SoftwareElement may "
+       "provide more than one SAP." )]
+class CIM_SoftwareElementSAPImplementation : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( 
+          "The executable SoftwareElement implementing the SAP." )]
+   CIM_SoftwareElement REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "The ServiceAccessPoint implemented by the SoftwareElement."
+           )]
+   CIM_ServiceAccessPoint REF Dependent;
+
+
+};
+
+
+
+class UNIX_SoftwareElementSAPImplementation : CIM_SoftwareElementSAPImplementation
+{
+
+};
+

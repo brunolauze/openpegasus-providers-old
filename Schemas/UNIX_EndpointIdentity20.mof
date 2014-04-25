@@ -1,0 +1,111 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_LogicalIdentity is an abstract and generic association, "
+       "indicating that two ManagedElements represent different "
+       "aspects of the same underlying entity. This relationship "
+       "conveys what could be defined with multiple inheritance. In "
+       "most scenarios, the Identity relationship is determined by the "
+       "equivalence of Keys or some other identifying properties of "
+       "the related Elements. \n"
+       "\n"
+       "This relationship is reasonable in several scenarios. For "
+       "example, it could be used to represent that a LogicalDevice is "
+       "both a \'bus\' entity and a \'functional\' entity. A Device "
+       "could be both a USB (bus) and a Keyboard (functional) entity." )]
+class CIM_LogicalIdentity {
+
+      [Key, Description ( 
+          "SystemElement represents one aspect of the Managed "
+          "Element. The use of \'System\' in the role name does not "
+          "limit the scope of the association. The role name was "
+          "defined in the original association, where the "
+          "referenced elements were limited to LogicalElements. "
+          "Since that time, it has been found valuable to "
+          "instantiate these types of relationships for "
+          "ManagedElements, such as Collections. So, the referenced "
+          "elements of the association were redefined to be "
+          "ManagedElements. Unfortunately, the role name could not "
+          "be changed without deprecating the entire association. "
+          "This was not deemed necessary just to correct the role "
+          "name." )]
+   CIM_ManagedElement REF SystemElement;
+
+      [Key, Description ( 
+          "SameElement represents an alternate aspect of the ManagedElement."
+           )]
+   CIM_ManagedElement REF SameElement;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Network::ProtocolEndpoints" ), 
+    Description ( 
+       "CIM_EndpointIdentity indicates that two ProtocolEndpoints "
+       "represent different aspects of the same underlying address or "
+       "protocol-specific ID. This association refines the "
+       "CIM_LogicalIdentity superclass by restricting it to the "
+       "Endpoint level and defining its use in well understood "
+       "scenarios. One of these scenarios is to represent that an "
+       "Endpoint has both \'LAN\' and protocol-specific aspects. For "
+       "example, an Endpoint could be both a LANEndpoint as well as a "
+       "DHCPEndpoint." )]
+class CIM_EndpointIdentity : CIM_LogicalIdentity {
+
+      [Override ( "SystemElement" ), 
+       Description ( 
+          "SystemElement represents one aspect of the Endpoint." )]
+   CIM_ProtocolEndpoint REF SystemElement;
+
+      [Override ( "SameElement" ), 
+       Description ( 
+          "SameElement represents an alternate aspect of the Endpoint."
+           )]
+   CIM_ProtocolEndpoint REF SameElement;
+
+
+};
+
+
+
+class UNIX_EndpointIdentity : CIM_EndpointIdentity
+{
+
+};
+

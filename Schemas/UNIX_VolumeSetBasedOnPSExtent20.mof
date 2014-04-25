@@ -1,0 +1,165 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Core::StorageExtent" ), 
+    Description ( 
+       "BasedOn is an association describing how StorageExtents can be "
+       "assembled from lower level Extents. For example, "
+       "ProtectedSpaceExtents are parts of PhysicalExtents, while "
+       "VolumeSets are assembled from one or more Physical or "
+       "ProtectedSpaceExtents. As another example, CacheMemory can be "
+       "defined independently and realized in a PhysicalElement or can "
+       "be \'based on\' Volatile or NonVolatileStorageExtents." )]
+class CIM_BasedOn : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The lower level StorageExtent." )]
+   CIM_StorageExtent REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The higher level StorageExtent." )]
+   CIM_StorageExtent REF Dependent;
+
+      [Description ( 
+          "StartingAddress indicates where in lower level storage, "
+          "the higher level Extent begins." )]
+   uint64 StartingAddress;
+
+      [Description ( 
+          "EndingAddress indicates where in lower level storage, "
+          "the higher level Extent ends. This property is useful "
+          "when mapping non-contiguous Extents into a higher level "
+          "grouping." )]
+   uint64 EndingAddress;
+
+      [Description ( 
+          "If there is an order to the BasedOn associations that "
+          "describe how a higher level StorageExtent is assembled, "
+          "the OrderIndex property indicates this. When an order "
+          "exists, the instances of BasedOn with the same Dependent "
+          "value (i.e., the same higher level Extent) should place "
+          "unique values in the OrderIndex property. The lowest "
+          "value implies the first member of the collection of "
+          "lower level Extents, and increasing values imply "
+          "successive members of the collection. If there is no "
+          "ordered relationship, a value of zero should be "
+          "specified. An example of the use of this property is to "
+          "define a RAID-0 striped array of 3 disks. The resultant "
+          "RAID array is a StorageExtent that is dependent on "
+          "(BasedOn) the StorageExtents that describe each of the 3 "
+          "disks. The OrderIndex of each BasedOn association from "
+          "the disk Extents to the RAID array could be specified as "
+          "1, 2 and 3 to indicate the order in which the disk "
+          "Extents are used to access the RAID data." )]
+   uint16 OrderIndex;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_CompositeExtentBasedOn" }, 
+    Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Device::SccExtents" ), 
+    Description ( 
+       "This association is deprecated in lieu of "
+       "CompositeExtentBasedOn, since VolumeSets and "
+       "ProtectedSpaceExtents are themselves deprecated. The "
+       "relationship describes that VolumeSets are BasedOn on one or "
+       "more ProtectedSpaceExtents." )]
+class CIM_VolumeSetBasedOnPSExtent : CIM_BasedOn {
+
+      [Deprecated { "CIM_CompositeExtentBasedOn.Antecedent" }, 
+       Override ( "Antecedent" ), 
+       Min ( 1 ), 
+       Description ( "The ProtectedSpaceExtent." )]
+   CIM_ProtectedSpaceExtent REF Antecedent;
+
+      [Deprecated { "CIM_CompositeExtentBasedOn.Dependent" }, 
+       Override ( "Dependent" ), 
+       Description ( 
+          "The VolumeSet which is built on the ProtectedSpace Extent."
+           )]
+   CIM_VolumeSet REF Dependent;
+
+      [Deprecated { 
+          "CIM_CompositeExtentBasedOn.LBAsMappedByDecrementing" }, 
+       Description ( 
+          "True if logical blocks in the ProtectedSpaceExtent are "
+          "mapped in decrementing order. This property corresponds "
+          "to the INCDEC value in the SCC-2 Volume Set PS_Extent "
+          "Descriptor." )]
+   boolean LBAsMappedByDecrementing;
+
+      [Deprecated { 
+          "CIM_CompositeExtentBasedOn.LBAMappingIncludesCheckData" }, 
+       Description ( 
+          "True if the logical block mapping algorithm includes "
+          "check data bytes. This property corresponds to the "
+          "NOCHKSKIP attribute in the SCC-2 Volume Set PS_Extent "
+          "Descriptor." )]
+   boolean LBAMappingIncludesCheckData;
+
+
+};
+
+
+
+class UNIX_VolumeSetBasedOnPSExtent : CIM_VolumeSetBasedOnPSExtent
+{
+
+};
+

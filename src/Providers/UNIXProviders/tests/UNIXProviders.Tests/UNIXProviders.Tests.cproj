@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB6D38B1-B280-4DC5-BFA8-4709837175EF}</ProjectGuid>
+    <Compiler>
+      <Compiler ctype="ClangppCompiler" />
+    </Compiler>
+    <Language>CPP</Language>
+    <Target>Bin</Target>
+    <Packages>
+      <Packages>
+        <Package file="../../UNIXProviders/UNIXProviders.md.pc" name="UNIXProviders" IsProject="True" />
+      </Packages>
+    </Packages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug</OutputPath>
+    <OutputName>TestUNIXProviders</OutputName>
+    <CompileTarget>Bin</CompileTarget>
+    <DefineSymbols>DEBUG MONODEVELOP</DefineSymbols>
+    <SourceDirectory>.</SourceDirectory>
+    <Includes>
+      <Includes>
+        <Include>/usr/local/include</Include>
+        <Include>${ProjectDir}/..</Include>
+      </Includes>
+    </Includes>
+    <ExtraCompilerArguments>-W -Wall -Wno-unused-parameter  -Wno-unused-value -D_GNU_SOURCE -DTHREAD_SAFE -D_REENTRANT -Werror=unused-variable -Wno-unused-function -O2 -m64 -fvisibility=hidden	 -fPIC  -DPEGASUS_COMMON_INTERNAL -DPEGASUS_PLATFORM_FREEBSD_GENERIC_GNU -DPEGASUS_OS_FREEBSD -DPEGASUS_PLATFORM_FREEBSD_X86_64_CLANG -DPEGASUS_USE_SYSLOGS -DPEGASUS_ARCH_LIB=\"lib\" -DPEGASUS_ENABLE_USERGROUP_AUTHORIZATION -DPEGASUS_ENABLE_CQL -DPEGASUS_DEFAULT_ENABLE_OOP -DPEGASUS_ENABLE_EXECQUERY -DPEGASUS_HAS_SSL -DPEGASUS_SSL_RANDOMFILE -DPEGASUS_ENABLE_SSL_CRL_VERIFICATION -DPEGASUS_ENABLE_AUDIT_LOGGER -DPEGASUS_ENABLE_IPV6 -DPEGASUS_ENABLE_INDICATION_COUNT -DPEGASUS_ENABLE_SLP -DPEGASUS_USE_EXTERNAL_SLP_TYPE=1 -DPEGASUS_ENABLE_INTEROP_PROVIDER -DPEGASUS_USE_EXPERIMENTAL_INTERFACES -DPEGASUS_ENABLE_CMPI_PROVIDER_MANAGER -DPEGASUS_DEST_LIB_DIR=\"lib\" -DPEGASUS_ENABLE_PROTOCOL_WSMAN -DPEGASUS_PAM_AUTHENTICATION -DPEGASUS_NO_PASSWORDFILE -DPEGASUS_ENABLE_PROTOCOL_BINARY -DPEGASUS_EXTRA_PROVIDER_LIB_DIR=\"\" -gdwarf-2</ExtraCompilerArguments>
+    <ExtraLinkerArguments>-L/usr/local/lib/pegasus/lib -L/usr/local/lib -lpegcommon -lpegprovider -lpegclient -lpegslp_client -lutil -lpegquerycommon -lpegqueryexpression -lpegcql -lpegwql -lpegrepository -lgeom -lUNIXProviders -ljail -lkvm -pthread -lcam -lpkg</ExtraLinkerArguments>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="LD_LIBRARY_PATH" value="../../UNIXProviders/bin/Debug:/usr/local/lib/pegasus/lib:/usr/local/lib:/usr/lib:/lib" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
+    <Commandlineparameters>UNIX_Account</Commandlineparameters>
+    <LibPaths>
+      <LibPaths>
+        <LibPath>${ProjectDir}/../bin/Debug</LibPath>
+      </LibPaths>
+    </LibPaths>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <Externalconsole>true</Externalconsole>
+    <OutputName>UNIXProviders</OutputName>
+    <CompileTarget>Bin</CompileTarget>
+    <OptimizationLevel>3</OptimizationLevel>
+    <DefineSymbols>MONODEVELOP</DefineSymbols>
+    <SourceDirectory>.</SourceDirectory>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="UNIX_AccountFixture.cpp" />
+    <Compile Include="main.cpp" />
+    <Compile Include="UNIX_ComputerSystemFixture.cpp" />
+    <Compile Include="UNIX_OperatingSystemFixture.cpp" />
+    <Compile Include="UNIX_ProcessFixture.cpp" />
+    <Compile Include="UNIX_InstalledOSFixture.cpp" />
+    <Compile Include="UNIX_OSProcessFixture.cpp" />
+    <Compile Include="UNIX_DiskDriveFixture.cpp" />
+    <Compile Include="UNIX_DeviceFileFixture.cpp" />
+    <Compile Include="UNIX_EthernetPortFixture.cpp" />
+    <Compile Include="UNIX_DiskPartitionFixture.cpp" />
+    <Compile Include="UNIX_FileSystemFixture.cpp" />
+    <Compile Include="UNIX_MountFixture.cpp" />
+    <Compile Include="UNIX_DirectoryFixture.cpp" />
+    <Compile Include="UNIX_SoftwareElementFixture.cpp" />
+    <Compile Include="UNIX_DatabaseSystemFixture.cpp" />
+    <Compile Include="UNIX_MessageLogFixture.cpp" />
+    <Compile Include="Meta_ClassFixture.cpp" />
+    <Compile Include="UNIX_ProcessorFixture.cpp" />
+    <Compile Include="UNIX_BIOSElementFixture.cpp" />
+    <Compile Include="UNIX_BIOSFeatureFixture.cpp" />
+    <Compile Include="UNIX_AccountOnSystemFixture.cpp" />
+    <Compile Include="UNIX_GroupFixture.cpp" />
+    <Compile Include="UNIX_InstalledSoftwareElementFixture.cpp" />
+    <Compile Include="UNIX_SystemBIOSFixture.cpp" />
+    <Compile Include="UNIX_LogEntryFixture.cpp" />
+    <Compile Include="UNIX_LogicalDiskFixture.cpp" />
+    <Compile Include="UNIX_NFSFixture.cpp" />
+    <Compile Include="UNIX_RemoteFileSystemFixture.cpp" />
+    <Compile Include="UNIX_LocalFileSystemFixture.cpp" />
+    <Compile Include="UNIX_VirtualComputerSystemFixture.cpp" />
+    <Compile Include="UNIX_UsersAccountFixture.cpp" />
+    <Compile Include="UNIX_UsersAccessFixture.cpp" />
+    <Compile Include="UNIX_ActiveConnectionFixture.cpp" />
+    <Compile Include="UNIX_PhysicalMemoryFixture.cpp" />
+    <Compile Include="UNIX_AccountManagementServiceFixture.cpp" />
+    <Compile Include="MockMethodResultResponseHandler.cpp" />
+    <Compile Include="UNIX_ProcessExecutableFixture.cpp" />
+    <Compile Include="UNIX_ServiceProcessFixture.cpp" />
+    <Compile Include="UNIX_SystemAdministratorGroupFixture.cpp" />
+    <Compile Include="UNIX_SystemAdministratorFixture.cpp" />
+    <Compile Include="UNIX_USBControllerFixture.cpp" />
+    <Compile Include="UNIX_SCSIControllerFixture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CIMFixtureBase.h" />
+    <None Include="UNIX_AccountFixture.h" />
+    <None Include="UNIX_ComputerSystemFixture.h" />
+    <None Include="UNIX_OperatingSystemFixture.h" />
+    <None Include="UNIX_ProcessFixture.h" />
+    <None Include="run.sh" />
+    <None Include="UNIX_InstalledOSFixture.h" />
+    <None Include="UNIX_OSProcessFixture.h" />
+    <None Include="UNIX_DiskDriveFixture.h" />
+    <None Include="UNIX_DeviceFileFixture.h" />
+    <None Include="UNIX_EthernetPortFixture.h" />
+    <None Include="UNIX_DiskPartitionFixture.h" />
+    <None Include="UNIX_FileSystemFixture.h" />
+    <None Include="UNIX_MountFixture.h" />
+    <None Include="UNIX_DirectoryFixture.h" />
+    <None Include="UNIX_SoftwareElementFixture.h" />
+    <None Include="UNIX_DatabaseSystemFixture.h" />
+    <None Include="UNIX_MessageLogFixture.h" />
+    <None Include="Meta_ClassFixture.h" />
+    <None Include="UNIX_ProcessorFixture.h" />
+    <None Include="UNIX_BIOSElementFixture.h" />
+    <None Include="UNIX_BIOSFeatureFixture.h" />
+    <None Include="UNIX_AccountOnSystemFixture.h" />
+    <None Include="UNIX_GroupFixture.h" />
+    <None Include="UNIX_InstalledSoftwareElementFixture.h" />
+    <None Include="UNIX_SystemBIOSFixture.h" />
+    <None Include="UNIX_LogEntryFixture.h" />
+    <None Include="UNIX_LogicalDiskFixture.h" />
+    <None Include="UNIX_NFSFixture.h" />
+    <None Include="UNIX_RemoteFileSystemFixture.h" />
+    <None Include="UNIX_LocalFileSystemFixture.h" />
+    <None Include="UNIX_VirtualComputerSystemFixture.h" />
+    <None Include="UNIX_UsersAccountFixture.h" />
+    <None Include="UNIX_UsersAccessFixture.h" />
+    <None Include="UNIX_ActiveConnectionFixture.h" />
+    <None Include="UNIX_PhysicalMemoryFixture.h" />
+    <None Include="UNIX_AccountManagementServiceFixture.h" />
+    <None Include="MockMethodResultResponseHandler.h" />
+    <None Include="UNIX_ProcessExecutableFixture.h" />
+    <None Include="UNIX_ServiceProcessFixture.h" />
+    <None Include="UNIX_SystemAdministratorGroupFixture.h" />
+    <None Include="UNIX_SystemAdministratorFixture.h" />
+    <None Include="UNIX_USBControllerFixture.h" />
+    <None Include="UNIX_SCSIControllerFixture.h" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,121 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2008 DMTF.  All rights reserved.
+   [Association, Version ( "2.19.1" ), 
+    UMLPackagePath ( "CIM::Device::Sensors" ), 
+    Description ( 
+       "The CIM_AssociatedCooling relationship indicates what "
+       "ManagedSystemElement(s) the fan or cooling device is "
+       "providingcooling for." )]
+class CIM_AssociatedSensor : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The Sensor." )]
+   CIM_Sensor REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "The ManagedSystemElement for which information is "
+          "measured by the Sensor." )]
+   CIM_ManagedSystemElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_AssociatedSensor" }, 
+    Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Device::Sensors" ), 
+    Description ( 
+       "The use of this association is being deprecated in lieu of "
+       "using AssociatedSensor, since the use of the referenced class "
+       "CurrentSensor is deprecated. \n"
+       "A PowerSupply may have an associated CurrentSensor, monitoring "
+       "its input frequency. This is described by this association." )]
+class CIM_AssociatedSupplyCurrentSensor : CIM_AssociatedSensor {
+
+      [Deprecated { "CIM_AssociatedSensor.Antecedent" }, 
+       Override ( "Antecedent" ), 
+       Description ( "The CurrentSensor." )]
+   CIM_CurrentSensor REF Antecedent;
+
+      [Deprecated { "CIM_AssociatedSensor.Dependent" }, 
+       Override ( "Dependent" ), 
+       Description ( 
+          "The PowerSupply associated with the CurrentSensor." )]
+   CIM_PowerSupply REF Dependent;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "Indicates the PowerSupply\'s input frequency range "
+          "measured by the associated sensor. Range 1, 2 or both "
+          "can be specified using the values 2, 3 or 4, "
+          "respectively." ), 
+       ValueMap { "0", "1", "2", "3", "4" }, 
+       Values { "Unknown", "Other", "Range 1", "Range 2", 
+          "Both Range 1 and 2" }]
+   uint16 MonitoringRange;
+
+
+};
+
+
+
+class UNIX_AssociatedSupplyCurrentSensor : CIM_AssociatedSupplyCurrentSensor
+{
+
+};
+

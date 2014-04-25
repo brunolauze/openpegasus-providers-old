@@ -1,0 +1,111 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::Redundancy" ), 
+    Description ( 
+       "The IsSpare association indicates an element that can spare or "
+       "replace any of the elements in the referenced RedundancySet. "
+       "If the \'spare\' is itself a Collection, this indicates that "
+       "each of the \'spare\' members can replace any of the elements "
+       "in the RedundancySet. In the case of a collection all of the "
+       "values in the properties of this association MUST apply to all "
+       "members of the Collection. \n"
+       "If this is not true, then the Collection SHOULD be broken down "
+       "into smaller sets (and the IsSpare association defined for "
+       "each of these smaller sets), such that the properties of this "
+       "association apply to all collected members." )]
+class CIM_IsSpare : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( 
+          "A ManagedElement or Collection of elements acting as a spare."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The set of elements that ARE spared." )]
+   CIM_RedundancySet REF Dependent;
+
+      [Description ( 
+          "Indicates the state of the \'spare\'. \n"
+          "- Hot Standby. The element is available \'immediately\' "
+          "to become a functioning member of the set. Such an "
+          "element is powered on and has been initialized for it\'s "
+          "role as a spare. \n"
+          "- Cold Standby. The element is not available to join the "
+          "set without action to prepare it." ), 
+       ValueMap { "0", "2", "3" }, 
+       Values { "Unknown", "Hot Standby", "Cold Standby" }]
+   uint16 SpareStatus;
+
+      [Description ( 
+          "Indicates whether or not the failover to the spare is a "
+          "manual or automatic action." ), 
+       ValueMap { "0", "2", "3", "4" }, 
+       Values { "Unknown", "Automatic", "Manual", 
+          "Both Manual and Automatic" }]
+   uint16 FailoverSupported;
+
+
+};
+
+
+
+class UNIX_IsSpare : CIM_IsSpare
+{
+
+};
+

@@ -1,0 +1,11 @@
+#ifdef PEGASUS_OS_LINUX
+
+
+#ifndef __UNIX_BGPPATHATTRIBUTES_PRIVATE_H
+#define __UNIX_BGPPATHATTRIBUTES_PRIVATE_H
+
+
+#endif
+
+
+#endif

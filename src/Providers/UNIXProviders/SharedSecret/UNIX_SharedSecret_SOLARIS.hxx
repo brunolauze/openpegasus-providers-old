@@ -1,0 +1,11 @@
+#ifdef PEGASUS_OS_SOLARIS
+
+
+#ifndef __UNIX_SHAREDSECRET_PRIVATE_H
+#define __UNIX_SHAREDSECRET_PRIVATE_H
+
+
+#endif
+
+
+#endif

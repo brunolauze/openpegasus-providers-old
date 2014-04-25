@@ -1,0 +1,255 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "ManagedElement is an abstract class that provides a common "
+       "superclass (or top of the inheritance tree) for the "
+       "non-association classes in the CIM Schema." )]
+class CIM_ManagedElement {
+
+      [Description ( 
+          "InstanceID is an optional property that may be used to "
+          "opaquely and uniquely identify an instance of this class "
+          "within the scope of the instantiating Namespace. Various "
+          "subclasses of this class may override this property to "
+          "make it required, or a key. Such subclasses may also "
+          "modify the preferred algorithms for ensuring uniqueness "
+          "that are defined below.\n"
+          "To ensure uniqueness within the NameSpace, the value of "
+          "InstanceID should be constructed using the following "
+          "\"preferred\" algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "(:), and where <OrgID> must include a copyrighted, "
+          "trademarked, or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID or that is a registered ID assigned to the "
+          "business entity by a recognized global authority. (This "
+          "requirement is similar to the <Schema Name>_<Class Name> "
+          "structure of Schema class names.) In addition, to ensure "
+          "uniqueness, <OrgID> must not contain a colon (:). When "
+          "using this algorithm, the first colon to appear in "
+          "InstanceID must appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be reused to identify different underlying "
+          "(real-world) elements. If not null and the above "
+          "\"preferred\" algorithm is not used, the defining entity "
+          "must assure that the resulting InstanceID is not reused "
+          "across any InstanceIDs produced by this or other "
+          "providers for the NameSpace of this instance. \n"
+          "If not set to null for DMTF-defined instances, the "
+          "\"preferred\" algorithm must be used with the <OrgID> "
+          "set to CIM." )]
+   string InstanceID;
+
+      [Description ( 
+          "The Caption property is a short textual description "
+          "(one- line string) of the object." ), 
+       MaxLen ( 64 )]
+   string Caption;
+
+      [Description ( 
+          "The Description property provides a textual description "
+          "of the object." )]
+   string Description;
+
+      [Description ( 
+          "A user-friendly name for the object. This property "
+          "allows each instance to define a user-friendly name in "
+          "addition to its key properties, identity data, and "
+          "description information. \n"
+          "Note that the Name property of ManagedSystemElement is "
+          "also defined as a user-friendly name. But, it is often "
+          "subclassed to be a Key. It is not reasonable that the "
+          "same property can convey both identity and a "
+          "user-friendly name, without inconsistencies. Where Name "
+          "exists and is not a Key (such as for instances of "
+          "LogicalDevice), the same information can be present in "
+          "both the Name and ElementName properties. Note that if "
+          "there is an associated instance of "
+          "CIM_EnabledLogicalElementCapabilities, restrictions on "
+          "this properties may exist as defined in ElementNameMask "
+          "and MaxElementNameLen properties defined in that class." )]
+   string ElementName;
+
+
+};
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Version ( "2.22.0" ), 
+    UMLPackagePath ( "CIM::System::BIOS" ), 
+    Description ( 
+       "A class derived from ManagedElement that provides "
+       "instrumentation of BIOS configuration data or Attributes of a "
+       "managed computer system or device. These attributes are "
+       "surfaced in the form of BIOSAttribute instances. The "
+       "CIM_BIOSAttribute object may be used to represent both "
+       "configurable and static BIOS attributes." )]
+class CIM_BIOSAttribute : CIM_ManagedElement {
+
+      [Key, Override ( "InstanceID" ), 
+       Description ( 
+          "Within the scope of the instantiating Namespace, "
+          "InstanceID opaquely and uniquely identifies an instance "
+          "of this class. In order to ensure uniqueness within the "
+          "NameSpace, the value of InstanceID SHOULD be constructed "
+          "using the following &apos;preferred&apos; algorithm: "
+          "<OrgID>:<LocalID>Where <OrgID> and <LocalID> are "
+          "separated by a colon &apos;:&apos;, and where <OrgID> "
+          "MUST include a copyrighted, trademarked or otherwise "
+          "unique name that is owned by the business entity "
+          "creating/defining the InstanceID, or is a registered ID "
+          "that is assigned to the business entity by a recognized "
+          "global authority (This is similar to the <Schema "
+          "Name>_<Class Name> structure of Schema class names.) In "
+          "addition, to ensure uniqueness <OrgID> MUST NOT contain "
+          "a colon (&apos;:&apos;). When using this algorithm, the "
+          "first colon to appear in InstanceID MUST appear between "
+          "<OrgID> and <LocalID>. <LocalID> is chosen by the "
+          "business entity and SHOULD not be re-used to identify "
+          "different underlying (real-world) elements. If the above "
+          "&apos;preferred&apos; algorithm is not used, the "
+          "defining entity MUST assure that the resultant "
+          "InstanceID is not re-used across any InstanceIDs "
+          "produced by this or other providers for this instance\'s "
+          "NameSpace. For DMTF defined instances, the "
+          "&apos;preferred&apos; algorithm MUST be used with the "
+          "<OrgID> set to &apos;CIM&apos;." )]
+   string InstanceID;
+
+      [Required, Description ( 
+          "A string identifying the structured element name for a "
+          "BIOS attribute using the format \"<OrgID>:<identifier>\" "
+          "in which <OrgID>, does contain a colon (\":\"). The "
+          "value of <OrgID> is a copyrighted, trademarked or "
+          "otherwise unique name that is owned by the entity "
+          "defining the <identifier>, or is a registered ID that is "
+          "assigned to the entity by a recognized global authority. "
+          "For DMTF defined identifiers, the <OrgID> is set to "
+          "\'DMTF\' and the <identifier> is specified in the BIOS "
+          "Attribute Registry." )]
+   string AttributeName;
+
+      [Required, Description ( 
+          "An array of strings representing the current value or "
+          "values of the BIOS Attribute." )]
+   string CurrentValue[];
+
+      [Description ( 
+          "An array of strings representing the default value or "
+          "values of the BIOS Attribute." )]
+   string DefaultValue[];
+
+      [Description ( 
+          "An array of strings representing a pending Attribute "
+          "value that will not take affect until some point in the "
+          "future. This would typically be used to represent "
+          "Attributes that could not be changed until a system "
+          "reset. When a BIOS attribute has no pending changes, "
+          "PendingValue SHALL be NULL. PendingValue SHALL have a "
+          "value of at least one element from the "
+          "CIM_BIOSEnumeration.PossibleValues array when the an "
+          "instance of the central class represents an enumeration." )]
+   string PendingValue[];
+
+      [Description ( 
+          "This property specifies that the Attribute represented "
+          "makes up an ordered selection list with elements in the "
+          "CurrentValue array. The element zero shall be first or "
+          "least numbered element and incrementally increase to the "
+          "end of the array. The least or first element may "
+          "represent the highest priority in the ordered list." ), 
+       ModelCorrespondence { "CIM_BIOSAttribute.CurrentValue" }]
+   boolean IsOrderedList;
+
+      [Description ( 
+          "This property specifies if the underlying system BIOS or "
+          "BIOSService will not allow the Attribute to be modified "
+          "through calls tothe methods "
+          "CIM_BIOSService.SetBIOSAttribute or "
+          "CIM_BIOSService.SetBIOSDefaults. This does not mean the "
+          "Attribute can not be modified through other means. Only "
+          "that the CIM interfaceis not capable of making a change" )]
+   boolean IsReadOnly;
+
+
+};
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Version ( "2.22.0" ), 
+    UMLPackagePath ( "CIM::System::BIOS" ), 
+    Description ( 
+       "This class extends the CIM_BIOSAttribute base class definition "
+       "to provide informational detail for enumeration data types. "
+       "Enumerations are single-selection lists with a finite set of "
+       "entities. Example enumerations might include \"Power-On Self "
+       "Test: Enable, Disable\" or \"Standby Timeout: 15 minutes, 30 "
+       "minutes, 45 minutes, Never\"." )]
+class CIM_BIOSEnumeration : CIM_BIOSAttribute {
+
+      [Required, Description ( 
+          "An array of strings containing possible value "
+          "definitions for the Attribute. The first element SHOULD "
+          "not be NULL and there SHOULD be no NULL or empty string "
+          "elements intermixed with populated array element values. "
+          "A Value of NULL SHALL indicate an element\'s value is "
+          "unknown." ), 
+       ArrayType ( "indexed" ), 
+       ModelCorrespondence { 
+          "CIM_BIOSEnumeration.PossibleValuesDescription" }]
+   string PossibleValues[];
+
+      [Description ( 
+          "An array of free-form strings providing explanations and "
+          "details behind the entries in the "
+          "CIM_BIOSEnumeration.PossibleValues array. Note that each "
+          "entry of this array is related to the entry in "
+          "PossibleValues array that is located at the same index." ), 
+       ArrayType ( "indexed" ), 
+       ModelCorrespondence { "CIM_BIOSEnumeration.PossibleValues" }]
+   string PossibleValuesDescription[];
+
+
+};
+
+
+
+class UNIX_BIOSEnumeration : CIM_BIOSEnumeration
+{
+
+};
+

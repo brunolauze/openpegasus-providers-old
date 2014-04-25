@@ -1,0 +1,495 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+#ifndef __UNIX_SETTINGSDEFINECAPABILITIES_H
+#define __UNIX_SETTINGSDEFINECAPABILITIES_H
+
+
+#include "CIM_Component.h"
+#include <USBRedirectionCapabilities/UNIX_USBRedirectionCapabilities.h>
+#include <MediaRedirectionCapabilities/UNIX_MediaRedirectionCapabilities.h>
+#include <BootServiceCapabilities/UNIX_BootServiceCapabilities.h>
+#include <OpaqueManagementDataCapabilities/UNIX_OpaqueManagementDataCapabilities.h>
+#include <PlatformWatchdogServiceCapabilities/UNIX_PlatformWatchdogServiceCapabilities.h>
+#include <AlarmDeviceCapabilities/UNIX_AlarmDeviceCapabilities.h>
+#include <FCSwitchCapabilities/UNIX_FCSwitchCapabilities.h>
+#include <IndicatorLEDCapabilities/UNIX_IndicatorLEDCapabilities.h>
+#include <RecordLogCapabilities/UNIX_RecordLogCapabilities.h>
+#include <MetricServiceCapabilities/UNIX_MetricServiceCapabilities.h>
+#include <DHCPCapabilities/UNIX_DHCPCapabilities.h>
+#include <OperatingSystemCapabilities/UNIX_OperatingSystemCapabilities.h>
+#include <WiFiEndpointCapabilities/UNIX_WiFiEndpointCapabilities.h>
+#include <NetworkPortCapabilities/UNIX_NetworkPortCapabilities.h>
+#include <WiFiPortCapabilities/UNIX_WiFiPortCapabilities.h>
+#include <FCPortCapabilities/UNIX_FCPortCapabilities.h>
+#include <VirtualSystemManagementCapabilities/UNIX_VirtualSystemManagementCapabilities.h>
+#include <ProcessorCapabilities/UNIX_ProcessorCapabilities.h>
+#include <LaunchInContextCapabilities/UNIX_LaunchInContextCapabilities.h>
+#include <AccountManagementCapabilities/UNIX_AccountManagementCapabilities.h>
+#include <CLPCapabilities/UNIX_CLPCapabilities.h>
+#include <SSHCapabilities/UNIX_SSHCapabilities.h>
+#include <PowerUtilizationManagementCapabilities/UNIX_PowerUtilizationManagementCapabilities.h>
+#include <CredentialManagementCapabilities/UNIX_CredentialManagementCapabilities.h>
+#include <CertificateManagementCapabilities/UNIX_CertificateManagementCapabilities.h>
+#include <VLANEndpointCapabilities/UNIX_VLANEndpointCapabilities.h>
+#include <QueryCapabilities/UNIX_QueryCapabilities.h>
+#include <StorageReplicationCapabilities/UNIX_StorageReplicationCapabilities.h>
+#include <IEEE8021xCapabilities/UNIX_IEEE8021xCapabilities.h>
+#include <CommonDatabaseCapabilities/UNIX_CommonDatabaseCapabilities.h>
+#include <BIOSServiceCapabilities/UNIX_BIOSServiceCapabilities.h>
+#include <StorageCapabilities/UNIX_StorageCapabilities.h>
+#include <OSPFServiceCapabilities/UNIX_OSPFServiceCapabilities.h>
+#include <ComputerSystemNodeCapabilities/UNIX_ComputerSystemNodeCapabilities.h>
+#include <StatisticsCapabilities/UNIX_StatisticsCapabilities.h>
+#include <BlockStatisticsCapabilities/UNIX_BlockStatisticsCapabilities.h>
+#include <PhysicalAssetCapabilities/UNIX_PhysicalAssetCapabilities.h>
+#include <DeviceSharingCapabilities/UNIX_DeviceSharingCapabilities.h>
+#include <IndicationServiceCapabilities/UNIX_IndicationServiceCapabilities.h>
+#include <AllocationCapabilities/UNIX_AllocationCapabilities.h>
+#include <LocalizationCapabilities/UNIX_LocalizationCapabilities.h>
+#include <SoftwareInstallationServiceCapabilities/UNIX_SoftwareInstallationServiceCapabilities.h>
+#include <VirtualSystemSnapshotServiceCapabilities/UNIX_VirtualSystemSnapshotServiceCapabilities.h>
+#include <SCSIMultipathConfigurationCapabilities/UNIX_SCSIMultipathConfigurationCapabilities.h>
+#include <ZoneCapabilities/UNIX_ZoneCapabilities.h>
+#include <iSCSICapabilities/UNIX_iSCSICapabilities.h>
+#include <PowerManagementCapabilities/UNIX_PowerManagementCapabilities.h>
+#include <DiagnosticServiceCapabilities/UNIX_DiagnosticServiceCapabilities.h>
+#include <FileSystemCapabilities/UNIX_FileSystemCapabilities.h>
+#include <VirtualSystemSnapshotCapabilities/UNIX_VirtualSystemSnapshotCapabilities.h>
+#include <ResourcePoolConfigurationCapabilities/UNIX_ResourcePoolConfigurationCapabilities.h>
+#include <PrivilegeManagementCapabilities/UNIX_PrivilegeManagementCapabilities.h>
+#include <RoleBasedManagementCapabilities/UNIX_RoleBasedManagementCapabilities.h>
+#include <StorageConfigurationCapabilities/UNIX_StorageConfigurationCapabilities.h>
+#include <ProtocolControllerMaskingCapabilities/UNIX_ProtocolControllerMaskingCapabilities.h>
+#include <IKEProposal/UNIX_IKEProposal.h>
+#include <IPsecProposal/UNIX_IPsecProposal.h>
+#include <DatabaseParameter/UNIX_DatabaseParameter.h>
+#include <DatabaseSegmentSettingData/UNIX_DatabaseSegmentSettingData.h>
+#include <IPCOMPTransform/UNIX_IPCOMPTransform.h>
+#include <ESPTransform/UNIX_ESPTransform.h>
+#include <AHTransform/UNIX_AHTransform.h>
+#include <FileSystemSettingData/UNIX_FileSystemSettingData.h>
+#include <ExtendedStaticIPAssignmentSettingData/UNIX_ExtendedStaticIPAssignmentSettingData.h>
+#include <DHCPSettingData/UNIX_DHCPSettingData.h>
+#include <DNSGeneralSettingData/UNIX_DNSGeneralSettingData.h>
+#include <DNSSettingData/UNIX_DNSSettingData.h>
+#include <StaticIPAssignmentSettingData/UNIX_StaticIPAssignmentSettingData.h>
+#include <iSCSISessionSettings/UNIX_iSCSISessionSettings.h>
+#include <DiagnosticSettingData/UNIX_DiagnosticSettingData.h>
+#include <StatisticalSetting/UNIX_StatisticalSetting.h>
+#include <StorageSetting/UNIX_StorageSetting.h>
+#include <StorageSettingWithHints/UNIX_StorageSettingWithHints.h>
+#include <EthernetPortAllocationSettingData/UNIX_EthernetPortAllocationSettingData.h>
+#include <ProcessorAllocationSettingData/UNIX_ProcessorAllocationSettingData.h>
+#include <PowerAllocationSettingData/UNIX_PowerAllocationSettingData.h>
+#include <StorageAllocationSettingData/UNIX_StorageAllocationSettingData.h>
+#include <BootConfigSetting/UNIX_BootConfigSetting.h>
+#include <SSHSettingData/UNIX_SSHSettingData.h>
+#include <IndicationServiceSettingData/UNIX_IndicationServiceSettingData.h>
+#include <VirtualSystemSettingData/UNIX_VirtualSystemSettingData.h>
+#include <VirtualEthernetSwitchSettingData/UNIX_VirtualEthernetSwitchSettingData.h>
+#include <IEEE8021xSettings/UNIX_IEEE8021xSettings.h>
+#include <VLANEndpointSettingData/UNIX_VLANEndpointSettingData.h>
+#include <LogicalPortSettings/UNIX_LogicalPortSettings.h>
+#include <StorageClientSettingData/UNIX_StorageClientSettingData.h>
+#include <VirtualSystemMigrationSettingData/UNIX_VirtualSystemMigrationSettingData.h>
+#include <VideoHeadResolution/UNIX_VideoHeadResolution.h>
+#include <BootSettingData/UNIX_BootSettingData.h>
+#include <CLPSettingData/UNIX_CLPSettingData.h>
+#include <WiFiNetworkDetectionSettings/UNIX_WiFiNetworkDetectionSettings.h>
+#include <SCSIMultipathSettings/UNIX_SCSIMultipathSettings.h>
+#include <CommonDatabaseSettingData/UNIX_CommonDatabaseSettingData.h>
+#include <WiFiEndpointSettings/UNIX_WiFiEndpointSettings.h>
+#include <iSCSIConnectionSettings/UNIX_iSCSIConnectionSettings.h>
+#include <AccountSettingData/UNIX_AccountSettingData.h>
+#include <ConnectivityMembershipSettingData/UNIX_ConnectivityMembershipSettingData.h>
+#include <ZoneMembershipSettingData/UNIX_ZoneMembershipSettingData.h>
+#include <BootSourceSetting/UNIX_BootSourceSetting.h>
+#include <SAEndpointRefreshSettings/UNIX_SAEndpointRefreshSettings.h>
+#include <IPVersionSettingData/UNIX_IPVersionSettingData.h>
+#include <JobSettingData/UNIX_JobSettingData.h>
+#include <FCSwitchSettings/UNIX_FCSwitchSettings.h>
+
+#include "UNIX_SettingsDefineCapabilitiesDeps.h"
+
+
+#define PROPERTY_PROPERTY_POLICY				"PropertyPolicy"
+#define PROPERTY_VALUE_ROLE				"ValueRole"
+#define PROPERTY_VALUE_RANGE				"ValueRange"
+
+
+class UNIX_SettingsDefineCapabilities :
+	public CIM_Component
+{
+public:
+
+	UNIX_SettingsDefineCapabilities();
+	~UNIX_SettingsDefineCapabilities();
+
+	virtual Boolean initialize();
+	virtual Boolean load(int&);
+	virtual Boolean finalize();
+	virtual Boolean find(Array<CIMKeyBinding>&);
+	virtual Boolean validateKey(CIMKeyBinding&) const;
+	virtual void setScope(CIMName);
+
+	virtual Boolean getGroupComponent(CIMProperty&) const;
+	virtual CIMInstance getGroupComponent() const;
+	virtual Boolean getPartComponent(CIMProperty&) const;
+	virtual CIMInstance getPartComponent() const;
+	virtual Boolean getPropertyPolicy(CIMProperty&) const;
+	virtual Uint16 getPropertyPolicy() const;
+	virtual Boolean getValueRole(CIMProperty&) const;
+	virtual Uint16 getValueRole() const;
+	virtual Boolean getValueRange(CIMProperty&) const;
+	virtual Uint16 getValueRange() const;
+
+private:
+	CIMName currentScope;
+
+#	include "UNIX_SettingsDefineCapabilitiesPrivate.h"
+
+	int groupIndex;
+	int partIndex;
+	UNIX_USBRedirectionCapabilities group_UNIX_USBRedirectionCapabilities_Component;
+	int group_UNIX_USBRedirectionCapabilities_Index;
+	bool endOf_UNIX_USBRedirectionCapabilities_Group;
+	UNIX_MediaRedirectionCapabilities group_UNIX_MediaRedirectionCapabilities_Component;
+	int group_UNIX_MediaRedirectionCapabilities_Index;
+	bool endOf_UNIX_MediaRedirectionCapabilities_Group;
+	UNIX_BootServiceCapabilities group_UNIX_BootServiceCapabilities_Component;
+	int group_UNIX_BootServiceCapabilities_Index;
+	bool endOf_UNIX_BootServiceCapabilities_Group;
+	UNIX_OpaqueManagementDataCapabilities group_UNIX_OpaqueManagementDataCapabilities_Component;
+	int group_UNIX_OpaqueManagementDataCapabilities_Index;
+	bool endOf_UNIX_OpaqueManagementDataCapabilities_Group;
+	UNIX_PlatformWatchdogServiceCapabilities group_UNIX_PlatformWatchdogServiceCapabilities_Component;
+	int group_UNIX_PlatformWatchdogServiceCapabilities_Index;
+	bool endOf_UNIX_PlatformWatchdogServiceCapabilities_Group;
+	UNIX_AlarmDeviceCapabilities group_UNIX_AlarmDeviceCapabilities_Component;
+	int group_UNIX_AlarmDeviceCapabilities_Index;
+	bool endOf_UNIX_AlarmDeviceCapabilities_Group;
+	UNIX_FCSwitchCapabilities group_UNIX_FCSwitchCapabilities_Component;
+	int group_UNIX_FCSwitchCapabilities_Index;
+	bool endOf_UNIX_FCSwitchCapabilities_Group;
+	UNIX_IndicatorLEDCapabilities group_UNIX_IndicatorLEDCapabilities_Component;
+	int group_UNIX_IndicatorLEDCapabilities_Index;
+	bool endOf_UNIX_IndicatorLEDCapabilities_Group;
+	UNIX_RecordLogCapabilities group_UNIX_RecordLogCapabilities_Component;
+	int group_UNIX_RecordLogCapabilities_Index;
+	bool endOf_UNIX_RecordLogCapabilities_Group;
+	UNIX_MetricServiceCapabilities group_UNIX_MetricServiceCapabilities_Component;
+	int group_UNIX_MetricServiceCapabilities_Index;
+	bool endOf_UNIX_MetricServiceCapabilities_Group;
+	UNIX_DHCPCapabilities group_UNIX_DHCPCapabilities_Component;
+	int group_UNIX_DHCPCapabilities_Index;
+	bool endOf_UNIX_DHCPCapabilities_Group;
+	UNIX_OperatingSystemCapabilities group_UNIX_OperatingSystemCapabilities_Component;
+	int group_UNIX_OperatingSystemCapabilities_Index;
+	bool endOf_UNIX_OperatingSystemCapabilities_Group;
+	UNIX_WiFiEndpointCapabilities group_UNIX_WiFiEndpointCapabilities_Component;
+	int group_UNIX_WiFiEndpointCapabilities_Index;
+	bool endOf_UNIX_WiFiEndpointCapabilities_Group;
+	UNIX_NetworkPortCapabilities group_UNIX_NetworkPortCapabilities_Component;
+	int group_UNIX_NetworkPortCapabilities_Index;
+	bool endOf_UNIX_NetworkPortCapabilities_Group;
+	UNIX_WiFiPortCapabilities group_UNIX_WiFiPortCapabilities_Component;
+	int group_UNIX_WiFiPortCapabilities_Index;
+	bool endOf_UNIX_WiFiPortCapabilities_Group;
+	UNIX_FCPortCapabilities group_UNIX_FCPortCapabilities_Component;
+	int group_UNIX_FCPortCapabilities_Index;
+	bool endOf_UNIX_FCPortCapabilities_Group;
+	UNIX_VirtualSystemManagementCapabilities group_UNIX_VirtualSystemManagementCapabilities_Component;
+	int group_UNIX_VirtualSystemManagementCapabilities_Index;
+	bool endOf_UNIX_VirtualSystemManagementCapabilities_Group;
+	UNIX_ProcessorCapabilities group_UNIX_ProcessorCapabilities_Component;
+	int group_UNIX_ProcessorCapabilities_Index;
+	bool endOf_UNIX_ProcessorCapabilities_Group;
+	UNIX_LaunchInContextCapabilities group_UNIX_LaunchInContextCapabilities_Component;
+	int group_UNIX_LaunchInContextCapabilities_Index;
+	bool endOf_UNIX_LaunchInContextCapabilities_Group;
+	UNIX_AccountManagementCapabilities group_UNIX_AccountManagementCapabilities_Component;
+	int group_UNIX_AccountManagementCapabilities_Index;
+	bool endOf_UNIX_AccountManagementCapabilities_Group;
+	UNIX_CLPCapabilities group_UNIX_CLPCapabilities_Component;
+	int group_UNIX_CLPCapabilities_Index;
+	bool endOf_UNIX_CLPCapabilities_Group;
+	UNIX_SSHCapabilities group_UNIX_SSHCapabilities_Component;
+	int group_UNIX_SSHCapabilities_Index;
+	bool endOf_UNIX_SSHCapabilities_Group;
+	UNIX_PowerUtilizationManagementCapabilities group_UNIX_PowerUtilizationManagementCapabilities_Component;
+	int group_UNIX_PowerUtilizationManagementCapabilities_Index;
+	bool endOf_UNIX_PowerUtilizationManagementCapabilities_Group;
+	UNIX_CredentialManagementCapabilities group_UNIX_CredentialManagementCapabilities_Component;
+	int group_UNIX_CredentialManagementCapabilities_Index;
+	bool endOf_UNIX_CredentialManagementCapabilities_Group;
+	UNIX_CertificateManagementCapabilities group_UNIX_CertificateManagementCapabilities_Component;
+	int group_UNIX_CertificateManagementCapabilities_Index;
+	bool endOf_UNIX_CertificateManagementCapabilities_Group;
+	UNIX_VLANEndpointCapabilities group_UNIX_VLANEndpointCapabilities_Component;
+	int group_UNIX_VLANEndpointCapabilities_Index;
+	bool endOf_UNIX_VLANEndpointCapabilities_Group;
+	UNIX_QueryCapabilities group_UNIX_QueryCapabilities_Component;
+	int group_UNIX_QueryCapabilities_Index;
+	bool endOf_UNIX_QueryCapabilities_Group;
+	UNIX_StorageReplicationCapabilities group_UNIX_StorageReplicationCapabilities_Component;
+	int group_UNIX_StorageReplicationCapabilities_Index;
+	bool endOf_UNIX_StorageReplicationCapabilities_Group;
+	UNIX_IEEE8021xCapabilities group_UNIX_IEEE8021xCapabilities_Component;
+	int group_UNIX_IEEE8021xCapabilities_Index;
+	bool endOf_UNIX_IEEE8021xCapabilities_Group;
+	UNIX_CommonDatabaseCapabilities group_UNIX_CommonDatabaseCapabilities_Component;
+	int group_UNIX_CommonDatabaseCapabilities_Index;
+	bool endOf_UNIX_CommonDatabaseCapabilities_Group;
+	UNIX_BIOSServiceCapabilities group_UNIX_BIOSServiceCapabilities_Component;
+	int group_UNIX_BIOSServiceCapabilities_Index;
+	bool endOf_UNIX_BIOSServiceCapabilities_Group;
+	UNIX_StorageCapabilities group_UNIX_StorageCapabilities_Component;
+	int group_UNIX_StorageCapabilities_Index;
+	bool endOf_UNIX_StorageCapabilities_Group;
+	UNIX_OSPFServiceCapabilities group_UNIX_OSPFServiceCapabilities_Component;
+	int group_UNIX_OSPFServiceCapabilities_Index;
+	bool endOf_UNIX_OSPFServiceCapabilities_Group;
+	UNIX_ComputerSystemNodeCapabilities group_UNIX_ComputerSystemNodeCapabilities_Component;
+	int group_UNIX_ComputerSystemNodeCapabilities_Index;
+	bool endOf_UNIX_ComputerSystemNodeCapabilities_Group;
+	UNIX_StatisticsCapabilities group_UNIX_StatisticsCapabilities_Component;
+	int group_UNIX_StatisticsCapabilities_Index;
+	bool endOf_UNIX_StatisticsCapabilities_Group;
+	UNIX_BlockStatisticsCapabilities group_UNIX_BlockStatisticsCapabilities_Component;
+	int group_UNIX_BlockStatisticsCapabilities_Index;
+	bool endOf_UNIX_BlockStatisticsCapabilities_Group;
+	UNIX_PhysicalAssetCapabilities group_UNIX_PhysicalAssetCapabilities_Component;
+	int group_UNIX_PhysicalAssetCapabilities_Index;
+	bool endOf_UNIX_PhysicalAssetCapabilities_Group;
+	UNIX_DeviceSharingCapabilities group_UNIX_DeviceSharingCapabilities_Component;
+	int group_UNIX_DeviceSharingCapabilities_Index;
+	bool endOf_UNIX_DeviceSharingCapabilities_Group;
+	UNIX_IndicationServiceCapabilities group_UNIX_IndicationServiceCapabilities_Component;
+	int group_UNIX_IndicationServiceCapabilities_Index;
+	bool endOf_UNIX_IndicationServiceCapabilities_Group;
+	UNIX_AllocationCapabilities group_UNIX_AllocationCapabilities_Component;
+	int group_UNIX_AllocationCapabilities_Index;
+	bool endOf_UNIX_AllocationCapabilities_Group;
+	UNIX_LocalizationCapabilities group_UNIX_LocalizationCapabilities_Component;
+	int group_UNIX_LocalizationCapabilities_Index;
+	bool endOf_UNIX_LocalizationCapabilities_Group;
+	UNIX_SoftwareInstallationServiceCapabilities group_UNIX_SoftwareInstallationServiceCapabilities_Component;
+	int group_UNIX_SoftwareInstallationServiceCapabilities_Index;
+	bool endOf_UNIX_SoftwareInstallationServiceCapabilities_Group;
+	UNIX_VirtualSystemSnapshotServiceCapabilities group_UNIX_VirtualSystemSnapshotServiceCapabilities_Component;
+	int group_UNIX_VirtualSystemSnapshotServiceCapabilities_Index;
+	bool endOf_UNIX_VirtualSystemSnapshotServiceCapabilities_Group;
+	UNIX_SCSIMultipathConfigurationCapabilities group_UNIX_SCSIMultipathConfigurationCapabilities_Component;
+	int group_UNIX_SCSIMultipathConfigurationCapabilities_Index;
+	bool endOf_UNIX_SCSIMultipathConfigurationCapabilities_Group;
+	UNIX_ZoneCapabilities group_UNIX_ZoneCapabilities_Component;
+	int group_UNIX_ZoneCapabilities_Index;
+	bool endOf_UNIX_ZoneCapabilities_Group;
+	UNIX_iSCSICapabilities group_UNIX_iSCSICapabilities_Component;
+	int group_UNIX_iSCSICapabilities_Index;
+	bool endOf_UNIX_iSCSICapabilities_Group;
+	UNIX_PowerManagementCapabilities group_UNIX_PowerManagementCapabilities_Component;
+	int group_UNIX_PowerManagementCapabilities_Index;
+	bool endOf_UNIX_PowerManagementCapabilities_Group;
+	UNIX_DiagnosticServiceCapabilities group_UNIX_DiagnosticServiceCapabilities_Component;
+	int group_UNIX_DiagnosticServiceCapabilities_Index;
+	bool endOf_UNIX_DiagnosticServiceCapabilities_Group;
+	UNIX_FileSystemCapabilities group_UNIX_FileSystemCapabilities_Component;
+	int group_UNIX_FileSystemCapabilities_Index;
+	bool endOf_UNIX_FileSystemCapabilities_Group;
+	UNIX_VirtualSystemSnapshotCapabilities group_UNIX_VirtualSystemSnapshotCapabilities_Component;
+	int group_UNIX_VirtualSystemSnapshotCapabilities_Index;
+	bool endOf_UNIX_VirtualSystemSnapshotCapabilities_Group;
+	UNIX_ResourcePoolConfigurationCapabilities group_UNIX_ResourcePoolConfigurationCapabilities_Component;
+	int group_UNIX_ResourcePoolConfigurationCapabilities_Index;
+	bool endOf_UNIX_ResourcePoolConfigurationCapabilities_Group;
+	UNIX_PrivilegeManagementCapabilities group_UNIX_PrivilegeManagementCapabilities_Component;
+	int group_UNIX_PrivilegeManagementCapabilities_Index;
+	bool endOf_UNIX_PrivilegeManagementCapabilities_Group;
+	UNIX_RoleBasedManagementCapabilities group_UNIX_RoleBasedManagementCapabilities_Component;
+	int group_UNIX_RoleBasedManagementCapabilities_Index;
+	bool endOf_UNIX_RoleBasedManagementCapabilities_Group;
+	UNIX_StorageConfigurationCapabilities group_UNIX_StorageConfigurationCapabilities_Component;
+	int group_UNIX_StorageConfigurationCapabilities_Index;
+	bool endOf_UNIX_StorageConfigurationCapabilities_Group;
+	UNIX_ProtocolControllerMaskingCapabilities group_UNIX_ProtocolControllerMaskingCapabilities_Component;
+	int group_UNIX_ProtocolControllerMaskingCapabilities_Index;
+	bool endOf_UNIX_ProtocolControllerMaskingCapabilities_Group;
+	UNIX_IKEProposal part_UNIX_IKEProposal_Component;
+	int part_UNIX_IKEProposal_Index;
+	bool endOf_UNIX_IKEProposal_Part;
+	UNIX_IPsecProposal part_UNIX_IPsecProposal_Component;
+	int part_UNIX_IPsecProposal_Index;
+	bool endOf_UNIX_IPsecProposal_Part;
+	UNIX_DatabaseParameter part_UNIX_DatabaseParameter_Component;
+	int part_UNIX_DatabaseParameter_Index;
+	bool endOf_UNIX_DatabaseParameter_Part;
+	UNIX_DatabaseSegmentSettingData part_UNIX_DatabaseSegmentSettingData_Component;
+	int part_UNIX_DatabaseSegmentSettingData_Index;
+	bool endOf_UNIX_DatabaseSegmentSettingData_Part;
+	UNIX_IPCOMPTransform part_UNIX_IPCOMPTransform_Component;
+	int part_UNIX_IPCOMPTransform_Index;
+	bool endOf_UNIX_IPCOMPTransform_Part;
+	UNIX_ESPTransform part_UNIX_ESPTransform_Component;
+	int part_UNIX_ESPTransform_Index;
+	bool endOf_UNIX_ESPTransform_Part;
+	UNIX_AHTransform part_UNIX_AHTransform_Component;
+	int part_UNIX_AHTransform_Index;
+	bool endOf_UNIX_AHTransform_Part;
+	UNIX_FileSystemSettingData part_UNIX_FileSystemSettingData_Component;
+	int part_UNIX_FileSystemSettingData_Index;
+	bool endOf_UNIX_FileSystemSettingData_Part;
+	UNIX_ExtendedStaticIPAssignmentSettingData part_UNIX_ExtendedStaticIPAssignmentSettingData_Component;
+	int part_UNIX_ExtendedStaticIPAssignmentSettingData_Index;
+	bool endOf_UNIX_ExtendedStaticIPAssignmentSettingData_Part;
+	UNIX_DHCPSettingData part_UNIX_DHCPSettingData_Component;
+	int part_UNIX_DHCPSettingData_Index;
+	bool endOf_UNIX_DHCPSettingData_Part;
+	UNIX_DNSGeneralSettingData part_UNIX_DNSGeneralSettingData_Component;
+	int part_UNIX_DNSGeneralSettingData_Index;
+	bool endOf_UNIX_DNSGeneralSettingData_Part;
+	UNIX_DNSSettingData part_UNIX_DNSSettingData_Component;
+	int part_UNIX_DNSSettingData_Index;
+	bool endOf_UNIX_DNSSettingData_Part;
+	UNIX_StaticIPAssignmentSettingData part_UNIX_StaticIPAssignmentSettingData_Component;
+	int part_UNIX_StaticIPAssignmentSettingData_Index;
+	bool endOf_UNIX_StaticIPAssignmentSettingData_Part;
+	UNIX_iSCSISessionSettings part_UNIX_iSCSISessionSettings_Component;
+	int part_UNIX_iSCSISessionSettings_Index;
+	bool endOf_UNIX_iSCSISessionSettings_Part;
+	UNIX_DiagnosticSettingData part_UNIX_DiagnosticSettingData_Component;
+	int part_UNIX_DiagnosticSettingData_Index;
+	bool endOf_UNIX_DiagnosticSettingData_Part;
+	UNIX_StatisticalSetting part_UNIX_StatisticalSetting_Component;
+	int part_UNIX_StatisticalSetting_Index;
+	bool endOf_UNIX_StatisticalSetting_Part;
+	UNIX_StorageSetting part_UNIX_StorageSetting_Component;
+	int part_UNIX_StorageSetting_Index;
+	bool endOf_UNIX_StorageSetting_Part;
+	UNIX_StorageSettingWithHints part_UNIX_StorageSettingWithHints_Component;
+	int part_UNIX_StorageSettingWithHints_Index;
+	bool endOf_UNIX_StorageSettingWithHints_Part;
+	UNIX_EthernetPortAllocationSettingData part_UNIX_EthernetPortAllocationSettingData_Component;
+	int part_UNIX_EthernetPortAllocationSettingData_Index;
+	bool endOf_UNIX_EthernetPortAllocationSettingData_Part;
+	UNIX_ProcessorAllocationSettingData part_UNIX_ProcessorAllocationSettingData_Component;
+	int part_UNIX_ProcessorAllocationSettingData_Index;
+	bool endOf_UNIX_ProcessorAllocationSettingData_Part;
+	UNIX_PowerAllocationSettingData part_UNIX_PowerAllocationSettingData_Component;
+	int part_UNIX_PowerAllocationSettingData_Index;
+	bool endOf_UNIX_PowerAllocationSettingData_Part;
+	UNIX_StorageAllocationSettingData part_UNIX_StorageAllocationSettingData_Component;
+	int part_UNIX_StorageAllocationSettingData_Index;
+	bool endOf_UNIX_StorageAllocationSettingData_Part;
+	UNIX_BootConfigSetting part_UNIX_BootConfigSetting_Component;
+	int part_UNIX_BootConfigSetting_Index;
+	bool endOf_UNIX_BootConfigSetting_Part;
+	UNIX_SSHSettingData part_UNIX_SSHSettingData_Component;
+	int part_UNIX_SSHSettingData_Index;
+	bool endOf_UNIX_SSHSettingData_Part;
+	UNIX_IndicationServiceSettingData part_UNIX_IndicationServiceSettingData_Component;
+	int part_UNIX_IndicationServiceSettingData_Index;
+	bool endOf_UNIX_IndicationServiceSettingData_Part;
+	UNIX_VirtualSystemSettingData part_UNIX_VirtualSystemSettingData_Component;
+	int part_UNIX_VirtualSystemSettingData_Index;
+	bool endOf_UNIX_VirtualSystemSettingData_Part;
+	UNIX_VirtualEthernetSwitchSettingData part_UNIX_VirtualEthernetSwitchSettingData_Component;
+	int part_UNIX_VirtualEthernetSwitchSettingData_Index;
+	bool endOf_UNIX_VirtualEthernetSwitchSettingData_Part;
+	UNIX_IEEE8021xSettings part_UNIX_IEEE8021xSettings_Component;
+	int part_UNIX_IEEE8021xSettings_Index;
+	bool endOf_UNIX_IEEE8021xSettings_Part;
+	UNIX_VLANEndpointSettingData part_UNIX_VLANEndpointSettingData_Component;
+	int part_UNIX_VLANEndpointSettingData_Index;
+	bool endOf_UNIX_VLANEndpointSettingData_Part;
+	UNIX_LogicalPortSettings part_UNIX_LogicalPortSettings_Component;
+	int part_UNIX_LogicalPortSettings_Index;
+	bool endOf_UNIX_LogicalPortSettings_Part;
+	UNIX_StorageClientSettingData part_UNIX_StorageClientSettingData_Component;
+	int part_UNIX_StorageClientSettingData_Index;
+	bool endOf_UNIX_StorageClientSettingData_Part;
+	UNIX_VirtualSystemMigrationSettingData part_UNIX_VirtualSystemMigrationSettingData_Component;
+	int part_UNIX_VirtualSystemMigrationSettingData_Index;
+	bool endOf_UNIX_VirtualSystemMigrationSettingData_Part;
+	UNIX_VideoHeadResolution part_UNIX_VideoHeadResolution_Component;
+	int part_UNIX_VideoHeadResolution_Index;
+	bool endOf_UNIX_VideoHeadResolution_Part;
+	UNIX_BootSettingData part_UNIX_BootSettingData_Component;
+	int part_UNIX_BootSettingData_Index;
+	bool endOf_UNIX_BootSettingData_Part;
+	UNIX_CLPSettingData part_UNIX_CLPSettingData_Component;
+	int part_UNIX_CLPSettingData_Index;
+	bool endOf_UNIX_CLPSettingData_Part;
+	UNIX_WiFiNetworkDetectionSettings part_UNIX_WiFiNetworkDetectionSettings_Component;
+	int part_UNIX_WiFiNetworkDetectionSettings_Index;
+	bool endOf_UNIX_WiFiNetworkDetectionSettings_Part;
+	UNIX_SCSIMultipathSettings part_UNIX_SCSIMultipathSettings_Component;
+	int part_UNIX_SCSIMultipathSettings_Index;
+	bool endOf_UNIX_SCSIMultipathSettings_Part;
+	UNIX_CommonDatabaseSettingData part_UNIX_CommonDatabaseSettingData_Component;
+	int part_UNIX_CommonDatabaseSettingData_Index;
+	bool endOf_UNIX_CommonDatabaseSettingData_Part;
+	UNIX_WiFiEndpointSettings part_UNIX_WiFiEndpointSettings_Component;
+	int part_UNIX_WiFiEndpointSettings_Index;
+	bool endOf_UNIX_WiFiEndpointSettings_Part;
+	UNIX_iSCSIConnectionSettings part_UNIX_iSCSIConnectionSettings_Component;
+	int part_UNIX_iSCSIConnectionSettings_Index;
+	bool endOf_UNIX_iSCSIConnectionSettings_Part;
+	UNIX_AccountSettingData part_UNIX_AccountSettingData_Component;
+	int part_UNIX_AccountSettingData_Index;
+	bool endOf_UNIX_AccountSettingData_Part;
+	UNIX_ConnectivityMembershipSettingData part_UNIX_ConnectivityMembershipSettingData_Component;
+	int part_UNIX_ConnectivityMembershipSettingData_Index;
+	bool endOf_UNIX_ConnectivityMembershipSettingData_Part;
+	UNIX_ZoneMembershipSettingData part_UNIX_ZoneMembershipSettingData_Component;
+	int part_UNIX_ZoneMembershipSettingData_Index;
+	bool endOf_UNIX_ZoneMembershipSettingData_Part;
+	UNIX_BootSourceSetting part_UNIX_BootSourceSetting_Component;
+	int part_UNIX_BootSourceSetting_Index;
+	bool endOf_UNIX_BootSourceSetting_Part;
+	UNIX_SAEndpointRefreshSettings part_UNIX_SAEndpointRefreshSettings_Component;
+	int part_UNIX_SAEndpointRefreshSettings_Index;
+	bool endOf_UNIX_SAEndpointRefreshSettings_Part;
+	UNIX_IPVersionSettingData part_UNIX_IPVersionSettingData_Component;
+	int part_UNIX_IPVersionSettingData_Index;
+	bool endOf_UNIX_IPVersionSettingData_Part;
+	UNIX_JobSettingData part_UNIX_JobSettingData_Component;
+	int part_UNIX_JobSettingData_Index;
+	bool endOf_UNIX_JobSettingData_Part;
+	UNIX_FCSwitchSettings part_UNIX_FCSwitchSettings_Component;
+	int part_UNIX_FCSwitchSettings_Index;
+	bool endOf_UNIX_FCSwitchSettings_Part;
+
+
+};
+
+#endif /* UNIX_SETTINGSDEFINECAPABILITIES */

@@ -1,0 +1,148 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.8.1000" ), 
+    UMLPackagePath ( "CIM::Device::ProtocolController" ), 
+    Description ( 
+       "This association indicates a subclass of LogicalDevice (for "
+       "example a Storage Volume) is connected through a specific "
+       "ProtocolController. In many situations (for example storage "
+       "LUN masking), there may be many of these associations used to "
+       "relate to different objects. Therefore subclasses have been "
+       "defined to optimize enumeration of the associations." )]
+class CIM_ProtocolControllerForDevice : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The ProtocolController." )]
+   CIM_ProtocolController REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The controlled Device." )]
+   CIM_LogicalDevice REF Dependent;
+
+      [Description ( 
+          "Address of the associated Device in the context of the "
+          "Antecedent Controller." )]
+   string DeviceNumber;
+
+      [Description ( 
+          "This property describes the priority given to accesses "
+          "of the device through this Controller. The highest "
+          "priority path will have the lowest value for this "
+          "parameter." )]
+   uint16 AccessPriority;
+
+      [Description ( 
+          "The AccessState property describes the accessibility of "
+          "the LogicalDevice through the ProtocolController. \n"
+          "Unknown (0) indicates the instrumentation does not know "
+          "whether access is or is not functioning. \n"
+          "Active (2) indicates normal access. \n"
+          "Inactive (3) indicates the instrumentation knows this "
+          "path is not active, and one of the other values (below) "
+          "does not apply. \n"
+          "Replication in Progress (4) indicates that the path is "
+          "temporarily inactive due to a replication activity. \n"
+          "Mapping Inconsistency (5) indicates the instrumentation "
+          "has detected that this path is inactive due to an "
+          "inconsistency in the DeviceNumber/DeviceAccess "
+          "configuration." ), 
+       ValueMap { "0", "2", "3", "4", "5" }, 
+       Values { "Unknown", "Active", "Inactive", 
+          "Replication In Progress", "Mapping Inconsistency" }]
+   uint16 AccessState;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Device::ProtocolController" ), 
+    Description ( 
+       "This association is used to define a relationship between a "
+       "protocol controllers and a Logical Unit (for example a Storage "
+       "Volume or Media Access Device) controlled by the controller. "
+       "This association is used instead of ProtocolControllerForUnit "
+       "to indicate a \'controlled through\' relationship rather than "
+       "a \'controlled by\' one. An example is SCSI where this "
+       "association is used to indicate a target/initiator "
+       "relationship." )]
+class CIM_ProtocolControllerAccessesUnit : CIM_ProtocolControllerForDevice {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The protocol controller." )]
+   CIM_ProtocolController REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The logical unit (eg StorageVolume)." )]
+   CIM_LogicalDevice REF Dependent;
+
+      [Description ( 
+          "The number of the dependent\'s target protocol "
+          "controller. As an example, in SCSI this is the Target "
+          "ID." )]
+   string TargetControllerNumber;
+
+
+};
+
+
+
+class UNIX_ProtocolControllerAccessesUnit : CIM_ProtocolControllerAccessesUnit
+{
+
+};
+

@@ -1,0 +1,128 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Component is a generic association used to establish \'part "
+       "of\' relationships between Managed Elements. For example, it "
+       "could be used to define the components or parts of a System." )]
+class CIM_Component {
+
+      [Key, Aggregate, Description ( 
+          "The parent element in the association." )]
+   CIM_ManagedElement REF GroupComponent;
+
+      [Key, Description ( "The child element in the association." )]
+   CIM_ManagedElement REF PartComponent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Aggregation, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Physical::Package" ), 
+    Description ( 
+       "The Container association represents the relationship between "
+       "a contained and a containing PhysicalElement. A containing "
+       "object must be a PhysicalPackage." )]
+class CIM_Container : CIM_Component {
+
+      [Aggregate, Override ( "GroupComponent" ), 
+       Max ( 1 ), 
+       Description ( 
+          "The PhysicalPackage that contains other "
+          "PhysicalElements, including other Packages." ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalContainedIn" }]
+   CIM_PhysicalPackage REF GroupComponent;
+
+      [Override ( "PartComponent" ), 
+       Description ( 
+          "The PhysicalElement which is contained in the Package." )]
+   CIM_PhysicalElement REF PartComponent;
+
+      [Description ( 
+          "A free-form string representing the positioning of the "
+          "PhysicalElement within the PhysicalPackage. Information "
+          "relative to stationary elements in the Container (for "
+          "example, \'second drive bay from the top\'), angles, "
+          "altitudes and other data may be recorded in this "
+          "property. This string could supplement or be used in "
+          "place of instantiating the CIM_Location object." ), 
+       MappingStrings { "MIB.IETF|Entity-MIB.entPhysicalParentRelPos" }]
+   string LocationWithinContainer;
+
+
+};
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Association, Aggregation, Version ( "2.21.0" ), 
+    UMLPackagePath ( "CIM::Physical::Package" ), 
+    Description ( 
+       "Racks, as simple enclosures, contain Chassis that provide the "
+       "physical componentry realizing processing nodes, storage "
+       "devices, UPSs, etc. The ChassisInRack association makes "
+       "explicit the \'containing\' relationship between the Rack and "
+       "the Chassis." )]
+class CIM_ChassisInRack : CIM_Container {
+
+      [Aggregate, Override ( "GroupComponent" ), 
+       Max ( 1 ), 
+       Description ( "The Rack that contains the Chassis." )]
+   CIM_Rack REF GroupComponent;
+
+      [Override ( "PartComponent" ), 
+       Description ( "The Chassis which is mounted in the Rack." )]
+   CIM_Chassis REF PartComponent;
+
+      [Description ( 
+          "An integer indicating the lowest or \'bottom\' U in "
+          "which the Chassis is mounted. A \'U\' is a standard unit "
+          "of measure for the height of a Rack or rack-mountable "
+          "component. It is equal to 1.75 inches or 4.445 cm." ), 
+       Units ( "Us" ), 
+       PUnit ( "rack unit" )]
+   uint16 BottomU;
+
+
+};
+
+
+
+class UNIX_ChassisInRack : CIM_ChassisInRack
+{
+
+};
+

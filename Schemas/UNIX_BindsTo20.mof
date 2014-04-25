@@ -1,0 +1,116 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::Service" ), 
+    Description ( 
+       "CIM_SAPSAPDependency is an association between one "
+       "ServiceAccessPoint and another ServiceAccessPoint that "
+       "indicates that the latter is required for the former to "
+       "utilize or connect with its Service. For example, to print to "
+       "a network printer, local Print Access Points must utilize "
+       "underlying network-related SAPs, or ProtocolEndpoints, to send "
+       "the print request." )]
+class CIM_SAPSAPDependency : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The required ServiceAccessPoint." )]
+   CIM_ServiceAccessPoint REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "The ServiceAccessPoint that is dependent on an underlying SAP."
+           )]
+   CIM_ServiceAccessPoint REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::Service" ), 
+    Description ( 
+       "This association establishes a ServiceAccessPoint as a "
+       "requestor of protocol services from a ProtocolEndpoint. "
+       "Typically, this association runs between SAPs and endpoints on "
+       "a single system. Because a ProtocolEndpoint is a kind of "
+       "ServiceAccessPoint, this binding can be used to establish a "
+       "layering of two protocols, with the upper layer represented by "
+       "the Dependent and the lower layer represented by the "
+       "Antecedent." )]
+class CIM_BindsTo : CIM_SAPSAPDependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( 
+          "The lower-level endpoint that is accessed by the SAP." )]
+   CIM_ProtocolEndpoint REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "The AccessPoint or ProtocolEndpoint that is dependent on "
+          "the lower-level endpoint." )]
+   CIM_ServiceAccessPoint REF Dependent;
+
+
+};
+
+
+
+class UNIX_BindsTo : CIM_BindsTo
+{
+
+};
+

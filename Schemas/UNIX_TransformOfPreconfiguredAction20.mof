@@ -1,0 +1,116 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::IPsecPolicy" ), 
+    Description ( 
+       "TransformOfPreconfiguredAction defines the transforms used by "
+       "a preconfigured IPsec action. Two, four or six SATransforms "
+       "can be associated to a PreconfiguredSAAction (applied to the "
+       "inbound and outbound traffic, as indicated by the Direction "
+       "property of this association). The order of application of the "
+       "SATransforms is implicitly defined in RFC2401." ), 
+    MappingStrings { 
+       "IPSP Policy Model.IETF|TransformOfPreconfiguredAction" }]
+class CIM_TransformOfPreconfiguredAction : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Min ( 2 ), 
+       Max ( 6 ), 
+       Description ( 
+          "This defines the type of transform used by the "
+          "referenced PreconfiguredSAAction. A minimum of 2 and "
+          "maximum of 6 transforms can be defined, for the "
+          "inbound/outbound directions, representing AH, ESP, "
+          "and/or an IPCOMP transforms." ), 
+       MappingStrings { 
+          "IPSP Policy Model.IETF|TransformOfPreconfiguredAction.Antecedent" }]
+   CIM_SATransform REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "This defines the PreconfiguredSAAction which uses the "
+          "AH, ESP, and/or IPCOMP transforms." ), 
+       MappingStrings { 
+          "IPSP Policy Model.IETF|TransformOfPreconfiguredAction.Dependent" }]
+   CIM_PreconfiguredSAAction REF Dependent;
+
+      [Description ( 
+          "The SPI property specifies the security parameter index "
+          "to be used by the pre-configured action for the "
+          "associated transform." ), 
+       MappingStrings { 
+          "IPSP Policy Model.IETF|TransformOfPreconfiguredAction.SPI" }, 
+       ModelCorrespondence { "CIM_IPsecSAEndpoint.SPI" }]
+   uint32 SPI;
+
+      [Description ( 
+          "InboundDirection specifies whether the SA applies to "
+          "inbound (TRUE) or outbound (FALSE) traffic." ), 
+       MappingStrings { 
+          "IPSP Policy Model.IETF|TransformOfPreconfiguredAction.Direction" }, 
+       ModelCorrespondence { "CIM_IPsecSAEndpoint.InboundDirection" }]
+   boolean InboundDirection;
+
+
+};
+
+
+
+class UNIX_TransformOfPreconfiguredAction : CIM_TransformOfPreconfiguredAction
+{
+
+};
+

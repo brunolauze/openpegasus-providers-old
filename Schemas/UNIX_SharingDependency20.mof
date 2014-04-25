@@ -1,0 +1,164 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "HostedDependency defines a ManagedElement in the context of "
+       "another ManagedElement in which it resides." )]
+class CIM_HostedDependency : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Max ( 1 ), 
+       Description ( "The scoping ManagedElement." )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The hosted ManagedElement." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Association, Version ( "2.22.0" ), 
+    UMLPackagePath ( "CIM::Device::SCSI" ), 
+    Description ( 
+       "In some configurations, a logical device may be shared among "
+       "multiple systems while only belonging to one. When modeling "
+       "this sharing relationship, one instance of LogicalDevice "
+       "exists to model the resource. This instance is associated with "
+       "the owning system via the SystemDevice association. An "
+       "additional instance of LogicalDevice will exist for each "
+       "system the device is shared with to represent the device in "
+       "the context of each System it is shared with. Each of these "
+       "instances is associated with a single instance of System via "
+       "an instance of the SystemDevice association. This is very "
+       "similar to the way that virtual devices are modeled. However, "
+       "there are additional semantics associated with shared devices "
+       "that need to be modeled, including the current access of a "
+       "sharing system to the shared device. The SharingDependency "
+       "association will be used to add support for modeling this "
+       "additional semantic. It is used to associate a LogicalDevice "
+       "instance in the sharing system to the LogicalDevice "
+       "representing the underlying shared resource." )]
+class CIM_SharingDependency : CIM_HostedDependency {
+
+      [Override ( "Antecedent" ), 
+       Max ( 1 ), 
+       Description ( "The shared LogicalDevice." )]
+   CIM_LogicalDevice REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "The LogicalDevice owned by the sharing System." )]
+   CIM_LogicalDevice REF Dependent;
+
+      [Description ( 
+          "CurrentAccess describes the current ability of the "
+          "System owning the Dependent LogicalDevice to access the "
+          "shared device. This property does not model whether or "
+          "not the referenced System is authorized to utilize the "
+          "shared resource. It is intended to model the current "
+          "sharing relationship the system has to the device. "
+          "Authorization for a user or service running within the "
+          "system would be modeled identical to if the resource was "
+          "owned exclusively by the system. However, the ability of "
+          "an authorized user to utilize a shared resource is "
+          "contingent on the System having access to the shared "
+          "resource. \n"
+          "Unknown (0) indicates that the current access of the "
+          "System to the shared resource is unknown \n"
+          "No Access (1) indicates that the System currently does "
+          "not have access to the shared resource \n"
+          "Exclusive Access (2) indicates that the System has "
+          "exclusive access to the shared resource. The resource is "
+          "effectively locked. Granting another System access to "
+          "the shared resource will cause this system to lose "
+          "access. \n"
+          "Shared Read (3) indicates that the System is accessing "
+          "the resource in a read only mode. Other Systems can have "
+          "concurrent access to the device of type \"Shared Read\" "
+          "or \"Shared Full\" \n"
+          "Shared Full (4) indicates that the System is accessing "
+          "the resource in read/write mode. Other Systems can have "
+          "concurrent access to the device of type \"Shared Read\" "
+          "or \"Shared Full\"." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "..", "32768..65535" }, 
+       Values { "Unknown", "Other", "No Access", "Exclusive Access", 
+          "Shared Read", "Shared Full", "DMTF Reserved", 
+          "Vendor Reserved" }, 
+       ModelCorrespondence { 
+          "CIM_SharingDependency.OtherCurrentAccess", 
+          "CIM_DeviceSharingCapabilities.SupportedAccessModes" }]
+   uint16 CurrentAccess;
+
+      [Description ( 
+          "A string value describing CurrentAccess when it has a "
+          "value of \"1 (Other)\"." ), 
+       ModelCorrespondence { "CIM_SharingDependency.CurrentAccess" }]
+   string OtherCurrentAccess;
+
+
+};
+
+
+
+class UNIX_SharingDependency : CIM_SharingDependency
+{
+
+};
+

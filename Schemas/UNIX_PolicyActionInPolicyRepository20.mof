@@ -1,0 +1,159 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "HostedDependency defines a ManagedElement in the context of "
+       "another ManagedElement in which it resides." )]
+class CIM_HostedDependency : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Max ( 1 ), 
+       Description ( "The scoping ManagedElement." )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The hosted ManagedElement." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "CIM_PolicyInSystem is a generic association used to establish "
+       "dependency relationships between Policies and the Systems that "
+       "host them. These Systems may be ComputerSystems where Policies "
+       "are \'running\' or they may be Policy Repositories where "
+       "Policies are stored. This relationship is similar to the "
+       "concept of CIM_Services being dependent on CIM_Systems as "
+       "defined by the HostedService association. \n"
+       "\n"
+       "Cardinality is Max (1) for the Antecedent/System reference "
+       "since Policies can only be hosted in at most one System "
+       "context. Some subclasses of the association will further "
+       "refine this definition to make the Policies Weak to Systems. "
+       "Other subclasses of PolicyInSystem will define an optional "
+       "hosting relationship. Examples of each of these are the "
+       "PolicyRuleInSystem and PolicyConditionIn PolicyRepository "
+       "associations, respectively." )]
+class CIM_PolicyInSystem : CIM_HostedDependency {
+
+      [Override ( "Antecedent" ), 
+       Max ( 1 ), 
+       Description ( "The hosting System." )]
+   CIM_System REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The hosted Policy." )]
+   CIM_Policy REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_ReusablePolicy" }, 
+    Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Policy" ), 
+    Description ( 
+       "The ReusablePolicy association is a more general relationship "
+       "that incorporates both Conditions and Actions as well as any "
+       "other policy subclass. \n"
+       "\n"
+       "This class represents the hosting of reusable PolicyActions by "
+       "a PolicyRepository. A reusable Policy Action is always related "
+       "to a single PolicyRepository, via this association. \n"
+       "\n"
+       "Note, that an instance of PolicyAction can be either reusable "
+       "or rule-specific. When the Action is rule- specific, it shall "
+       "not be related to any PolicyRepository via the "
+       "PolicyActionInPolicyRepository association." )]
+class CIM_PolicyActionInPolicyRepository : CIM_PolicyInSystem {
+
+      [Deprecated { "CIM_ReusablePolicy.Antecedent" }, 
+       Override ( "Antecedent" ), 
+       Max ( 1 ), 
+       Description ( 
+          "This property represents a PolicyRepository hosting one "
+          "or more PolicyActions. A reusable PolicyAction is always "
+          "related to exactly one PolicyRepository via the "
+          "PolicyActionInPolicyRepository association. The [0..1] "
+          "cardinality for this property covers the two types of "
+          "PolicyActions: 0 for a rule-specific PolicyAction, 1 for "
+          "a reusable one." )]
+   CIM_PolicyRepository REF Antecedent;
+
+      [Deprecated { "CIM_ReusablePolicy.Dependent" }, 
+       Override ( "Dependent" ), 
+       Description ( 
+          "This property holds the name of a PolicyAction hosted in "
+          "the PolicyRepository." )]
+   CIM_PolicyAction REF Dependent;
+
+
+};
+
+
+
+class UNIX_PolicyActionInPolicyRepository : CIM_PolicyActionInPolicyRepository
+{
+
+};
+

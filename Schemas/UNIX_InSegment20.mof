@@ -1,0 +1,142 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Aggregation, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Core::Collection" ), 
+    Description ( 
+       "CIM_MemberOfCollection is an aggregation used to establish "
+       "membership of ManagedElements in a Collection." )]
+class CIM_MemberOfCollection {
+
+      [Key, Aggregate, Description ( 
+          "The Collection that aggregates members." )]
+   CIM_Collection REF Collection;
+
+      [Key, Description ( "The aggregated member of the Collection." )]
+   CIM_ManagedElement REF Member;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Aggregation, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Core::Collection" ), 
+    Description ( 
+       "CIM_CollectedMSEs is a generic association used to establish "
+       "the members of the grouping object, CollectionOf MSEs." )]
+class CIM_CollectedMSEs : CIM_MemberOfCollection {
+
+      [Aggregate, Override ( "Collection" ), 
+       Description ( 
+          "The grouping or \'bag\' object that represents the Collection."
+           )]
+   CIM_CollectionOfMSEs REF Collection;
+
+      [Override ( "Member" ), 
+       Description ( "The members of the Collection." )]
+   CIM_ManagedSystemElement REF Member;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_MemberOfCollection" }, 
+    Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Network::Collections" ), 
+    Description ( 
+       "This association defines a ProtocolEndpoint as a member of a "
+       "specific LogicalNetwork. \n"
+       "\n"
+       "Since the LogicalNetwork class is deprecated in lieu of "
+       "ConnectivityCollection, this association is no longer "
+       "necessary. It is deprecated to the MemberOfCollection "
+       "association, that is inherited by ConnectivityCollection from "
+       "its superclass, Collection." )]
+class CIM_InLogicalNetwork : CIM_CollectedMSEs {
+
+      [Deprecated { "CIM_MemberOfCollection.Collection" }, 
+       Aggregate, Override ( "Collection" ), 
+       Description ( 
+          "The LogicalNetwork that groups the ProtocolEndpoint instances."
+           )]
+   CIM_LogicalNetwork REF Collection;
+
+      [Deprecated { "CIM_MemberOfCollection.Member" }, 
+       Override ( "Member" ), 
+       Description ( 
+          "The child ProtocolEndpoints that are components of the "
+          "LogicalNetwork." )]
+   CIM_ProtocolEndpoint REF Member;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_MemberOfCollection" }, 
+    Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Network::ProtocolEndpoints" ), 
+    Description ( 
+       "Defines a LANEndpoint as a member of a specific LANSegment. "
+       "Note that one of this association\'s references (LANSegment) "
+       "is deprecated, as well as its superclass (InLogicalNetwork). "
+       "Following the same logic as its parent, this association is "
+       "deprecated to the MemberOfCollection association." )]
+class CIM_InSegment : CIM_InLogicalNetwork {
+
+      [Deprecated { "CIM_MemberOfCollection.Collection" }, 
+       Aggregate, Override ( "Collection" ), 
+       Max ( 1 ), 
+       Description ( 
+          "The LANSegment that groups the LANEndpoint instances." )]
+   CIM_LANSegment REF Collection;
+
+      [Deprecated { "CIM_MemberOfCollection.Member" }, 
+       Override ( "Member" ), 
+       Description ( 
+          "A child LANEndpoint that is a component of the LANSegment."
+           )]
+   CIM_LANEndpoint REF Member;
+
+
+};
+
+
+
+class UNIX_InSegment : CIM_InSegment
+{
+
+};
+

@@ -1,0 +1,148 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_AuthenticationCondition" }, 
+    Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::User::UsersAccess" ), 
+    Description ( 
+       "CIM_UsersCredential is an association used to establish the "
+       "credentials that may be used for a UsersAccess to a system or "
+       "set of systems. \n"
+       "\n"
+       "Since the UsersAccess class is deprecated in lieu of "
+       "CIM_Identity, this association is also deprecated and replaced "
+       "by policy - where the AuthenticationCondition class describes "
+       "the credentials that SHOULD be authenticated in order to "
+       "establish the Identity." )]
+class CIM_UsersCredential : CIM_Dependency {
+
+      [Deprecated { "CIM_AuthenticationCondition" }, 
+       Override ( "Antecedent" ), 
+       Description ( "The issued credential that may be used." )]
+   CIM_Credential REF Antecedent;
+
+      [Deprecated { "CIM_Identity" }, 
+       Override ( "Dependent" ), 
+       Description ( "The UsersAccess that has use of a credential." )]
+   CIM_UsersAccess REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_AuthenticationCondition" }, 
+    Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::User::UsersAccess" ), 
+    Description ( 
+       "This relationship associates a PublicKeyCertificate with the "
+       "Principal who has the PrivateKey used with the PublicKey. The "
+       "PrivateKey is not modeled, since it is not a data element that "
+       "ever SHOULD be accessible via management applications, other "
+       "than key recovery services, which are outside our scope. \n"
+       "\n"
+       "Since the UsersAccess class and this association\'s superclass "
+       "are deprecated, this association is also deprecated. There is "
+       "no need to have a special subclass for public-private "
+       "credentials. This is especially true since the properties of "
+       "the association describe aspects of the certificate and its "
+       "handling. The latter is currently out of scope for the model." )]
+class CIM_PublicPrivateKeyPair : CIM_UsersCredential {
+
+      [Deprecated { "CIM_AuthenticationCondition" }, 
+       Override ( "Antecedent" ), 
+       Description ( "The public key certificate." )]
+   CIM_PublicKeyCertificate REF Antecedent;
+
+      [Deprecated { "CIM_Identity" }, 
+       Override ( "Dependent" ), 
+       Description ( 
+          "The Principal holding the private key (that corresponds "
+          "to the public key." )]
+   CIM_UsersAccess REF Dependent;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "The Certificate may be used for signature only or for "
+          "confidentiality as well as signature." ), 
+       ValueMap { "0", "1" }, 
+       Values { "SignOnly", "ConfidentialityOrSignature" }]
+   uint16 Use;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "Indicates if the certificate canNOT be repudiated." )]
+   boolean NonRepudiation;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "Indicates if the certificate can be backed up." )]
+   boolean BackedUp;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "The repository in which the certificate is backed up." )]
+   string Repository;
+
+
+};
+
+
+
+class UNIX_PublicPrivateKeyPair : CIM_PublicPrivateKeyPair
+{
+
+};
+

@@ -1,0 +1,119 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Device::DeviceElements" ), 
+    Description ( 
+       "The DeviceSoftware relationship identifies any software that "
+       "is associated with a Device such as drivers, configuration, or "
+       "application software, or firmware." )]
+class CIM_DeviceSoftware : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The SoftwareElement." )]
+   CIM_SoftwareElement REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "The LogicalDevice that requires or uses the software." )]
+   CIM_LogicalDevice REF Dependent;
+
+      [Description ( 
+          "An enumerated integer that indicates the role that this "
+          "software plays in regards to its associated Device. For "
+          "example, this software could be instrumentation "
+          "(value=5) or firmware (value=6)." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "7", "8" }, 
+       Values { "Unknown", "Other", "Driver", 
+          "Configuration Software", "Application Software", 
+          "Instrumentation", "Firmware", "BIOS", "Boot ROM" }, 
+       MappingStrings { "MIF.DMTF|SubComponent Software|001.2" }, 
+       ModelCorrespondence { "CIM_DeviceSoftware.PurposeDescription" }]
+   uint16 Purpose;
+
+      [Description ( 
+          "A free-form string that provides more information for "
+          "the Purpose property, for example, \"Application "
+          "Software\"." ), 
+       ModelCorrespondence { "CIM_DeviceSoftware.Purpose" }]
+   string PurposeDescription;
+
+      [Description ( 
+          "Boolean that indicates that the software is \'burned "
+          "into\' or otherwise located on the hardware of the "
+          "LogicalDevice." )]
+   boolean LoadedOnDevice;
+
+      [Description ( 
+          "Boolean that indicates whether the software is "
+          "upgradeable, when it is LoadedOnDevice. Software that is "
+          "loaded as part of the OperatingSystem is typically "
+          "changeable and upgradeable. However, when DeviceSoftware "
+          "is burned into EEPROM or a chip that realizes the "
+          "LogicalDevice, then it might not be upgradeable. This "
+          "property indicates the ability to update and upgrade "
+          "DeviceSoftware." )]
+   boolean UpgradeableOnDevice;
+
+
+};
+
+
+
+class UNIX_DeviceSoftware : CIM_DeviceSoftware
+{
+
+};
+

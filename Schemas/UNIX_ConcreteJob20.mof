@@ -1,0 +1,977 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "ManagedElement is an abstract class that provides a common "
+       "superclass (or top of the inheritance tree) for the "
+       "non-association classes in the CIM Schema." )]
+class CIM_ManagedElement {
+
+      [Description ( 
+          "InstanceID is an optional property that may be used to "
+          "opaquely and uniquely identify an instance of this class "
+          "within the scope of the instantiating Namespace. Various "
+          "subclasses of this class may override this property to "
+          "make it required, or a key. Such subclasses may also "
+          "modify the preferred algorithms for ensuring uniqueness "
+          "that are defined below.\n"
+          "To ensure uniqueness within the NameSpace, the value of "
+          "InstanceID should be constructed using the following "
+          "\"preferred\" algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "(:), and where <OrgID> must include a copyrighted, "
+          "trademarked, or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID or that is a registered ID assigned to the "
+          "business entity by a recognized global authority. (This "
+          "requirement is similar to the <Schema Name>_<Class Name> "
+          "structure of Schema class names.) In addition, to ensure "
+          "uniqueness, <OrgID> must not contain a colon (:). When "
+          "using this algorithm, the first colon to appear in "
+          "InstanceID must appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be reused to identify different underlying "
+          "(real-world) elements. If not null and the above "
+          "\"preferred\" algorithm is not used, the defining entity "
+          "must assure that the resulting InstanceID is not reused "
+          "across any InstanceIDs produced by this or other "
+          "providers for the NameSpace of this instance. \n"
+          "If not set to null for DMTF-defined instances, the "
+          "\"preferred\" algorithm must be used with the <OrgID> "
+          "set to CIM." )]
+   string InstanceID;
+
+      [Description ( 
+          "The Caption property is a short textual description "
+          "(one- line string) of the object." ), 
+       MaxLen ( 64 )]
+   string Caption;
+
+      [Description ( 
+          "The Description property provides a textual description "
+          "of the object." )]
+   string Description;
+
+      [Description ( 
+          "A user-friendly name for the object. This property "
+          "allows each instance to define a user-friendly name in "
+          "addition to its key properties, identity data, and "
+          "description information. \n"
+          "Note that the Name property of ManagedSystemElement is "
+          "also defined as a user-friendly name. But, it is often "
+          "subclassed to be a Key. It is not reasonable that the "
+          "same property can convey both identity and a "
+          "user-friendly name, without inconsistencies. Where Name "
+          "exists and is not a Key (such as for instances of "
+          "LogicalDevice), the same information can be present in "
+          "both the Name and ElementName properties. Note that if "
+          "there is an associated instance of "
+          "CIM_EnabledLogicalElementCapabilities, restrictions on "
+          "this properties may exist as defined in ElementNameMask "
+          "and MaxElementNameLen properties defined in that class." )]
+   string ElementName;
+
+
+};
+
+
+// Copyright (c) 2011 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.28.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_ManagedSystemElement is the base class for the System "
+       "Element hierarchy. Any distinguishable component of a System "
+       "is a candidate for inclusion in this class. Examples of system "
+       "components include: \n"
+       "- software components such as application servers, databases, "
+       "and applications \n"
+       "- operating system components such as files, processes, and "
+       "threads \n"
+       "- device components such as disk drives, controllers, "
+       "processors, and printers \n"
+       "- physical components such as chips and cards." )]
+class CIM_ManagedSystemElement : CIM_ManagedElement {
+
+      [Description ( 
+          "A datetime value that indicates when the object was "
+          "installed. Lack of a value does not indicate that the "
+          "object is not installed." ), 
+       MappingStrings { "MIF.DMTF|ComponentID|001.5" }]
+   datetime InstallDate;
+
+      [Description ( 
+          "The Name property defines the label by which the object "
+          "is known. When subclassed, the Name property can be "
+          "overridden to be a Key property." ), 
+       MaxLen ( 1024 )]
+   string Name;
+
+      [Description ( 
+          "Indicates the current statuses of the element. Various "
+          "operational statuses are defined. Many of the "
+          "enumeration\'s values are self-explanatory. However, a "
+          "few are not and are described here in more detail. \n"
+          "\"Stressed\" indicates that the element is functioning, "
+          "but needs attention. Examples of \"Stressed\" states are "
+          "overload, overheated, and so on. \n"
+          "\"Predictive Failure\" indicates that an element is "
+          "functioning nominally but predicting a failure in the "
+          "near future. \n"
+          "\"In Service\" describes an element being configured, "
+          "maintained, cleaned, or otherwise administered. \n"
+          "\"No Contact\" indicates that the monitoring system has "
+          "knowledge of this element, but has never been able to "
+          "establish communications with it. \n"
+          "\"Lost Communication\" indicates that the ManagedSystem "
+          "Element is known to exist and has been contacted "
+          "successfully in the past, but is currently unreachable. \n"
+          "\"Stopped\" and \"Aborted\" are similar, although the "
+          "former implies a clean and orderly stop, while the "
+          "latter implies an abrupt stop where the state and "
+          "configuration of the element might need to be updated. \n"
+          "\"Dormant\" indicates that the element is inactive or "
+          "quiesced. \n"
+          "\"Supporting Entity in Error\" indicates that this "
+          "element might be \"OK\" but that another element, on "
+          "which it is dependent, is in error. An example is a "
+          "network service or endpoint that cannot function due to "
+          "lower-layer networking problems. \n"
+          "\"Completed\" indicates that the element has completed "
+          "its operation. This value should be combined with either "
+          "OK, Error, or Degraded so that a client can tell if the "
+          "complete operation Completed with OK (passed), Completed "
+          "with Error (failed), or Completed with Degraded (the "
+          "operation finished, but it did not complete OK or did "
+          "not report an error). \n"
+          "\"Power Mode\" indicates that the element has additional "
+          "power model information contained in the Associated "
+          "PowerManagementService association. \n"
+          "\"Relocating\" indicates the element is being relocated.\n"
+          "OperationalStatus replaces the Status property on "
+          "ManagedSystemElement to provide a consistent approach to "
+          "enumerations, to address implementation needs for an "
+          "array property, and to provide a migration path from "
+          "today\'s environment to the future. This change was not "
+          "made earlier because it required the deprecated "
+          "qualifier. Due to the widespread use of the existing "
+          "Status property in management applications, it is "
+          "strongly recommended that providers or instrumentation "
+          "provide both the Status and OperationalStatus "
+          "properties. Further, the first value of "
+          "OperationalStatus should contain the primary status for "
+          "the element. When instrumented, Status (because it is "
+          "single-valued) should also provide the primary status of "
+          "the element." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+          "10", "11", "12", "13", "14", "15", "16", "17", "18", 
+          "19", "..", "0x8000.." }, 
+       Values { "Unknown", "Other", "OK", "Degraded", "Stressed", 
+          "Predictive Failure", "Error", "Non-Recoverable Error", 
+          "Starting", "Stopping", "Stopped", "In Service", 
+          "No Contact", "Lost Communication", "Aborted", "Dormant", 
+          "Supporting Entity in Error", "Completed", "Power Mode", 
+          "Relocating", "DMTF Reserved", "Vendor Reserved" }, 
+       ArrayType ( "Indexed" ), 
+       ModelCorrespondence { 
+          "CIM_ManagedSystemElement.StatusDescriptions" }]
+   uint16 OperationalStatus[];
+
+      [Description ( 
+          "Strings describing the various OperationalStatus array "
+          "values. For example, if \"Stopping\" is the value "
+          "assigned to OperationalStatus, then this property may "
+          "contain an explanation as to why an object is being "
+          "stopped. Note that entries in this array are correlated "
+          "with those at the same array index in OperationalStatus." ), 
+       ArrayType ( "Indexed" ), 
+       ModelCorrespondence { 
+          "CIM_ManagedSystemElement.OperationalStatus" }]
+   string StatusDescriptions[];
+
+      [Deprecated { "CIM_ManagedSystemElement.OperationalStatus" }, 
+       Description ( 
+          "A string indicating the current status of the object. "
+          "Various operational and non-operational statuses are "
+          "defined. This property is deprecated in lieu of "
+          "OperationalStatus, which includes the same semantics in "
+          "its enumeration. This change is made for 3 reasons: \n"
+          "1) Status is more correctly defined as an array. This "
+          "definition overcomes the limitation of describing status "
+          "using a single value, when it is really a multi-valued "
+          "property (for example, an element might be OK AND "
+          "Stopped. \n"
+          "2) A MaxLen of 10 is too restrictive and leads to "
+          "unclear enumerated values. \n"
+          "3) The change to a uint16 data type was discussed when "
+          "CIM V2.0 was defined. However, existing V1.0 "
+          "implementations used the string property and did not "
+          "want to modify their code. Therefore, Status was "
+          "grandfathered into the Schema. Use of the deprecated "
+          "qualifier allows the maintenance of the existing "
+          "property, but also permits an improved definition using "
+          "OperationalStatus." ), 
+       ValueMap { "OK", "Error", "Degraded", "Unknown", "Pred Fail", 
+          "Starting", "Stopping", "Service", "Stressed", 
+          "NonRecover", "No Contact", "Lost Comm", "Stopped" }, 
+       MaxLen ( 10 )]
+   string Status;
+
+      [Description ( 
+          "Indicates the current health of the element. This "
+          "attribute expresses the health of this element but not "
+          "necessarily that of its subcomponents. The possible "
+          "values are 0 to 30, where 5 means the element is "
+          "entirely healthy and 30 means the element is completely "
+          "non-functional. The following continuum is defined: \n"
+          "\"Non-recoverable Error\" (30) - The element has "
+          "completely failed, and recovery is not possible. All "
+          "functionality provided by this element has been lost. \n"
+          "\"Critical Failure\" (25) - The element is "
+          "non-functional and recovery might not be possible. \n"
+          "\"Major Failure\" (20) - The element is failing. It is "
+          "possible that some or all of the functionality of this "
+          "component is degraded or not working. \n"
+          "\"Minor Failure\" (15) - All functionality is available "
+          "but some might be degraded. \n"
+          "\"Degraded/Warning\" (10) - The element is in working "
+          "order and all functionality is provided. However, the "
+          "element is not working to the best of its abilities. For "
+          "example, the element might not be operating at optimal "
+          "performance or it might be reporting recoverable errors. \n"
+          "\"OK\" (5) - The element is fully functional and is "
+          "operating within normal operational parameters and "
+          "without error. \n"
+          "\"Unknown\" (0) - The implementation cannot report on "
+          "HealthState at this time. \n"
+          "DMTF has reserved the unused portion of the continuum "
+          "for additional HealthStates in the future." ), 
+       ValueMap { "0", "5", "10", "15", "20", "25", "30", "..", 
+          "32768..65535" }, 
+       Values { "Unknown", "OK", "Degraded/Warning", 
+          "Minor failure", "Major failure", "Critical failure", 
+          "Non-recoverable error", "DMTF Reserved", "Vendor Specific" }]
+   uint16 HealthState;
+
+      [Description ( 
+          "CommunicationStatus indicates the ability of the "
+          "instrumentation to communicate with the underlying "
+          "ManagedElement. CommunicationStatus consists of one of "
+          "the following values: Unknown, None, Communication OK, "
+          "Lost Communication, or No Contact. \n"
+          "A Null return indicates the implementation (provider) "
+          "does not implement this property. \n"
+          "\"Unknown\" indicates the implementation is in general "
+          "capable of returning this property, but is unable to do "
+          "so at this time. \n"
+          "\"Not Available\" indicates that the implementation "
+          "(provider) is capable of returning a value for this "
+          "property, but not ever for this particular piece of "
+          "hardware/software or the property is intentionally not "
+          "used because it adds no meaningful information (as in "
+          "the case of a property that is intended to add "
+          "additional info to another property). \n"
+          "\"Communication OK \" indicates communication is "
+          "established with the element, but does not convey any "
+          "quality of service. \n"
+          "\"No Contact\" indicates that the monitoring system has "
+          "knowledge of this element, but has never been able to "
+          "establish communications with it. \n"
+          "\"Lost Communication\" indicates that the Managed "
+          "Element is known to exist and has been contacted "
+          "successfully in the past, but is currently unreachable." ), 
+       ValueMap { "0", "1", "2", "3", "4", "..", "0x8000.." }, 
+       Values { "Unknown", "Not Available", "Communication OK", 
+          "Lost Communication", "No Contact", "DMTF Reserved", 
+          "Vendor Reserved" }]
+   uint16 CommunicationStatus;
+
+      [Description ( 
+          "DetailedStatus compliments PrimaryStatus with additional "
+          "status detail. It consists of one of the following "
+          "values: Not Available, No Additional Information, "
+          "Stressed, Predictive Failure, Error, Non-Recoverable "
+          "Error, SupportingEntityInError. Detailed status is used "
+          "to expand upon the PrimaryStatus of the element. \n"
+          "A Null return indicates the implementation (provider) "
+          "does not implement this property. \n"
+          "\"Not Available\" indicates that the implementation "
+          "(provider) is capable of returning a value for this "
+          "property, but not ever for this particular piece of "
+          "hardware/software or the property is intentionally not "
+          "used because it adds no meaningful information (as in "
+          "the case of a property that is intended to add "
+          "additional info to another property). \n"
+          "\"No Additional Information\" indicates that the element "
+          "is functioning normally as indicated by PrimaryStatus = "
+          "\"OK\". \n"
+          "\"Stressed\" indicates that the element is functioning, "
+          "but needs attention. Examples of \"Stressed\" states are "
+          "overload, overheated, and so on. \n"
+          "\"Predictive Failure\" indicates that an element is "
+          "functioning normally but a failure is predicted in the "
+          "near future. \n"
+          "\"Non-Recoverable Error \" indicates that this element "
+          "is in an error condition that requires human "
+          "intervention. \n"
+          "\"Supporting Entity in Error\" indicates that this "
+          "element might be \"OK\" but that another element, on "
+          "which it is dependent, is in error. An example is a "
+          "network service or endpoint that cannot function due to "
+          "lower-layer networking problems." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "..", "0x8000.." }, 
+       Values { "Not Available", "No Additional Information", 
+          "Stressed", "Predictive Failure", "Non-Recoverable Error", 
+          "Supporting Entity in Error", "DMTF Reserved", 
+          "Vendor Reserved" }, 
+       ModelCorrespondence { 
+          "CIM_EnabledLogicalElement.PrimaryStatus", 
+          "CIM_ManagedSystemElement.HealthState" }]
+   uint16 DetailedStatus;
+
+      [Description ( 
+          "OperatingStatus provides a current status value for the "
+          "operational condition of the element and can be used for "
+          "providing more detail with respect to the value of "
+          "EnabledState. It can also provide the transitional "
+          "states when an element is transitioning from one state "
+          "to another, such as when an element is transitioning "
+          "between EnabledState and RequestedState, as well as "
+          "other transitional conditions.\n"
+          "OperatingStatus consists of one of the following values: "
+          "Unknown, Not Available, In Service, Starting, Stopping, "
+          "Stopped, Aborted, Dormant, Completed, Migrating, "
+          "Emmigrating, Immigrating, Snapshotting. Shutting Down, "
+          "In Test \n"
+          "A Null return indicates the implementation (provider) "
+          "does not implement this property. \n"
+          "\"Unknown\" indicates the implementation is in general "
+          "capable of returning this property, but is unable to do "
+          "so at this time. \n"
+          "\"None\" indicates that the implementation (provider) is "
+          "capable of returning a value for this property, but not "
+          "ever for this particular piece of hardware/software or "
+          "the property is intentionally not used because it adds "
+          "no meaningful information (as in the case of a property "
+          "that is intended to add additional info to another "
+          "property). \n"
+          "\"Servicing\" describes an element being configured, "
+          "maintained, cleaned, or otherwise administered. \n"
+          "\"Starting\" describes an element being initialized. \n"
+          "\"Stopping\" describes an element being brought to an "
+          "orderly stop. \n"
+          "\"Stopped\" and \"Aborted\" are similar, although the "
+          "former implies a clean and orderly stop, while the "
+          "latter implies an abrupt stop where the state and "
+          "configuration of the element might need to be updated. \n"
+          "\"Dormant\" indicates that the element is inactive or "
+          "quiesced. \n"
+          "\"Completed\" indicates that the element has completed "
+          "its operation. This value should be combined with either "
+          "OK, Error, or Degraded in the PrimaryStatus so that a "
+          "client can tell if the complete operation Completed with "
+          "OK (passed), Completed with Error (failed), or Completed "
+          "with Degraded (the operation finished, but it did not "
+          "complete OK or did not report an error). \n"
+          "\"Migrating\" element is being moved between host "
+          "elements. \n"
+          "\"Immigrating\" element is being moved to new host "
+          "element. \n"
+          "\"Emigrating\" element is being moved away from host "
+          "element. \n"
+          "\"Shutting Down\" describes an element being brought to "
+          "an abrupt stop. \n"
+          "\"In Test\" element is performing test functions. \n"
+          "\"Transitioning\" describes an element that is between "
+          "states, that is, it is not fully available in either its "
+          "previous state or its next state. This value should be "
+          "used if other values indicating a transition to a "
+          "specific state are not applicable.\n"
+          "\"In Service\" describes an element that is in service "
+          "and operational." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+          "10", "11", "12", "13", "14", "15", "16", "..", "0x8000.." }, 
+       Values { "Unknown", "Not Available", "Servicing", "Starting", 
+          "Stopping", "Stopped", "Aborted", "Dormant", "Completed", 
+          "Migrating", "Emigrating", "Immigrating", "Snapshotting", 
+          "Shutting Down", "In Test", "Transitioning", "In Service", 
+          "DMTF Reserved", "Vendor Reserved" }, 
+       ModelCorrespondence { "CIM_EnabledLogicalElement.EnabledState" }]
+   uint16 OperatingStatus;
+
+      [Description ( 
+          "PrimaryStatus provides a high level status value, "
+          "intended to align with Red-Yellow-Green type "
+          "representation of status. It should be used in "
+          "conjunction with DetailedStatus to provide high level "
+          "and detailed health status of the ManagedElement and its "
+          "subcomponents. \n"
+          "PrimaryStatus consists of one of the following values: "
+          "Unknown, OK, Degraded or Error. \"Unknown\" indicates "
+          "the implementation is in general capable of returning "
+          "this property, but is unable to do so at this time. \n"
+          "\"OK\" indicates the ManagedElement is functioning "
+          "normally. \n"
+          "\"Degraded\" indicates the ManagedElement is functioning "
+          "below normal. \n"
+          "\"Error\" indicates the ManagedElement is in an Error "
+          "condition." ), 
+       ValueMap { "0", "1", "2", "3", "..", "0x8000.." }, 
+       Values { "Unknown", "OK", "Degraded", "Error", 
+          "DMTF Reserved", "Vendor Reserved" }, 
+       ModelCorrespondence { 
+          "CIM_ManagedSystemElement.DetailedStatus", 
+          "CIM_ManagedSystemElement.HealthState" }]
+   uint16 PrimaryStatus;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_LogicalElement is a base class for all the components of a "
+       "System that represent abstract system components, such as "
+       "Files, Processes, or LogicalDevices." )]
+class CIM_LogicalElement : CIM_ManagedSystemElement {
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "A Job is a LogicalElement that represents an executing unit of "
+       "work, such as a script or a print job. A Job is distinct from "
+       "a Process in that a Job can be scheduled or queued, and its "
+       "execution is not limited to a single system." )]
+class CIM_Job : CIM_LogicalElement {
+
+      [Description ( 
+          "A free-form string that represents the status of the "
+          "job. The primary status is reflected in the inherited "
+          "OperationalStatus property. JobStatus provides "
+          "additional, implementation-specific details." ), 
+       ModelCorrespondence { 
+          "CIM_ManagedSystemElement.OperationalStatus" }]
+   string JobStatus;
+
+      [Description ( 
+          "The time that the Job was submitted to execute. A value "
+          "of all zeroes indicates that the owning element is not "
+          "capable of reporting a date and time. Therefore, the "
+          "ScheduledStartTime and StartTime are reported as "
+          "intervals relative to the time their values are "
+          "requested." )]
+   datetime TimeSubmitted;
+
+      [Deprecated { "CIM_Job.RunMonth", "CIM_Job.RunDay", 
+          "CIM_Job.RunDayOfWeek", "CIM_Job.RunStartInterval" }, 
+       Write, Description ( 
+          "The time that the current Job is scheduled to start. "
+          "This time can be represented by the actual date and "
+          "time, or an interval relative to the time that this "
+          "property is requested. A value of all zeroes indicates "
+          "that the Job is already executing. The property is "
+          "deprecated in lieu of the more expressive scheduling "
+          "properties, RunMonth, RunDay, RunDayOfWeek, and "
+          "RunStartInterval." )]
+   datetime ScheduledStartTime;
+
+      [Description ( 
+          "The time that the Job was actually started. This time "
+          "can be represented by an actual date and time, or by an "
+          "interval relative to the time that this property is "
+          "requested. Note that this property is also present in "
+          "the JobProcessingStatistics class. This class is "
+          "necessary to capture the processing information for "
+          "recurring Jobs, because only the \'last\' run time can "
+          "be stored in this single-valued property." )]
+   datetime StartTime;
+
+      [Description ( 
+          "The time interval that the Job has been executing or the "
+          "total execution time if the Job is complete. Note that "
+          "this property is also present in the "
+          "JobProcessingStatistics class. This class is necessary "
+          "to capture the processing information for recurring "
+          "Jobs, because only the \'last\' run time can be stored "
+          "in this single-valued property." )]
+   datetime ElapsedTime;
+
+      [Write, Description ( 
+          "The number of times that the Job should be run. A value "
+          "of 1 indicates that the Job is not recurring, while any "
+          "non-zero value indicates a limit to the number of times "
+          "that the Job will recur. Zero indicates that there is no "
+          "limit to the number of times that the Job can be "
+          "processed, but that it is terminated either after the "
+          "UntilTime or by manual intervention. By default, a Job "
+          "is processed once." )]
+   uint32 JobRunTimes = 1;
+
+      [Write, Description ( 
+          "The month during which the Job should be processed. "
+          "Specify 0 for January, 1 for February, and so on." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+          "10", "11" }, 
+       Values { "January", "February", "March", "April", "May", 
+          "June", "July", "August", "September", "October", 
+          "November", "December" }, 
+       ModelCorrespondence { "CIM_Job.RunDay", 
+          "CIM_Job.RunDayOfWeek", "CIM_Job.RunStartInterval" }]
+   uint8 RunMonth;
+
+      [Write, Description ( 
+          "The day in the month on which the Job should be "
+          "processed. There are two different interpretations for "
+          "this property, depending on the value of DayOfWeek. In "
+          "one case, RunDay defines the day-in-month on which the "
+          "Job is processed. This interpretation is used when the "
+          "DayOfWeek is 0. A positive or negative integer indicates "
+          "whether the RunDay should be calculated from the "
+          "beginning or end of the month. For example, 5 indicates "
+          "the fifth day in the RunMonth and -1 indicates the last "
+          "day in the RunMonth. \n"
+          "\n"
+          "When RunDayOfWeek is not 0, RunDay is the day-in-month "
+          "on which the Job is processed, defined in conjunction "
+          "with RunDayOfWeek. For example, if RunDay is 15 and "
+          "RunDayOfWeek is Saturday, then the Job is processed on "
+          "the first Saturday on or after the 15th day in the "
+          "RunMonth (for example, the third Saturday in the month). "
+          "If RunDay is 20 and RunDayOfWeek is -Saturday, then this "
+          "indicates the first Saturday on or before the 20th day "
+          "in the RunMonth. If RunDay is -1 and RunDayOfWeek is "
+          "-Sunday, then this indicates the last Sunday in the "
+          "RunMonth." ), 
+       MinValue ( -31 ), 
+       MaxValue ( 31 ), 
+       ModelCorrespondence { "CIM_Job.RunMonth", 
+          "CIM_Job.RunDayOfWeek", "CIM_Job.RunStartInterval" }]
+   sint8 RunDay;
+
+      [Write, Description ( 
+          "A positive or negative integer used in conjunction with "
+          "RunDay to indicate the day of the week on which the Job "
+          "is processed. RunDayOfWeek is set to 0 to indicate an "
+          "exact day of the month, such as March 1. A positive "
+          "integer (representing Sunday, Monday, ..., Saturday) "
+          "means that the day of week is found on or after the "
+          "specified RunDay. A negative integer (representing "
+          "-Sunday, -Monday, ..., -Saturday) means that the day of "
+          "week is found on or BEFORE the RunDay." ), 
+       ValueMap { "-7", "-6", "-5", "-4", "-3", "-2", "-1", "0", 
+          "1", "2", "3", "4", "5", "6", "7" }, 
+       Values { "-Saturday", "-Friday", "-Thursday", "-Wednesday", 
+          "-Tuesday", "-Monday", "-Sunday", "ExactDayOfMonth", 
+          "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", 
+          "Friday", "Saturday" }, 
+       ModelCorrespondence { "CIM_Job.RunMonth", "CIM_Job.RunDay", 
+          "CIM_Job.RunStartInterval" }]
+   sint8 RunDayOfWeek;
+
+      [Write, Description ( 
+          "The time interval after midnight when the Job should be "
+          "processed. For example, \n"
+          "00000000020000.000000:000 \n"
+          "indicates that the Job should be run on or after two "
+          "o\'clock, local time or UTC time (distinguished using "
+          "the LocalOrUtcTime property." ), 
+       ModelCorrespondence { "CIM_Job.RunMonth", "CIM_Job.RunDay", 
+          "CIM_Job.RunDayOfWeek", "CIM_Job.RunStartInterval" }]
+   datetime RunStartInterval;
+
+      [Write, Description ( 
+          "This property indicates whether the times represented in "
+          "the RunStartInterval and UntilTime properties represent "
+          "local times or UTC times. Time values are synchronized "
+          "worldwide by using the enumeration value 2, \"UTC Time\"." ), 
+       ValueMap { "1", "2" }, 
+       Values { "Local Time", "UTC Time" }]
+   uint16 LocalOrUtcTime;
+
+      [Write, Description ( 
+          "The time after which the Job is invalid or should be "
+          "stopped. This time can be represented by an actual date "
+          "and time, or by an interval relative to the time that "
+          "this property is requested. A value of all nines "
+          "indicates that the Job can run indefinitely." ), 
+       ModelCorrespondence { "CIM_Job.LocalOrUtcTime" }]
+   datetime UntilTime;
+
+      [Write, Description ( 
+          "The User who is to be notified upon the Job completion or failure."
+           )]
+   string Notify;
+
+      [Description ( 
+          "The User that submitted the Job, or the Service or "
+          "method name that caused the job to be created." ), 
+       ModelCorrespondence { "CIM_OwningJobElement" }]
+   string Owner;
+
+      [Write, Description ( 
+          "Indicates the urgency or importance of execution of the "
+          "Job. The lower the number, the higher the priority. Note "
+          "that this property is also present in the "
+          "JobProcessingStatistics class. This class is necessary "
+          "to capture the setting information that would influence "
+          "the results of a job." )]
+   uint32 Priority;
+
+      [Description ( 
+          "The percentage of the job that has completed at the time "
+          "that this value is requested. Note that this property is "
+          "also present in the JobProcessingStatistics class. This "
+          "class is necessary to capture the processing information "
+          "for recurring Jobs, because only the \'last\' run data "
+          "can be stored in this single-valued property. \n"
+          "Note that the value 101 is undefined and will be not be "
+          "allowed in the next major revision of the specification." ), 
+       Units ( "Percent" ), 
+       MinValue ( 0 ), 
+       MaxValue ( 101 ), 
+       PUnit ( "percent" )]
+   uint16 PercentComplete;
+
+      [Write, Description ( 
+          "Indicates whether or not the job should be automatically "
+          "deleted upon completion. Note that the \'completion\' of "
+          "a recurring job is defined by its JobRunTimes or "
+          "UntilTime properties, or when the Job is terminated by "
+          "manual intervention. If this property is set to false "
+          "and the job completes, then the extrinsic method "
+          "DeleteInstance must be used to delete the job instead of "
+          "updating this property." )]
+   boolean DeleteOnCompletion;
+
+      [Description ( 
+          "A vendor-specific error code. The value must be set to "
+          "zero if the Job completed without error. Note that this "
+          "property is also present in the JobProcessingStatistics "
+          "class. This class is necessary to capture the processing "
+          "information for recurring Jobs, because only the \'last\' "
+          "run error can be stored in this single-valued property." ), 
+       ModelCorrespondence { "CIM_Job.ErrorDescription" }]
+   uint16 ErrorCode;
+
+      [Description ( 
+          "A free-form string that contains the vendor error "
+          "description. Note that this property is also present in "
+          "the JobProcessingStatistics class. This class is "
+          "necessary to capture the processing information for "
+          "recurring Jobs, because only the \'last\' run error can "
+          "be stored in this single-valued property." ), 
+       ModelCorrespondence { "CIM_Job.ErrorCode" }]
+   string ErrorDescription;
+
+      [Description ( 
+          "Describes the recovery action to be taken for an "
+          "unsuccessfully run Job. The possible values are: \n"
+          "0 = \"Unknown\", meaning it is unknown as to what "
+          "recovery action to take \n"
+          "1 = \"Other\", indicating that the recovery action will "
+          "be specified in the OtherRecoveryAction property \n"
+          "2 = \"Do Not Continue\", meaning stop the execution of "
+          "the job and appropriately update its status \n"
+          "3 = \"Continue With Next Job\", meaning continue with "
+          "the next job in the queue \n"
+          "4 = \"Re-run Job\", indicating that the job should be "
+          "re-run \n"
+          "5 = \"Run Recovery Job\", meaning run the Job associated "
+          "using the RecoveryJob relationship. Note that the "
+          "recovery Job must already be in the queue from which it "
+          "will run." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5" }, 
+       Values { "Unknown", "Other", "Do Not Continue", 
+          "Continue With Next Job", "Re-run Job", "Run Recovery Job" }, 
+       ModelCorrespondence { "CIM_Job.OtherRecoveryAction" }]
+   uint16 RecoveryAction;
+
+      [Description ( 
+          "A string describing the recovery action when the "
+          "RecoveryAction property of the instance is 1 (\"Other\")." ), 
+       ModelCorrespondence { "CIM_Job.RecoveryAction" }]
+   string OtherRecoveryAction;
+
+
+      [Deprecated { "CIM_ConcreteJob.RequestStateChange()" }, 
+       Description ( 
+          "KillJob is being deprecated because there is no "
+          "distinction made between an orderly shutdown and an "
+          "immediate kill. CIM_ConcreteJob.RequestStateChange() "
+          "provides \'Terminate\' and \'Kill\' options to allow "
+          "this distinction. \n"
+          "A method to kill this job and any underlying processes, "
+          "and to remove any \'dangling\' associations." ), 
+       ValueMap { "0", "1", "2", "3", "4", "6", "7", "..", 
+          "32768..65535" }, 
+       Values { "Success", "Not Supported", "Unknown", "Timeout", 
+          "Failed", "Access Denied", "Not Found", "DMTF Reserved", 
+          "Vendor Specific" }]
+   uint32 KillJob(
+         [IN, Description ( 
+             "Indicates whether or not the Job should be "
+             "automatically deleted upon termination. This "
+             "parameter takes precedence over the property, "
+             "DeleteOnCompletion." )]
+      boolean DeleteOnKill);
+
+};
+
+
+// Copyright (c) 2011 DMTF.  All rights reserved.
+   [Deprecated { "CIM_ConcreteJob.GetErrors" }, 
+    Version ( "2.31.1" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "A concrete version of Job. This class represents a generic and "
+       "instantiable unit of work, such as a batch or a print job." )]
+class CIM_ConcreteJob : CIM_Job {
+
+      [Key, Override ( "InstanceID" ), 
+       Description ( 
+          "Within the scope of the instantiating Namespace, "
+          "InstanceID opaquely and uniquely identifies an instance "
+          "of this class. In order to ensure uniqueness within the "
+          "NameSpace, the value of InstanceID SHOULD be constructed "
+          "using the following \'preferred\' algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "\':\', and where <OrgID> must include a copyrighted, "
+          "trademarked or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID, or that is a registered ID that is assigned "
+          "to the business entity by a recognized global authority. "
+          "(This requirement is similar to the <Schema Name>_<Class "
+          "Name> structure of Schema class names.) In addition, to "
+          "ensure uniqueness <OrgID> must not contain a colon "
+          "(\':\'). When using this algorithm, the first colon to "
+          "appear in InstanceID must appear between <OrgID> and "
+          "<LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be re-used to identify different underlying "
+          "(real-world) elements. If the above \'preferred\' "
+          "algorithm is not used, the defining entity must assure "
+          "that the resulting InstanceID is not re-used across any "
+          "InstanceIDs produced by this or other providers for the "
+          "NameSpace of this instance. \n"
+          "For DMTF defined instances, the \'preferred\' algorithm "
+          "must be used with the <OrgID> set to \'CIM\'." )]
+   string InstanceID;
+
+      [Required, Override ( "Name" ), 
+       Description ( 
+          "The user-friendly name for this instance of a Job. In "
+          "addition, the user-friendly name can be used as a "
+          "property for a search or query. (Note: Name does not "
+          "have to be unique within a namespace.)" )]
+   string Name;
+
+      [Description ( 
+          "JobState is an integer enumeration that indicates the "
+          "operational state of a Job. It can also indicate "
+          "transitions between these states, for example, \'Shutting "
+          "Down\' and \'Starting\'. Following is a brief "
+          "description of the states: \n"
+          "New (2) indicates that the job has never been started. \n"
+          "Starting (3) indicates that the job is moving from the "
+          "\'New\', \'Suspended\', or \'Service\' states into the "
+          "\'Running\' state. \n"
+          "Running (4) indicates that the Job is running. \n"
+          "Suspended (5) indicates that the Job is stopped, but can "
+          "be restarted in a seamless manner. \n"
+          "Shutting Down (6) indicates that the job is moving to a "
+          "\'Completed\', \'Terminated\', or \'Killed\' state. \n"
+          "Completed (7) indicates that the job has completed "
+          "normally. \n"
+          "Terminated (8) indicates that the job has been stopped "
+          "by a \'Terminate\' state change request. The job and all "
+          "its underlying processes are ended and can be restarted "
+          "(this is job-specific) only as a new job. \n"
+          "Killed (9) indicates that the job has been stopped by a "
+          "\'Kill\' state change request. Underlying processes "
+          "might have been left running, and cleanup might be "
+          "required to free up resources. \n"
+          "Exception (10) indicates that the Job is in an abnormal "
+          "state that might be indicative of an error condition. "
+          "Actual status might be displayed though job-specific "
+          "objects. \n"
+          "Service (11) indicates that the Job is in a "
+          "vendor-specific state that supports problem discovery, "
+          "or resolution, or both.\n"
+          "Query pending (12) waiting for a client to resolve a "
+          "query" ), 
+       ValueMap { "2", "3", "4", "5", "6", "7", "8", "9", "10", 
+          "11", "12", "13..32767", "32768..65535" }, 
+       Values { "New", "Starting", "Running", "Suspended", 
+          "Shutting Down", "Completed", "Terminated", "Killed", 
+          "Exception", "Service", "Query Pending", "DMTF Reserved", 
+          "Vendor Reserved" }]
+   uint16 JobState;
+
+      [Description ( 
+          "The date or time when the state of the Job last changed. "
+          "If the state of the Job has not changed and this "
+          "property is populated, then it must be set to a 0 "
+          "interval value. If a state change was requested, but "
+          "rejected or not yet processed, the property must not be "
+          "updated." )]
+   datetime TimeOfLastStateChange;
+
+      [Required, Write, Description ( 
+          "The amount of time that the Job is retained after it has "
+          "finished executing, either succeeding or failing in that "
+          "execution. The job must remain in existence for some "
+          "period of time regardless of the value of the "
+          "DeleteOnCompletion property. \n"
+          "The default is five minutes." )]
+   datetime TimeBeforeRemoval = "00000000000500.000000:000";
+
+
+      [Description ( 
+          "Requests that the state of the job be changed to the "
+          "value specified in the RequestedState parameter. "
+          "Invoking the RequestStateChange method multiple times "
+          "could result in earlier requests being overwritten or "
+          "lost. \n"
+          "If 0 is returned, then the task completed successfully. "
+          "Any other return code indicates an error condition." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "..", "4096", 
+          "4097", "4098", "4099", "4100..32767", "32768..65535" }, 
+       Values { "Completed with No Error", "Not Supported", 
+          "Unknown/Unspecified Error", 
+          "Can NOT complete within Timeout Period", "Failed", 
+          "Invalid Parameter", "In Use", "DMTF Reserved", 
+          "Method Parameters Checked - Transition Started", 
+          "Invalid State Transition", 
+          "Use of Timeout Parameter Not Supported", "Busy", 
+          "Method Reserved", "Vendor Specific" }]
+   uint32 RequestStateChange(
+         [IN, Description ( 
+             "RequestStateChange changes the state of a job. The "
+             "possible values are as follows: \n"
+             "Start (2) changes the state to \'Running\'. \n"
+             "Suspend (3) stops the job temporarily. The "
+             "intention is to subsequently restart the job with "
+             "\'Start\'. It might be possible to enter the "
+             "\'Service\' state while suspended. (This is "
+             "job-specific.) \n"
+             "Terminate (4) stops the job cleanly, saving data, "
+             "preserving the state, and shutting down all "
+             "underlying processes in an orderly manner. \n"
+             "Kill (5) terminates the job immediately with no "
+             "requirement to save data or preserve the state. \n"
+             "Service (6) puts the job into a vendor-specific "
+             "service state. It might be possible to restart the "
+             "job." ), 
+          ValueMap { "2", "3", "4", "5", "6", "7..32767", 
+             "32768..65535" }, 
+          Values { "Start", "Suspend", "Terminate", "Kill", 
+             "Service", "DMTF Reserved", "Vendor Reserved" }]
+      uint16 RequestedState, 
+         [IN, Description ( 
+             "A timeout period that specifies the maximum amount "
+             "of time that the client expects the transition to "
+             "the new state to take. The interval format must be "
+             "used to specify the TimeoutPeriod. A value of 0 or "
+             "a null parameter indicates that the client has no "
+             "time requirements for the transition. \n"
+             "If this property does not contain 0 or null and "
+             "the implementation does not support this "
+             "parameter, a return code of \'Use Of Timeout "
+             "Parameter Not Supported\' must be returned." )]
+      datetime TimeoutPeriod);
+
+      [Deprecated { "CIM_ConcreteJob.GetErrors" }, 
+       Description ( 
+          "GetError is deprecated because Error should be an "
+          "array,not a scalar.\n"
+          "When the job is executing or has terminated without "
+          "error, then this method returns no CIM_Error instance. "
+          "However, if the job has failed because of some internal "
+          "problem or because the job has been terminated by a "
+          "client, then a CIM_Error instance is returned." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "..", 
+          "32768..65535" }, 
+       Values { "Success", "Not Supported", "Unspecified Error", 
+          "Timeout", "Failed", "Invalid Parameter", "Access Denied", 
+          "DMTF Reserved", "Vendor Specific" }]
+   uint32 GetError(
+         [OUT, Description ( 
+             "If the OperationalStatus on the Job is not \"OK\", "
+             "then this method will return a CIM Error instance. "
+             "Otherwise, when the Job is \"OK\", null is "
+             "returned." ), 
+          EmbeddedInstance ( "CIM_Error" )]
+      string Error);
+
+      [Description ( 
+          "If JobState is \"Completed\" and Operational Status is "
+          "\"Completed\" then no instance of CIM_Error is returned. \n"
+          "If JobState is \"Exception\" then GetErrors may return "
+          "intances of CIM_Error related to the execution of the "
+          "procedure or method invoked by the job.\n"
+          "If Operatational Status is not \"OK\" or \"Completed\"then "
+          "GetErrors may return CIM_Error instances related to the "
+          "running of the job." ), 
+       ValueMap { "0", "1", "2", "3", "4", "5", "6", "..", 
+          "32768..65535" }, 
+       Values { "Success", "Not Supported", "Unspecified Error", 
+          "Timeout", "Failed", "Invalid Parameter", "Access Denied", 
+          "DMTF Reserved", "Vendor Specific" }]
+   uint32 GetErrors(
+         [OUT, Description ( 
+             "If the OperationalStatus on the Job is not \"OK\", "
+             "then this method will return one or more CIM Error "
+             "instance(s). Otherwise, when the Job is \"OK\", "
+             "null is returned." ), 
+          EmbeddedInstance ( "CIM_Error" )]
+      string Errors[]);
+
+};
+
+
+
+class UNIX_ConcreteJob : CIM_ConcreteJob
+{
+
+};
+

@@ -1,0 +1,253 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "ManagedElement is an abstract class that provides a common "
+       "superclass (or top of the inheritance tree) for the "
+       "non-association classes in the CIM Schema." )]
+class CIM_ManagedElement {
+
+      [Description ( 
+          "InstanceID is an optional property that may be used to "
+          "opaquely and uniquely identify an instance of this class "
+          "within the scope of the instantiating Namespace. Various "
+          "subclasses of this class may override this property to "
+          "make it required, or a key. Such subclasses may also "
+          "modify the preferred algorithms for ensuring uniqueness "
+          "that are defined below.\n"
+          "To ensure uniqueness within the NameSpace, the value of "
+          "InstanceID should be constructed using the following "
+          "\"preferred\" algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "(:), and where <OrgID> must include a copyrighted, "
+          "trademarked, or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID or that is a registered ID assigned to the "
+          "business entity by a recognized global authority. (This "
+          "requirement is similar to the <Schema Name>_<Class Name> "
+          "structure of Schema class names.) In addition, to ensure "
+          "uniqueness, <OrgID> must not contain a colon (:). When "
+          "using this algorithm, the first colon to appear in "
+          "InstanceID must appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be reused to identify different underlying "
+          "(real-world) elements. If not null and the above "
+          "\"preferred\" algorithm is not used, the defining entity "
+          "must assure that the resulting InstanceID is not reused "
+          "across any InstanceIDs produced by this or other "
+          "providers for the NameSpace of this instance. \n"
+          "If not set to null for DMTF-defined instances, the "
+          "\"preferred\" algorithm must be used with the <OrgID> "
+          "set to CIM." )]
+   string InstanceID;
+
+      [Description ( 
+          "The Caption property is a short textual description "
+          "(one- line string) of the object." ), 
+       MaxLen ( 64 )]
+   string Caption;
+
+      [Description ( 
+          "The Description property provides a textual description "
+          "of the object." )]
+   string Description;
+
+      [Description ( 
+          "A user-friendly name for the object. This property "
+          "allows each instance to define a user-friendly name in "
+          "addition to its key properties, identity data, and "
+          "description information. \n"
+          "Note that the Name property of ManagedSystemElement is "
+          "also defined as a user-friendly name. But, it is often "
+          "subclassed to be a Key. It is not reasonable that the "
+          "same property can convey both identity and a "
+          "user-friendly name, without inconsistencies. Where Name "
+          "exists and is not a Key (such as for instances of "
+          "LogicalDevice), the same information can be present in "
+          "both the Name and ElementName properties. Note that if "
+          "there is an associated instance of "
+          "CIM_EnabledLogicalElementCapabilities, restrictions on "
+          "this properties may exist as defined in ElementNameMask "
+          "and MaxElementNameLen properties defined in that class." )]
+   string ElementName;
+
+
+};
+
+
+// Copyright (c) 2008 DMTF.  All rights reserved.
+   [Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Metrics::BaseMetric" ), 
+    Description ( 
+       "Each CIM_BaseMetricValue object represents the instance value "
+       "of a metric. Since the gathering of metric information can "
+       "involve large quantities of information there may be many "
+       "instances of this class. The use of this class as an "
+       "instrumentation source may be inefficient unless the rate of "
+       "metrics are known. The length of time a CIM_BaseMetricValue "
+       "instance exists after the metric information is captured is "
+       "not defined and is implementation dependent. \n"
+       "Most metric data values change over time. There are two ways "
+       "of mapping this into CIM_BaseMetricValue objects: The value "
+       "for the next point in time may use the same object and just "
+       "change its properties (such as the value or timestamp), or the "
+       "existing objects remain unchanged and a new object is created "
+       "for the new point in time. The first method is typically used "
+       "for snapshot data and the second method for historical data. "
+       "Which method is used, is indicated by the Volatile property." )]
+class CIM_BaseMetricValue : CIM_ManagedElement {
+
+      [Key, Override ( "InstanceID" ), 
+       Description ( 
+          "Within the scope of the instantiating Namespace, "
+          "InstanceID opaquely and uniquely identifies an instance "
+          "of this class. In order to ensure uniqueness within the "
+          "NameSpace, the value of InstanceID SHOULD be constructed "
+          "using the following \'preferred\' algorithm: \n"
+          ": \n"
+          "Where and are separated by a colon \':\', and where MUST "
+          "include a copyrighted, trademarked or otherwise unique "
+          "name that is owned by the business entity "
+          "creating/defining the InstanceID, or is a registered ID "
+          "that is assigned to the business entity by a recognized "
+          "global authority (This is similar to the <Schema "
+          "Name>_<Class Name> structure of Schema class names.) In "
+          "addition, to ensure uniqueness MUST NOT contain a colon "
+          "(\':\'). When using this algorithm, the first colon to "
+          "appear in InstanceID MUST appear between and . \n"
+          "is chosen by the business entity and SHOULD not be "
+          "re-used to identify different underlying (real-world) "
+          "elements. If the above \'preferred\' algorithm is not "
+          "used, the defining entity MUST assure that the resultant "
+          "InstanceID is not re-used across any InstanceIDs "
+          "produced by this or other providers for this instance\'s "
+          "NameSpace. \n"
+          "For DMTF defined instances, the \'preferred\' algorithm "
+          "MUST be used with the set to \'CIM\'." )]
+   string InstanceID;
+
+      [Required, Description ( 
+          "The key of the BaseMetricDefinition instance for this "
+          "CIM_BaseMetricValue instance value." ), 
+       ModelCorrespondence { "CIM_BaseMetricDefinition.Id" }]
+   string MetricDefinitionId;
+
+      [Description ( 
+          "A descriptive name for the element to which the metric "
+          "value belongs (i.e., the measured element). This "
+          "property is required by behavior if there is no "
+          "association defined to a ManagedElement, but may be used "
+          "in other cases to provide supplemental information. This "
+          "allows metrics to be captured independently of any "
+          "ManagedElement. An example is where a metric value "
+          "belongs to a combination of elements, such as the input "
+          "and output ports of the traffic in a switch. If there "
+          "are multiple ManagedElements associated with the metric "
+          "value, then usually there is one that naturally belongs "
+          "to the metric value and that one should be used to "
+          "create the supplemental information. The property is not "
+          "meant to be used as a foreign key to search on the "
+          "measured element. Instead, the association to the "
+          "ManagedElement should be used." )]
+   string MeasuredElementName;
+
+      [Description ( 
+          "Identifies the time when the value of a metric instance "
+          "is computed. Note that this is different from the time "
+          "when the instance is created. For a given "
+          "CIM_BaseMetricValue instance, the TimeStamp changes "
+          "whenever a new measurement snapshot is taken if Volatile "
+          "is true. A managmenet application may establish a time "
+          "series of metric data by retrieving the instances of "
+          "CIM_BaseMetricValue and sorting them according to their "
+          "TimeStamp." ), 
+       ModelCorrespondence { "CIM_BaseMetricDefinition.TimeScope", 
+          "CIM_BaseMetricValue.Duration" }]
+   datetime TimeStamp;
+
+      [Description ( 
+          "Property that represents the time duration over which "
+          "this metric value is valid. This property should not "
+          "exist for timestamps that apply only to a point in time "
+          "but should be defined for values that are considered "
+          "valid for a certain time period (ex. sampling). If the "
+          "\"Duration\" property exists and is nonNull, the "
+          "TimeStamp is to be considered the end of the interval." ), 
+       ModelCorrespondence { "CIM_BaseMetricDefinition.TimeScope", 
+          "CIM_BaseMetricValue.TimeStamp" }]
+   datetime Duration;
+
+      [Required, Description ( 
+          "The value of the metric represented as a string. Its "
+          "original data type is specified in "
+          "CIM_BaseMetricDefinition." )]
+   string MetricValue;
+
+      [Description ( 
+          "If present, specifies one BreakdownDimension from the "
+          "BreakdownDimensions array defined in the associated CIM_ "
+          "BaseMetricDefinition. This is the dimension along which "
+          "this set of metric values is broken down. For a "
+          "description of the concept, see the class "
+          "CIM_BaseMetricDefinition." )]
+   string BreakdownDimension;
+
+      [Description ( 
+          "Defines a value of the BreakdownDimension property "
+          "defined for this metric value instance. For instance, if "
+          "the BreakdownDimension is \"TransactionName\", this "
+          "property could name the actual transaction to which this "
+          "particular metric value applies." )]
+   string BreakdownValue;
+
+      [Description ( 
+          "If true, Volatile indicates that the value for the next "
+          "point in time may use the same object and just change "
+          "its properties (such as the value or timestamp). If "
+          "false, the existing objects remain unchanged and a new "
+          "object is created for the new point in time." )]
+   boolean Volatile;
+
+
+};
+
+
+
+class UNIX_BaseMetricValue : CIM_BaseMetricValue
+{
+
+};
+

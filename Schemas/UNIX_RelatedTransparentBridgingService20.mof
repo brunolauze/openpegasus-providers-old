@@ -1,0 +1,114 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::Service" ), 
+    Description ( 
+       "CIM_ServiceSAPDependency is an association between a Service "
+       "and a ServiceAccessPoint that indicates that the referenced "
+       "SAP is utilized by the Service to provide its functionality. "
+       "For example, Boot Services can invoke BIOS Disk Services "
+       "(interrupts) in order to function." )]
+class CIM_ServiceSAPDependency : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The required ServiceAccessPoint." )]
+   CIM_ServiceAccessPoint REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "The Service that is dependent on an underlying SAP." )]
+   CIM_Service REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "No value" }, 
+    Version ( "2.8.0" ), 
+    UMLPackagePath ( "CIM::Network::VLAN" ), 
+    Description ( 
+       "This class is deprecated as a fall out of the previous "
+       "deprecations within the existing model The association between "
+       "a VLAN and the forwarding database (some use the term "
+       "filtering database) used to determine which port a packet "
+       "should be transmitted on, given that it is assigned to the "
+       "VLAN and that it has a particular destination MAC address. The "
+       "TransparentBridgingService represents a forwarding database." )]
+class CIM_RelatedTransparentBridgingService : CIM_ServiceSAPDependency {
+
+      [Deprecated { "No value" }, 
+       Override ( "Antecedent" ), 
+       Description ( "The VLAN." )]
+   CIM_VLAN REF Antecedent;
+
+      [Deprecated { "No value" }, 
+       Override ( "Dependent" ), 
+       Description ( 
+          "The BridgingService that determines the port, given the "
+          "the VLAN and addressing information." )]
+   CIM_TransparentBridgingService REF Dependent;
+
+
+};
+
+
+
+class UNIX_RelatedTransparentBridgingService : CIM_RelatedTransparentBridgingService
+{
+
+};
+

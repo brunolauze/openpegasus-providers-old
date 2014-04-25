@@ -1,0 +1,567 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2009 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "ManagedElement is an abstract class that provides a common "
+       "superclass (or top of the inheritance tree) for the "
+       "non-association classes in the CIM Schema." )]
+class CIM_ManagedElement {
+
+      [Description ( 
+          "InstanceID is an optional property that may be used to "
+          "opaquely and uniquely identify an instance of this class "
+          "within the scope of the instantiating Namespace. Various "
+          "subclasses of this class may override this property to "
+          "make it required, or a key. Such subclasses may also "
+          "modify the preferred algorithms for ensuring uniqueness "
+          "that are defined below.\n"
+          "To ensure uniqueness within the NameSpace, the value of "
+          "InstanceID should be constructed using the following "
+          "\"preferred\" algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "(:), and where <OrgID> must include a copyrighted, "
+          "trademarked, or otherwise unique name that is owned by "
+          "the business entity that is creating or defining the "
+          "InstanceID or that is a registered ID assigned to the "
+          "business entity by a recognized global authority. (This "
+          "requirement is similar to the <Schema Name>_<Class Name> "
+          "structure of Schema class names.) In addition, to ensure "
+          "uniqueness, <OrgID> must not contain a colon (:). When "
+          "using this algorithm, the first colon to appear in "
+          "InstanceID must appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and should "
+          "not be reused to identify different underlying "
+          "(real-world) elements. If not null and the above "
+          "\"preferred\" algorithm is not used, the defining entity "
+          "must assure that the resulting InstanceID is not reused "
+          "across any InstanceIDs produced by this or other "
+          "providers for the NameSpace of this instance. \n"
+          "If not set to null for DMTF-defined instances, the "
+          "\"preferred\" algorithm must be used with the <OrgID> "
+          "set to CIM." )]
+   string InstanceID;
+
+      [Description ( 
+          "The Caption property is a short textual description "
+          "(one- line string) of the object." ), 
+       MaxLen ( 64 )]
+   string Caption;
+
+      [Description ( 
+          "The Description property provides a textual description "
+          "of the object." )]
+   string Description;
+
+      [Description ( 
+          "A user-friendly name for the object. This property "
+          "allows each instance to define a user-friendly name in "
+          "addition to its key properties, identity data, and "
+          "description information. \n"
+          "Note that the Name property of ManagedSystemElement is "
+          "also defined as a user-friendly name. But, it is often "
+          "subclassed to be a Key. It is not reasonable that the "
+          "same property can convey both identity and a "
+          "user-friendly name, without inconsistencies. Where Name "
+          "exists and is not a Key (such as for instances of "
+          "LogicalDevice), the same information can be present in "
+          "both the Name and ElementName properties. Note that if "
+          "there is an associated instance of "
+          "CIM_EnabledLogicalElementCapabilities, restrictions on "
+          "this properties may exist as defined in ElementNameMask "
+          "and MaxElementNameLen properties defined in that class." )]
+   string ElementName;
+
+
+};
+
+
+// Copyright (c) 2008 DMTF.  All rights reserved.
+   [Abstract, Version ( "2.19.0" ), 
+    UMLPackagePath ( "CIM::Core::Statistics" ), 
+    Description ( 
+       "CIM_StatisticalData is a root class for any arbitrary "
+       "collection of statistical data and/or metrics applicable to "
+       "one or more ManagedElements. These statistics MUST represent "
+       "the most recent observations and MUST NOT be provided if "
+       "irrelevant or stale. Note that this class uses a simplified "
+       "naming/identity algorithm as compared to "
+       "CIM_StatisticalInformation." )]
+class CIM_StatisticalData : CIM_ManagedElement {
+
+      [Key, Override ( "InstanceID" ), 
+       Description ( 
+          "Within the scope of the instantiating Namespace, "
+          "InstanceID opaquely and uniquely identifies an instance "
+          "of this class. In order to ensure uniqueness within the "
+          "NameSpace, the value of InstanceID SHOULD be constructed "
+          "using the following \'preferred\' algorithm: \n"
+          "<OrgID>:<LocalID> \n"
+          "Where <OrgID> and <LocalID> are separated by a colon "
+          "\':\', and where <OrgID> MUST include a copyrighted, "
+          "trademarked or otherwise unique name that is owned by "
+          "the business entity creating/defining the InstanceID, or "
+          "is a registered ID that is assigned to the business "
+          "entity by a recognized global authority (This is similar "
+          "to the <Schema Name>_<Class Name> structure of Schema "
+          "class names.) In addition, to ensure uniqueness <OrgID> "
+          "MUST NOT contain a colon (\':\'). When using this "
+          "algorithm, the first colon to appear in InstanceID MUST "
+          "appear between <OrgID> and <LocalID>. \n"
+          "<LocalID> is chosen by the business entity and SHOULD "
+          "not be re-used to identify different underlying "
+          "(real-world) elements. If the above \'preferred\' "
+          "algorithm is not used, the defining entity MUST assure "
+          "that the resultant InstanceID is not re-used across any "
+          "InstanceIDs produced by this or other providers for this "
+          "instance\'s NameSpace. \n"
+          "For DMTF defined instances, the \'preferred\' algorithm "
+          "MUST be used with the <OrgID> set to \'CIM\'." )]
+   string InstanceID;
+
+      [Required, Override ( "ElementName" ), 
+       Description ( 
+          "The user friendly name for this instance of "
+          "StatisticalData. In addition, the user friendly name can "
+          "be used as a index property for a search of query. "
+          "(Note: Name does not have to be unique within a "
+          "namespace.)" )]
+   string ElementName;
+
+      [Description ( 
+          "The time, relative to managed element where the "
+          "statistic was collected, when the first measurement was "
+          "taken. If the statistic is reset, the StartStatisticTime "
+          "is the time when the reset was performed." )]
+   datetime StartStatisticTime;
+
+      [Description ( 
+          "The time the most recent measurement was taken, relative "
+          "to the managed element where the statistic was "
+          "collected." )]
+   datetime StatisticTime;
+
+      [Description ( 
+          "Some statistics are sampled at consistent time "
+          "intervals. This property provides the sample interval so "
+          "that client applications can determine the minimum time "
+          "that new statistics should be pulled. If the statistics "
+          "are not sampled at consistent time intervals, this "
+          "property must be set to a zero time interval." )]
+   datetime SampleInterval = "00000000000000.000000:000";
+
+
+      [Description ( 
+          "Method to reset one or more of the instance\'s "
+          "statistics. The method takes one parameter as input - an "
+          "array of strings indicating which statistics to reset. "
+          "If all the statistics in the instance should be reset, "
+          "the first element of the array MUST be set to \"All\" or "
+          "\"ALL\". If one or more individual statistics should be "
+          "reset, the corresponding property names are entered into "
+          "the elements of the array. \n"
+          "The method returns 0 if successful, 1 if not supported, "
+          "and any other value if an error occurred. A method is "
+          "specified so that the StatisticalInformation\'s "
+          "provider/ instrumentation, which calculates the "
+          "statistics, can reset its internal processing, counters, "
+          "etc. \n"
+          "In a subclass, the set of possible return codes could be "
+          "specified, using a ValueMap qualifier on the method. The "
+          "strings to which the ValueMap contents are \'translated\' "
+          "may also be specified in the subclass as a Values array "
+          "qualifier." )]
+   uint32 ResetSelectedStats(
+         [IN, Description ( 
+             "Array of strings indicating which statistics to reset."
+              )]
+      string SelectedStatistics[]);
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Device::Ports" ), 
+    Description ( 
+       "The NetworkPortStatistics class describes the statistics for "
+       "the NetworkPort." )]
+class CIM_NetworkPortStatistics : CIM_StatisticalData {
+
+      [Description ( 
+          "The total number of bytes that are transmitted, "
+          "including framing characters." ), 
+       Units ( "Bytes" ), 
+       Counter, MappingStrings { "MIB.IETF|MIB-II.ifOutOctets", 
+          "MIF.DMTF|Network Adapter 802 Port|001.7" }, 
+       PUnit ( "byte" )]
+   uint64 BytesTransmitted;
+
+      [Description ( 
+          "The total number of bytes that are received, including "
+          "framing characters." ), 
+       Units ( "Bytes" ), 
+       Counter, MappingStrings { "MIB.IETF|MIB-II.ifInOctets", 
+          "MIF.DMTF|Network Adapter 802 Port|001.9" }, 
+       PUnit ( "byte" )]
+   uint64 BytesReceived;
+
+      [Description ( 
+          "The total number of packets that are transmitted." ), 
+       Counter]
+   uint64 PacketsTransmitted;
+
+      [Description ( 
+          "The total number of packets that are received." ), 
+       Counter]
+   uint64 PacketsReceived;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Device::Ports" ), 
+    Description ( 
+       "The EthernetPortStatistics class describes the statistics for "
+       "the EthernetPort." )]
+class CIM_EthernetPortStatistics : CIM_NetworkPortStatistics {
+
+      [Override ( "PacketsTransmitted" ), 
+       Description ( 
+          "The total number of packets that are transmitted." ), 
+       Counter, MappingStrings { 
+          "MIF.DMTF|Network Adapter 802 Port|001.6" }]
+   uint64 PacketsTransmitted;
+
+      [Override ( "PacketsReceived" ), 
+       Description ( 
+          "The total number of packets that are received." ), 
+       Counter, MappingStrings { 
+          "MIF.DMTF|Network Adapter 802 Port|001.8" }]
+   uint64 PacketsReceived;
+
+      [Description ( 
+          "The number of times that there was an invalid data "
+          "symbol when a valid carrier was present. The count can "
+          "be incremented only once per carrier event, even if "
+          "multiple symbol errors occur during the carrier event." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsSymbolErrors" }]
+   uint32 SymbolErrors;
+
+      [Description ( 
+          "The number of frames that are received on a particular "
+          "interface that are not an integral number of octets in "
+          "length and do not pass the FCS check. The count "
+          "represented by an instance of this object is incremented "
+          "when the alignment error status is returned by the MAC "
+          "layer to the LLC (or other MAC user). Received frames "
+          "for which multiple error conditions obtained are, "
+          "according to the conventions of IEEE 802.3 Layer "
+          "Management, counted exclusively according to the error "
+          "status presented to the LLC." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsAlignmentErrors" }]
+   uint32 AlignmentErrors;
+
+      [Description ( 
+          "The number of frames that are received on a particular "
+          "interface that are an integral number of octets in "
+          "length, but do not pass the FCS check. The count "
+          "represented by an instance of this object is incremented "
+          "when the frame check error status is returned by the MAC "
+          "layer to the LLC (or other MAC user). Received frames "
+          "for which multiple error conditions obtained are, "
+          "according to the conventions of the error status "
+          "presented to the LLC." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsFCSErrors" }]
+   uint32 FCSErrors;
+
+      [Description ( 
+          "The number of successfully transmitted frames on a "
+          "particular interface for which transmission is inhibited "
+          "by exactly one collision. A frame that is counted by an "
+          "instance of this object is not counted by the "
+          "corresponding instance of the MultipleCollisionFrames "
+          "property." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsSingleCollisionFrames" }]
+   uint32 SingleCollisionFrames;
+
+      [Description ( 
+          "The number of successfully transmitted frames on a "
+          "particular interface for which transmission is inhibited "
+          "by more than one collision. A frame that is counted by "
+          "an instance of this object is not counted by the "
+          "corresponding instance of the SingleCollisionFrames "
+          "property." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsMultipleCollisionFrames" }]
+   uint32 MultipleCollisionFrames;
+
+      [Description ( 
+          "The number of times that the SQE TEST ERROR message is "
+          "generated by the PLS sublayer for a particular "
+          "interface. The SQE TEST ERROR message is defined in "
+          "section 7.2.2.2.4 of ANSI/IEEE 802.3-1985 and its "
+          "generation is described in section 7.2.4.6 of the same "
+          "document." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsSQETestErrors" }]
+   uint32 SQETestErrors;
+
+      [Description ( 
+          "The number of frames for which the first transmission "
+          "attempt on a particular interface is delayed because the "
+          "medium is busy. The count represented by an instance of "
+          "this object does not include frames involved in "
+          "collisions." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsDeferredTransmissions" }]
+   uint32 DeferredTransmissions;
+
+      [Description ( 
+          "The number of times that a collision is detected on a "
+          "particular interface later than 512 bit-times into the "
+          "transmission of a packet. Five hundred and twelve bit- "
+          "times corresponds to 51.2 microseconds on a 10 Mbit/s "
+          "system. A (late) collision included in a count "
+          "represented by an instance of this object is also "
+          "considered as a (generic) collision for purposes of "
+          "other collision-related statistics." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsLateCollisions" }]
+   uint32 LateCollisions;
+
+      [Description ( 
+          "The number of frames for which transmission on a "
+          "particular interface fails due to excessive collisions." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsExcessiveCollisions" }]
+   uint32 ExcessiveCollisions;
+
+      [Description ( 
+          "The number of frames for which transmission on a "
+          "particular interface fails due to an internal MAC "
+          "sublayer transmit error. A frame is counted by an "
+          "instance of this object only if it is not counted by the "
+          "corresponding instance of either the LateCollisions "
+          "property, the Excessive Collisions property, or the "
+          "CarrierSenseErrors property. The precise meaning of the "
+          "count that is represented by an instance of this object "
+          "is implementation-specific. In particular, an instance "
+          "of this object can represent a count of transmission "
+          "errors on a particular interface that are not otherwise "
+          "counted." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsInternalMacTransmitErrors" }]
+   uint32 InternalMACTransmitErrors;
+
+      [Description ( 
+          "The number of frames for which reception on a particular "
+          "interface fails due to an internal MAC sublayer receive "
+          "error. A frame is counted by an instance of this object "
+          "only if it is not counted by the corresponding instance "
+          "of either the FrameTooLongs property, the "
+          "AlignmentErrors property, or the FCSErrors property. The "
+          "precise meaning of the count that is represented by an "
+          "instance of this object is implementation-specific. For "
+          "example, an instance of this object can represent a "
+          "count of receive errors on a particular interface that "
+          "are not otherwise counted." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsInternalMacReceiveErrors" }]
+   uint32 InternalMACReceiveErrors;
+
+      [Description ( 
+          "The number of times that the carrier sense condition was "
+          "lost or never asserted when attempting to transmit a "
+          "frame on a particular interface. The count represented "
+          "by an instance of this object can be incremented only "
+          "once per transmission attempt, even if the carrier sense "
+          "condition fluctuates during a transmission attempt." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsCarrierSenseErrors" }]
+   uint32 CarrierSenseErrors;
+
+      [Description ( 
+          "The number of frames received on a particular interface "
+          "that exceed the maximum permitted frame size. The count "
+          "represented by an instance of this object is incremented "
+          "when the FrameTooLong status is returned by the MAC "
+          "layer to the LLC (or other MAC user). Received frames "
+          "for which multiple error conditions obtained are, "
+          "according to the conventions of IEEE 802.3 Layer "
+          "Management, counted exclusively according to the error "
+          "status presented to the LLC." ), 
+       Counter, MappingStrings { 
+          "MIB.IETF|EtherLike-MIB.dot3StatsFrameTooLongs" }]
+   uint32 FrameTooLongs;
+
+
+};
+
+
+// Copyright (c) 2012 DMTF.  All rights reserved.
+   [Version ( "2.34.0" ), 
+    UMLPackagePath ( "CIM::Device::Ports" ), 
+    Description ( 
+       "This class describes LLDP statistics that applies to LLDP "
+       "frames on this Ethernet Port. For more detailed descriptions "
+       "on these properties, please refer to IEEE "
+       "LLDP-EXT-DOT1-V2-MIB." )]
+class CIM_LLDPEthernetPortStatistics : CIM_EthernetPortStatistics {
+
+      [Description ( 
+          "The remote MAC addresses to which LLDP frames were "
+          "transmitted through the port to which these statistics "
+          "apply." ), 
+       ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsTxDestMACAddress" }]
+   string TxDestMACAddress[];
+
+      [Description ( 
+          "The number of LLDP frames transmitted through the port "
+          "to which these statistics apply to the remote MAC "
+          "address in the corresponding entry of TxDestMACAddress. "
+          "This array and the TxDestMACAddress array shall be "
+          "index-correlated." ), 
+       Counter, ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsTxPortFramesTotal" }, 
+       ModelCorrespondence { 
+          "CIM_LLDPEthernetPortStatistics.TxDestMACAddress" }]
+   uint32 TxPortFramesTotal[];
+
+      [Description ( 
+          "The number of LLDPDU Length Errors recorded for the LLDP "
+          "frames transmitted through this port to which these "
+          "statistics apply to the remote MAC address in the "
+          "corresponding entry of TxDestMACAddress. This array and "
+          "the TxDestMACAddress array shall be index-correlated." ), 
+       Counter, ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsTxLLDPDULengthErrors" }, 
+       ModelCorrespondence { 
+          "CIM_LLDPEthernetPortStatistics.TxDestMACAddress" }]
+   uint32 TxLLDPDULengthErrors[];
+
+      [Description ( 
+          "The remote MAC addresses from which LLDP frames were "
+          "received through the port to which these statistics "
+          "apply." ), 
+       ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsRxDestMACAddress" }]
+   string RxDestMACAddress[];
+
+      [Description ( 
+          "he number of LLDP frames received through the port to "
+          "which these statistics apply from the remote MAC address "
+          "in the corresponding entry of RxDestMACAddress, that "
+          "were then discarded for any reason. This array and the "
+          "RxDestMACAddress array shall be index-correlated." ), 
+       Counter, ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsRxPortFramesDiscardedTotal" }, 
+       ModelCorrespondence { 
+          "CIM_LLDPEthernetPortStatistics.RxDestMACAddress" }]
+   uint32 RxPortFramesDiscardedTotal[];
+
+      [Description ( 
+          "The number of LLDP frames with errors received through "
+          "the port to which these statistics apply from the remote "
+          "MAC address in the corresponding entry of "
+          "RxDestMACAddress. This array and the RxDestMACAddress "
+          "array shall be index-correlated." ), 
+       Counter, ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsRxPortFramesTotal" }, 
+       ModelCorrespondence { 
+          "CIM_LLDPEthernetPortStatistics.RxDestMACAddress" }]
+   uint32 RxPortFramesErrors[];
+
+      [Description ( 
+          "The number of TLVs in LLDP frames received through the "
+          "port to which these statistics apply from the remote MAC "
+          "address in the corresponding entry of RxDestMACAddress, "
+          "that were discarded for any reason. This array and the "
+          "RxDestMACAddress array shall be index-correlated." ), 
+       Counter, ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsRxPortTLVsDiscardedTotal" }, 
+       ModelCorrespondence { 
+          "CIM_LLDPEthernetPortStatistics.RxDestMACAddress" }]
+   uint32 RxPortTLVsDiscardedTotal[];
+
+      [Description ( 
+          "The number of TLVs in LLDP frames received through the "
+          "port to which these statistics apply from the remote MAC "
+          "address in the corresponding entry of RxDestMACAddress, "
+          "that were not recognized. This array and the "
+          "RxDestMACAddress array shall be index-correlated." ), 
+       Counter, ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsRxPortTLVsUnrecognizedTotal" }, 
+       ModelCorrespondence { 
+          "CIM_LLDPEthernetPortStatistics.RxDestMACAddress" }]
+   uint32 RxPortTLVsUnrecognizedTotal[];
+
+      [Description ( 
+          "The number of age-outs in the (remote) port of the "
+          "remote MAC address in the corresponding entry of "
+          "RxDestMACAddress. This array and the RxDestMACAddress "
+          "array shall be index-correlated." ), 
+       Counter, ArrayType ( "Indexed" ), 
+       MappingStrings { 
+          "MIB.IEEE|LLDP-EXT-DOT1-V2-MIB.lldpV2StatsRxPortAgeoutsTotal" }, 
+       ModelCorrespondence { 
+          "CIM_LLDPEthernetPortStatistics.RxDestMACAddress" }]
+   uint32 RxPortAgeoutsTotal[];
+
+
+};
+
+
+
+class UNIX_LLDPEthernetPortStatistics : CIM_LLDPEthernetPortStatistics
+{
+
+};
+

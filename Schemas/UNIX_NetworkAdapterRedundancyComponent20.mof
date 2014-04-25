@@ -1,0 +1,149 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Aggregation, Version ( "2.7.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Component is a generic association used to establish \'part "
+       "of\' relationships between Managed Elements. For example, it "
+       "could be used to define the components or parts of a System." )]
+class CIM_Component {
+
+      [Key, Aggregate, Description ( 
+          "The parent element in the association." )]
+   CIM_ManagedElement REF GroupComponent;
+
+      [Key, Description ( "The child element in the association." )]
+   CIM_ManagedElement REF PartComponent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_MemberOfCollection" }, 
+    Aggregation, Version ( "2.13.0" ), 
+    UMLPackagePath ( "CIM::Core::Redundancy" ), 
+    Description ( 
+       "A RedundancyGroup aggregates Managed System Elements and "
+       "indicates that these elements, taken together, provide "
+       "redundancy. All elements aggregated in a RedundancyGroup "
+       "should be instantiations of the same object class. \n"
+       "The use of this class is being depreacted in lieu of using "
+       "MemberOfCollection in conjunction with RedundancySet." )]
+class CIM_RedundancyComponent : CIM_Component {
+
+      [Deprecated { "CIM_MemberOfCollection.Collection" }, 
+       Aggregate, Override ( "GroupComponent" ), 
+       Description ( 
+          "The RedundancyComponent association indicates that \'this "
+          "set of fans\' or \'these physical extents\' participate "
+          "in a single RedundancyGroup." )]
+   CIM_RedundancyGroup REF GroupComponent;
+
+      [Deprecated { "CIM_MemberOfCollection.Member" }, 
+       Override ( "PartComponent" ), 
+       Description ( "The component of the redundancy group." )]
+   CIM_ManagedSystemElement REF PartComponent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Deprecated { "CIM_OrderedMemberOfCollection" }, 
+    Aggregation, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Device::NetworkAdapter" ), 
+    Description ( 
+       "Note: The use of the CIM_NetworkAdapterRedundancyComponent "
+       "class has been deprecated because a specific association is "
+       "not needed. Instead use the CIM_ OrderedMemberOf Collection "
+       "class. \n"
+       "Deprecated description: CIM_NetworkAdapterRedundancyComponent "
+       "indicates the role that a NetworkAdapter plays in an "
+       "ExtraCapacityGroup, providing load balancing." )]
+class CIM_NetworkAdapterRedundancyComponent : CIM_RedundancyComponent {
+
+      [Deprecated { "CIM_OrderedMemberOfCollection.Collection" }, 
+       Aggregate, Override ( "GroupComponent" ), 
+       Description ( 
+          "Note: The use of this method has been deprecated. \n"
+          "Deprecated description: The RedundancyGroup that "
+          "represents a set of load-balanced NetworkAdapters." )]
+   CIM_ExtraCapacityGroup REF GroupComponent;
+
+      [Deprecated { "CIM_OrderedMemberOfCollection.Member" }, 
+       Override ( "PartComponent" ), 
+       Description ( 
+          "Note: The use of this method has been deprecated. \n"
+          "Deprecated description: The Network Adapters that belong "
+          "to the RedundancyGroup." )]
+   CIM_NetworkAdapter REF PartComponent;
+
+      [Deprecated { "No value" }, 
+       Description ( 
+          "Note: The use of this method has been deprecated. \n"
+          "Deprecated description: Indicates the scope of load "
+          "balancing for the NetworkAdapters that is involved in "
+          "the RedundancyGroup. Load balancing can be restricted to "
+          "transmitting data only (value=1), receiving data only "
+          "(value=2), or used for both transmit and receive "
+          "(value=3)." ), 
+       ValueMap { "0", "1", "2", "3" }, 
+       Values { "Unknown", "Load Balancing - Transmit Only", 
+          "Load Balancing - Receive Only", "Full Load Balancing" }]
+   uint16 ScopeOfBalancing;
+
+      [Deprecated { "CIM_OrderedMemberOfCollection.AssignedSequence" }, 
+       Description ( 
+          "Note: The use of this method has been deprecated. \n"
+          "Deprecated description: A Boolean that indicates whether "
+          "the Network Adapter is an original primary adapter "
+          "(value=1), a preferred primary adapter (value=2), or "
+          "both (value=3). Values of \"Unknown\" and \"Not "
+          "Applicable\" can also be specified." ), 
+       ValueMap { "0", "1", "2", "3", "4" }, 
+       Values { "Unknown", "Original Primary", "Preferred Primary", 
+          "Both", "Not Applicable" }]
+   uint16 PrimaryAdapter;
+
+
+};
+
+
+
+class UNIX_NetworkAdapterRedundancyComponent : CIM_NetworkAdapterRedundancyComponent
+{
+
+};
+

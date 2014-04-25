@@ -1,0 +1,201 @@
+//%LICENSE////////////////////////////////////////////////////////////////
+//
+// Licensed to The Open Group (TOG) under one or more contributor license
+// agreements.  Refer to the OpenPegasusNOTICE.txt file distributed with
+// this work for additional information regarding copyright ownership.
+// Each contributor licenses this file to you under the OpenPegasus Open
+// Source License; you may not use this file except in compliance with the
+// License.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//////////////////////////////////////////////////////////////////////////
+//
+//%/////////////////////////////////////////////////////////////////////////
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Abstract, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Core::CoreElements" ), 
+    Description ( 
+       "CIM_Dependency is a generic association used to establish "
+       "dependency relationships between ManagedElements." )]
+class CIM_Dependency {
+
+      [Key, Description ( 
+          "Antecedent represents the independent object in this association."
+           )]
+   CIM_ManagedElement REF Antecedent;
+
+      [Key, Description ( 
+          "Dependent represents the object that is dependent on the "
+          "Antecedent." )]
+   CIM_ManagedElement REF Dependent;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Device::DeviceElements" ), 
+    Description ( 
+       "The DeviceConnection relationship indicates that two or more "
+       "Devices are connected together." )]
+class CIM_DeviceConnection : CIM_Dependency {
+
+      [Override ( "Antecedent" ), 
+       Description ( "A LogicalDevice." )]
+   CIM_LogicalDevice REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( 
+          "A second LogicalDevice that is connected to the Antecedent Device."
+           )]
+   CIM_LogicalDevice REF Dependent;
+
+      [Description ( 
+          "When several bus and connection speeds are possible, the "
+          "NegotiatedSpeed property defines the one that is in use "
+          "between the Devices. Speed is specified in bits per "
+          "second. If connection or bus speeds are not negotiated, "
+          "or if this information is not available or not important "
+          "to Device management, the property should be set to 0." ), 
+       Units ( "Bits per Second" ), 
+       MappingStrings { "MIF.DMTF|Bus Port Association|001.2" }, 
+       PUnit ( "bit / second" )]
+   uint64 NegotiatedSpeed;
+
+      [Description ( 
+          "When several bus and connection data widths are "
+          "possible, the NegotiatedDataWidth property defines the "
+          "one that is in use between the Devices. Data width is "
+          "specified in bits. If data width is not negotiated, or "
+          "if this information is not available or not important to "
+          "Device management, the property should be set to 0." ), 
+       Units ( "Bits" ), 
+       MappingStrings { "MIF.DMTF|Bus Port Association|001.3" }, 
+       PUnit ( "bit" )]
+   uint32 NegotiatedDataWidth;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.10.0" ), 
+    UMLPackagePath ( "CIM::Device::Controller" ), 
+    Description ( 
+       "The ControlledBy relationship indicates which Devices are "
+       "controlled by a CIM_Controller." )]
+class CIM_ControlledBy : CIM_DeviceConnection {
+
+      [Override ( "Antecedent" ), 
+       Description ( "The Controller." )]
+   CIM_Controller REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Description ( "The controlled Device." )]
+   CIM_LogicalDevice REF Dependent;
+
+      [Description ( 
+          "The State property indicates whether the Controller is "
+          "actively commanding or accessing the Device (value=1) or "
+          "not (value=2). Also, the value, \"Unknown\" (0), can be "
+          "defined. This information is necessary when a "
+          "LogicalDevice can be commanded by, or accessed through, "
+          "multiple Controllers." ), 
+       ValueMap { "0", "1", "2" }, 
+       Values { "Unknown", "Active", "Inactive" }]
+   uint16 AccessState;
+
+      [Description ( 
+          "The time that the downstream Device was last reset by "
+          "the Controller." )]
+   datetime TimeOfDeviceReset;
+
+      [Description ( 
+          "Number of hard resets issued by the Controller. A hard "
+          "reset returns the Device to its initialization or "
+          "boot-up state. All internal Device state information and "
+          "data are lost." ), 
+       Counter]
+   uint32 NumberOfHardResets;
+
+      [Description ( 
+          "Number of soft resets issued by the Controller. A soft "
+          "reset does not completely clear current Device state or "
+          "data. Exact semantics are dependent on the Device and on "
+          "the protocols and mechanisms used to communicate with "
+          "the Device." ), 
+       Counter]
+   uint32 NumberOfSoftResets;
+
+      [Description ( 
+          "Address of associated Device in context of the "
+          "antecedent Controller." )]
+   string DeviceNumber;
+
+      [Description ( 
+          "This property describes the accessibility of the device "
+          "through the antecedent controller." ), 
+       ValueMap { "2", "3", "4" }, 
+       Values { "ReadWrite", "ReadOnly", "NoAccess" }]
+   uint16 AccessMode;
+
+      [Description ( 
+          "The property describes the priority given to accesses of "
+          "the device through this controller. The highest priority "
+          "path will have the lowest value for this parameter." )]
+   uint16 AccessPriority;
+
+
+};
+
+
+// Copyright (c) 2005 DMTF.  All rights reserved.
+   [Association, Version ( "2.6.0" ), 
+    UMLPackagePath ( "CIM::Device::USB" ), 
+    Description ( 
+       "USBControllerHasHub defines the Hub(s) that are downstream of "
+       "the USBController." )]
+class CIM_USBControllerHasHub : CIM_ControlledBy {
+
+      [Override ( "Antecedent" ), 
+       Min ( 1 ), 
+       Max ( 1 ), 
+       Description ( "The USBController." )]
+   CIM_USBController REF Antecedent;
+
+      [Override ( "Dependent" ), 
+       Min ( 1 ), 
+       Description ( 
+          "The USBHub that is associated with the Controller." )]
+   CIM_USBHub REF Dependent;
+
+
+};
+
+
+
+class UNIX_USBControllerHasHub : CIM_USBControllerHasHub
+{
+
+};
+
