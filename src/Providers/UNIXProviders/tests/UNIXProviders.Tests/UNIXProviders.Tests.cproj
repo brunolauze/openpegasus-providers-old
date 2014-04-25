@@ -35,7 +35,7 @@
         <Variable name="LD_LIBRARY_PATH" value="../../UNIXProviders/bin/Debug:/usr/local/lib/pegasus/lib:/usr/local/lib:/usr/lib:/lib" />
       </EnvironmentVariables>
     </EnvironmentVariables>
-    <Commandlineparameters>UNIX_Account</Commandlineparameters>
+    <Commandlineparameters>UNIX_OSProcess</Commandlineparameters>
     <LibPaths>
       <LibPaths>
         <LibPath>${ProjectDir}/../bin/Debug</LibPath>
