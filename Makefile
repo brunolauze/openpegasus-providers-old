@@ -36,10 +36,16 @@ include $(ROOT)/mak/config.mak
 # This is a recurse make file
 # Defines subdirectories to go to recursively
 
-DIRS = src
+DIRS = \
+	src \
+	Schemas
 
 include $(ROOT)/mak/recurse.mak
 
 .PHONY: FORCE
 
 FORCE:
+
+
+install:
+	$(foreach i, $(wildcard $(PEGASUS_HOME)/*), install -s -m 444 $(i) $(DESTDIR)/lib/pegasus/lib;)
