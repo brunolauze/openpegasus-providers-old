@@ -43,7 +43,7 @@ UNIX_TimeServiceProvider::~UNIX_TimeServiceProvider()
 CIMInstance UNIX_TimeServiceProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_TimeService &_p)
+	const UNIX_TimeService &_p) const
 {
 	CIMProperty p;
 
@@ -99,7 +99,7 @@ CIMInstance UNIX_TimeServiceProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_TimeServiceProvider::constructKeyBindings(const UNIX_TimeService& _p)
+Array<CIMKeyBinding> UNIX_TimeServiceProvider::constructKeyBindings(const UNIX_TimeService& _p) const
 
 {
 

@@ -43,7 +43,7 @@ UNIX_TimeZoneProvider::~UNIX_TimeZoneProvider()
 CIMInstance UNIX_TimeZoneProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_TimeZone &_p)
+	const UNIX_TimeZone &_p) const
 {
 	CIMProperty p;
 
@@ -86,7 +86,7 @@ CIMInstance UNIX_TimeZoneProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_TimeZoneProvider::constructKeyBindings(const UNIX_TimeZone& _p)
+Array<CIMKeyBinding> UNIX_TimeZoneProvider::constructKeyBindings(const UNIX_TimeZone& _p) const
 
 {
 

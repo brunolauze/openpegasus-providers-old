@@ -47,7 +47,7 @@ Boolean UNIX_TimeService::getInstanceID(CIMProperty &p) const
 
 String UNIX_TimeService::getInstanceID() const
 {
-	return String ("");
+	return String (path);
 }
 
 Boolean UNIX_TimeService::getCaption(CIMProperty &p) const
@@ -58,7 +58,7 @@ Boolean UNIX_TimeService::getCaption(CIMProperty &p) const
 
 String UNIX_TimeService::getCaption() const
 {
-	return String ("");
+	return getInstanceID();
 }
 
 Boolean UNIX_TimeService::getDescription(CIMProperty &p) const
@@ -69,7 +69,7 @@ Boolean UNIX_TimeService::getDescription(CIMProperty &p) const
 
 String UNIX_TimeService::getDescription() const
 {
-	return String ("");
+	return String ("Network Time Protocol (NTP) daemon");
 }
 
 Boolean UNIX_TimeService::getElementName(CIMProperty &p) const
@@ -91,18 +91,7 @@ Boolean UNIX_TimeService::getInstallDate(CIMProperty &p) const
 
 CIMDateTime UNIX_TimeService::getInstallDate() const
 {
-	struct tm* clock;			// create a time structure
-	time_t val = time(NULL);
-	clock = gmtime(&(val));	// Get the last modified time and put it into the time structure
-	return CIMDateTime(
-		clock->tm_year + 1900,
-		clock->tm_mon + 1,
-		clock->tm_mday,
-		clock->tm_hour,
-		clock->tm_min,
-		clock->tm_sec,
-		0,0,
-		clock->tm_gmtoff);
+	return CIMHelper::getInstallDate(path);
 }
 
 Boolean UNIX_TimeService::getName(CIMProperty &p) const
@@ -113,7 +102,7 @@ Boolean UNIX_TimeService::getName(CIMProperty &p) const
 
 String UNIX_TimeService::getName() const
 {
-	return String ("");
+	return String ("Network Time Protocol");
 }
 
 Boolean UNIX_TimeService::getOperationalStatus(CIMProperty &p) const
@@ -125,7 +114,7 @@ Boolean UNIX_TimeService::getOperationalStatus(CIMProperty &p) const
 Array<Uint16> UNIX_TimeService::getOperationalStatus() const
 {
 	Array<Uint16> as;
-	
+	as.append(2); //OK
 
 	return as;
 
@@ -140,7 +129,7 @@ Boolean UNIX_TimeService::getStatusDescriptions(CIMProperty &p) const
 Array<String> UNIX_TimeService::getStatusDescriptions() const
 {
 	Array<String> as;
-	
+	as.append("OK");
 
 	return as;
 
@@ -367,7 +356,7 @@ Boolean UNIX_TimeService::getStartMode(CIMProperty &p) const
 
 String UNIX_TimeService::getStartMode() const
 {
-	return String ("");
+	return String ("Automatic");
 }
 
 Boolean UNIX_TimeService::getStarted(CIMProperty &p) const
@@ -378,24 +367,43 @@ Boolean UNIX_TimeService::getStarted(CIMProperty &p) const
 
 Boolean UNIX_TimeService::getStarted() const
 {
-	return Boolean(false);
+	return Boolean(true);
 }
-
-
 
 Boolean UNIX_TimeService::initialize()
 {
-	return false;
+	hasNTPD = false;
+	FILE* pipe = popen("/usr/sbin/service -e", "r");
+    if (!pipe) return false;
+    char buffer[256];
+    while(!feof(pipe)) {
+    	while (fgets(buffer, 128, pipe) != NULL)
+    	{
+    		/* Extract service name from daemon script path */
+    		int index = CIMHelper::indexOf(buffer, strdup("/ntpd"));
+    		if (index > 0)
+    		{
+    			if (buffer[strlen(buffer) - 1] == '\n')
+    				buffer[strlen(buffer) - 1] = '\0';
+    			hasNTPD = true;
+    			path = strdup(buffer);
+    			break;
+    		}
+    	}
+    }
+    fclose(pipe);
+	return true;
 }
 
 Boolean UNIX_TimeService::load(int &pIndex)
 {
+	if (pIndex == 0 && hasNTPD) return true;
 	return false;
 }
 
 Boolean UNIX_TimeService::finalize()
 {
-	return false;
+	return true;
 }
 
 Boolean UNIX_TimeService::find(Array<CIMKeyBinding> &kbArray)
@@ -417,9 +425,16 @@ Boolean UNIX_TimeService::find(Array<CIMKeyBinding> &kbArray)
 		else if (keyName.equal(PROPERTY_NAME)) nameKey = kb.getValue();
 	}
 
-
-
-/* EXecute find with extracted keys */
+	/* Execute find with extracted keys */
+	int i = 0;
+	load(i);
+	if (String::equal(getSystemCreationClassName(), systemCreationClassNameKey) &&
+		String::equal(getSystemName(), systemNameKey) &&
+		String::equal(getCreationClassName(), creationClassNameKey) &&
+		String::equal(getName(), nameKey))
+	{
+		return true;
+	}
 
 	return false;
 }

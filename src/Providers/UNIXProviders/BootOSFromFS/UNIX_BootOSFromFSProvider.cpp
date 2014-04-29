@@ -39,14 +39,15 @@ UNIX_BootOSFromFSProvider::UNIX_BootOSFromFSProvider()
 UNIX_BootOSFromFSProvider::~UNIX_BootOSFromFSProvider()
 {
 }
+#include <iostream>
 
 CIMInstance UNIX_BootOSFromFSProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_BootOSFromFS &_p)
+	const UNIX_BootOSFromFS &_p) const
 {
 	CIMProperty p;
-
+	cout << "BUILDING" << endl;
 	CIMInstance inst(className);
 
 	// Set path
@@ -54,7 +55,7 @@ CIMInstance UNIX_BootOSFromFSProvider::constructInstance(
 			nameSpace,
 			CIMName("UNIX_BootOSFromFS"),
 			constructKeyBindings(_p)));
-
+	cout << "KEYS" << endl;
 	//CIM_Dependency Properties
 	if (_p.getAntecedent(p)) inst.addProperty(p);
 	if (_p.getDependent(p)) inst.addProperty(p);
@@ -65,21 +66,24 @@ CIMInstance UNIX_BootOSFromFSProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_BootOSFromFSProvider::constructKeyBindings(const UNIX_BootOSFromFS& _p)
+Array<CIMKeyBinding> UNIX_BootOSFromFSProvider::constructKeyBindings(const UNIX_BootOSFromFS& _p) const
 
 {
 
 	Array<CIMKeyBinding> keys;
 
-	keys.append(CIMKeyBinding(
-		PROPERTY_ANTECEDENT,
-		CIMValue(_p.getAntecedent()).toString(),
-		CIMKeyBinding::REFERENCE));
-	keys.append(CIMKeyBinding(
-		PROPERTY_DEPENDENT,
-		CIMValue(_p.getDependent()).toString(),
-		CIMKeyBinding::REFERENCE));
 
+	CIMKeyBinding k1(
+		PROPERTY_ANTECEDENT,
+		CIMValue(_p.getAntecedent().getPath()));
+	k1.setType(CIMKeyBinding::REFERENCE);
+	CIMKeyBinding k2(
+		PROPERTY_DEPENDENT,
+		CIMValue(_p.getDependent().getPath()));
+	k2.setType(CIMKeyBinding::REFERENCE);
+
+	keys.append(k1);
+	keys.append(k2);
 
 	return keys;
 }
@@ -91,7 +95,7 @@ Array<CIMKeyBinding> UNIX_BootOSFromFSProvider::constructKeyBindings(const UNIX_
 #define CLASS_IMPLEMENTATION UNIX_BootOSFromFS
 #define CLASS_IMPLEMENTATION_NAME "UNIX_BootOSFromFS"
 #define BASE_CLASS_NAME "CIM_BootOSFromFS"
-#define NUMKEYS_CLASS_IMPLEMENTATION 0
+#define NUMKEYS_CLASS_IMPLEMENTATION 2
 
 
 #include "UNIXProviderBase.hpp"

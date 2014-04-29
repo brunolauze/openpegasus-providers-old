@@ -43,10 +43,6 @@ PG_SCHEMA_DIR=VER$(PG_SCHEMA_VER)
 PG_MOF_PATH=$(ROOT)/Schemas
 FILE_PREFIX=UNIX
 
-
-CIMMOFCLI=/usr/local/bin/cimmof
-REPOSITORY_DIR=/usr/local/share/pegasus/repository
-
 # The following defines are used to determine the version of
 # the platform specific schema to be loaded into Managed System namespace.
 
@@ -68,16 +64,15 @@ ifeq ($(OS), linux)
   endif
 endif
 
+
+all:
 ifeq ($(MANAGEDSYSTEM_NS_SUPPORTED),true)
-
-@ $(ECHO) +++++ Loading UNIX_ManagedSystemSchema$(PG_SCHEMA_VER) into $(MANAGEDSYSTEMNS) namespace ...
-@ $(ECHO) Repository Dir:  $(REPOSITORY_DIR)
-@ $(ECHO) Repository Name: $(REPOSITORY_NAME)
-@ $(ECHO) Repository Mode: $(REPOSITORY_MODE)
-@ $(ECHO) Mof Path:        $(PG_MOF_PATH)
-
-#@ $(CIMMOFCLI) "-R$(REPOSITORY_DIR)" "-N$(REPOSITORY_NAME)" "-M$(REPOSITORY_MODE)" "-I$(PG_MOF_PATH)" "-n$(MANAGEDSYSTEMNS)" "$(PG_MOF_PATH)/UNIX_ManagedSystemSchema$(PG_SCHEMA_VER).mof"
-#@ $(ECHO) +++++ Registering Providers for UNIX_ManagedSystemSchema$(PG_SCHEMA_VER) ...
-#@ $(CIMMOFCLI) "-R$(REPOSITORY_DIR)" "-N$(REPOSITORY_NAME)" "-M$(REPOSITORY_MODE)" "-I$(PG_MOF_PATH)" "-n$(INTEROPNS)" "$(PG_MOF_PATH)/UNIX_ManagedSystemSchema$(PG_SCHEMA_VER)R.mof"
+	@ $(ECHO) +++++ Loading UNIX_ManagedSystemSchema$(PG_SCHEMA_VER) into $(MANAGEDSYSTEMNS) namespace ...
+	@ $(ECHO) Repository Name: $(REPOSITORY_NAME)
+	@ $(ECHO) Repository Mode: $(REPOSITORY_MODE)
+	@ $(ECHO) Mof Path:        $(PG_MOF_PATH)
+	#@ $(CIMMOFCLI) "-R$(REPOSITORY_DIR)" "-N$(REPOSITORY_NAME)" "-M$(REPOSITORY_MODE)" "-I$(PG_MOF_PATH)" "-n$(MANAGEDSYSTEMNS)" "$(PG_MOF_PATH)/UNIX_ManagedSystemSchema$(PG_SCHEMA_VER).mof"
+	#@ $(ECHO) +++++ Registering Providers for UNIX_ManagedSystemSchema$(PG_SCHEMA_VER) ...
+	#@ $(CIMMOFCLI) "-R$(REPOSITORY_DIR)" "-N$(REPOSITORY_NAME)" "-M$(REPOSITORY_MODE)" "-I$(PG_MOF_PATH)" "-n$(INTEROPNS)" "$(PG_MOF_PATH)/UNIX_ManagedSystemSchema$(PG_SCHEMA_VER)R.mof"
 	
 endif

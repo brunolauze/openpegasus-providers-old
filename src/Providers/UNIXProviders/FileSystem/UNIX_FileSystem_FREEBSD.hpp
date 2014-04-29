@@ -517,8 +517,6 @@ Uint64 UNIX_FileSystem::getNumberOfFiles() const
 	return Uint64(0);
 }
 
-
-
 Boolean UNIX_FileSystem::initialize()
 {
 	if ((mntsize = getmntinfo(&mntbuf, MNT_NOWAIT)) != 0)

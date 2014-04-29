@@ -43,7 +43,7 @@ UNIX_ManagementControllerProvider::~UNIX_ManagementControllerProvider()
 CIMInstance UNIX_ManagementControllerProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_ManagementController &_p)
+	const UNIX_ManagementController &_p) const
 {
 	CIMProperty p;
 
@@ -115,7 +115,7 @@ CIMInstance UNIX_ManagementControllerProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_ManagementControllerProvider::constructKeyBindings(const UNIX_ManagementController& _p)
+Array<CIMKeyBinding> UNIX_ManagementControllerProvider::constructKeyBindings(const UNIX_ManagementController& _p) const
 
 {
 

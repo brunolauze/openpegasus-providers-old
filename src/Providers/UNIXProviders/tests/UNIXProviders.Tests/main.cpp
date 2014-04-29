@@ -148,7 +148,7 @@
 //#include "UNIX_BlockStatisticsServiceFixture.h"
 //#include "UNIX_BlockStorageStatisticalDataFixture.h"
 //#include "UNIX_BootConfigSettingFixture.h"
-//#include "UNIX_BootOSFromFSFixture.h"
+#include "UNIX_BootOSFromFSFixture.h"
 //#include "UNIX_BootSAPFixture.h"
 //#include "UNIX_BootServiceFixture.h"
 //#include "UNIX_BootServiceAccessBySAPFixture.h"
@@ -1003,8 +1003,8 @@
 //#include "UNIX_TextRedirectionSAPFixture.h"
 //#include "UNIX_TextRedirectionServiceFixture.h"
 //#include "UNIX_ThresholdIndicationFixture.h"
-//#include "UNIX_TimeServiceFixture.h"
-//#include "UNIX_TimeZoneFixture.h"
+#include "UNIX_TimeServiceFixture.h"
+#include "UNIX_TimeZoneFixture.h"
 //#include "UNIX_ToDirectoryActionFixture.h"
 //#include "UNIX_ToDirectorySpecificationFixture.h"
 //#include "UNIX_TokenBucketMeterServiceFixture.h"
@@ -1249,7 +1249,7 @@ int main (int argc, char *argv[])
 	//if (IsTarget(s, "UNIX_BlockStatisticsService")) { UNIX_BlockStatisticsServiceFixture blockStatisticsService; blockStatisticsService.Run(); }
 	//if (IsTarget(s, "UNIX_BlockStorageStatisticalData")) { UNIX_BlockStorageStatisticalDataFixture blockStorageStatisticalData; blockStorageStatisticalData.Run(); }
 	//if (IsTarget(s, "UNIX_BootConfigSetting")) { UNIX_BootConfigSettingFixture bootConfigSetting; bootConfigSetting.Run(); }
-	//if (IsTarget(s, "UNIX_BootOSFromFS")) { UNIX_BootOSFromFSFixture bootOSFromFS; bootOSFromFS.Run(); }
+	if (IsTarget(s, "UNIX_BootOSFromFS")) { UNIX_BootOSFromFSFixture bootOSFromFS; bootOSFromFS.Run(); }
 	//if (IsTarget(s, "UNIX_BootSAP")) { UNIX_BootSAPFixture bootSAP; bootSAP.Run(); }
 	//if (IsTarget(s, "UNIX_BootService")) { UNIX_BootServiceFixture bootService; bootService.Run(); }
 	//if (IsTarget(s, "UNIX_BootServiceAccessBySAP")) { UNIX_BootServiceAccessBySAPFixture bootServiceAccessBySAP; bootServiceAccessBySAP.Run(); }
@@ -2104,8 +2104,8 @@ int main (int argc, char *argv[])
 	//if (IsTarget(s, "UNIX_TextRedirectionSAP")) { UNIX_TextRedirectionSAPFixture textRedirectionSAP; textRedirectionSAP.Run(); }
 	//if (IsTarget(s, "UNIX_TextRedirectionService")) { UNIX_TextRedirectionServiceFixture textRedirectionService; textRedirectionService.Run(); }
 	//if (IsTarget(s, "UNIX_ThresholdIndication")) { UNIX_ThresholdIndicationFixture thresholdIndication; thresholdIndication.Run(); }
-	//if (IsTarget(s, "UNIX_TimeService")) { UNIX_TimeServiceFixture timeService; timeService.Run(); }
-	//if (IsTarget(s, "UNIX_TimeZone")) { UNIX_TimeZoneFixture timeZone; timeZone.Run(); }
+	if (IsTarget(s, "UNIX_TimeService")) { UNIX_TimeServiceFixture timeService; timeService.Run(); }
+	if (IsTarget(s, "UNIX_TimeZone")) { UNIX_TimeZoneFixture timeZone; timeZone.Run(); }
 	//if (IsTarget(s, "UNIX_ToDirectoryAction")) { UNIX_ToDirectoryActionFixture toDirectoryAction; toDirectoryAction.Run(); }
 	//if (IsTarget(s, "UNIX_ToDirectorySpecification")) { UNIX_ToDirectorySpecificationFixture toDirectorySpecification; toDirectorySpecification.Run(); }
 	//if (IsTarget(s, "UNIX_TokenBucketMeterService")) { UNIX_TokenBucketMeterServiceFixture tokenBucketMeterService; tokenBucketMeterService.Run(); }

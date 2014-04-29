@@ -34,11 +34,9 @@
 
 
 #include "CIM_Dependency.h"
-
+#include <OperatingSystem/UNIX_OperatingSystemProvider.h>
+#include <LocalFileSystem/UNIX_LocalFileSystemProvider.h>
 #include "UNIX_BootOSFromFSDeps.h"
-
-
-
 
 class UNIX_BootOSFromFS :
 	public CIM_Dependency
@@ -62,7 +60,10 @@ public:
 
 private:
 	CIMName currentScope;
-
+	UNIX_OperatingSystemProvider operatingSystemProvider;
+	UNIX_OperatingSystem operatingSystem;
+	UNIX_LocalFileSystemProvider localFileSystemProvider;
+	UNIX_LocalFileSystem localFileSystem;
 #	include "UNIX_BootOSFromFSPrivate.h"
 
 

@@ -79,6 +79,7 @@ __FBSDID("$FreeBSD: head/sbin/mount_nfs/mount_nfs.c 247856 2013-03-05 22:41:35Z 
 #include <strings.h>
 #include <sysexits.h>
 #include <unistd.h>
+#include <stdarg.h>
 
 #include "UNIX_NFS_FREEBSD_mntopt.h"
 
@@ -146,6 +147,66 @@ static int	xdr_fh(XDR *, struct nfhret *);
 static enum tryret nfs_tryproto(struct addrinfo *ai, char *hostp, char *spec,
     char **errstr, struct iovec **iov, int *iovlen);
 static enum tryret returncode(enum clnt_stat stat, struct rpc_err *rpcerr);
+
+int
+checkpath(const char *path, char *resolved)
+{
+	struct stat sb;
+
+	if (realpath(path, resolved) == NULL || stat(resolved, &sb) != 0)
+		return (1);
+	if (!S_ISDIR(sb.st_mode)) {
+		errno = ENOTDIR;
+		return (1);
+	}
+	return (0);
+}
+
+void
+build_iovec(struct iovec **iov, int *iovlen, const char *name, void *val,
+	    size_t len)
+{
+	int i;
+
+	if (*iovlen < 0)
+		return;
+	i = *iovlen;
+	*iov = (struct iovec *)realloc(*iov, sizeof **iov * (i + 2));
+	if (*iov == NULL) {
+		*iovlen = -1;
+		return;
+	}
+	(*iov)[i].iov_base = strdup(name);
+	(*iov)[i].iov_len = strlen(name) + 1;
+	i++;
+	(*iov)[i].iov_base = val;
+	if (len == (size_t)-1) {
+		if (val != NULL)
+			len = strlen((char *)val) + 1;
+		else
+			len = 0;
+	}
+	(*iov)[i].iov_len = (int)len;
+	*iovlen = ++i;
+}
+
+/*
+ * This function is needed for compatibility with parameters
+ * which used to use the mount_argf() command for the old mount() syscall.
+ */
+void
+build_iovec_argf(struct iovec **iov, int *iovlen, const char *name,
+    const char *fmt, ...)
+{
+	va_list ap;
+	char val[255] = { 0 };
+
+	va_start(ap, fmt);
+	vsnprintf(val, sizeof(val), fmt, ap);
+	va_end(ap);
+	build_iovec(iov, iovlen, name, strdup(val), (size_t)-1);
+}
+
 
 int mount_nfs(char *spec, char *name)
 {

@@ -48,4 +48,6 @@ FORCE:
 
 
 install:
-	$(foreach i, $(wildcard $(PEGASUS_HOME)/*), install -s -m 444 $(i) $(DESTDIR)/lib/pegasus/lib;)
+	$(MKDIRHIER) $(DESTDIR)$(PREFIX)/lib/pegasus/lib
+	$(foreach i, $(wildcard $(PEGASUS_HOME)/lib/*.so), install -s -m 444 $(i) $(DESTDIR)$(PREFIX)/lib/pegasus/lib;)
+	$(foreach i, $(wildcard $(PEGASUS_HOME)/lib/*.so.1), install -s -m 444 $(i) $(DESTDIR)$(PREFIX)/lib/pegasus/lib;)

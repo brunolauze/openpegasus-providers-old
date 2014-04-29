@@ -47,7 +47,11 @@ Boolean UNIX_BootOSFromFS::getAntecedent(CIMProperty &p) const
 
 CIMInstance UNIX_BootOSFromFS::getAntecedent() const
 {
-	return CIMInstance(CIMName("CIM_Dependency"));
+	CIMInstance instance = localFileSystemProvider.constructInstance(
+		CIMName("UNIX_LocalFileSystem"),
+		CIMNamespaceName("root/cimv2"),
+		localFileSystem);
+	return instance;
 }
 
 Boolean UNIX_BootOSFromFS::getDependent(CIMProperty &p) const
@@ -58,24 +62,43 @@ Boolean UNIX_BootOSFromFS::getDependent(CIMProperty &p) const
 
 CIMInstance UNIX_BootOSFromFS::getDependent() const
 {
-	return CIMInstance(CIMName("CIM_Dependency"));
+	CIMInstance instance = operatingSystemProvider.constructInstance(
+		CIMName("UNIX_OperatingSystem"),
+		CIMNamespaceName("root/cimv2"),
+		operatingSystem);
+	return instance;
 }
 
 
-
+#include <iostream>
 Boolean UNIX_BootOSFromFS::initialize()
 {
-	return false;
+	operatingSystem.initialize();
+	localFileSystem.initialize();
+	return true;
 }
 
 Boolean UNIX_BootOSFromFS::load(int &pIndex)
 {
+	if (pIndex == 0)
+	{
+		operatingSystem.load(pIndex);
+		for(int i = 0; localFileSystem.load(i); i++)
+		{
+			if (String::equal(localFileSystem.getRoot(), "/"))
+			{
+				return true;
+			}
+		}
+	}
 	return false;
 }
 
 Boolean UNIX_BootOSFromFS::finalize()
 {
-	return false;
+	operatingSystem.finalize();
+	localFileSystem.finalize();
+	return true;
 }
 
 Boolean UNIX_BootOSFromFS::find(Array<CIMKeyBinding> &kbArray)
@@ -93,9 +116,7 @@ Boolean UNIX_BootOSFromFS::find(Array<CIMKeyBinding> &kbArray)
 		else if (keyName.equal(PROPERTY_DEPENDENT)) dependentKey = kb.getValue();
 	}
 
-
-
-/* EXecute find with extracted keys */
+	/* Execute find with extracted keys */
 
 	return false;
 }

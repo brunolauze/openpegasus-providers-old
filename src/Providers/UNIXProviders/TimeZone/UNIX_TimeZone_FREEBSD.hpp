@@ -29,6 +29,10 @@
 //
 //%/////////////////////////////////////////////////////////////////////////
 
+#define __TZ_CLASS UNIX_TimeZone
+#include <tzfile.hpp>
+#undef __TZ_CLASS
+
 
 UNIX_TimeZone::UNIX_TimeZone(void)
 {
@@ -47,7 +51,7 @@ Boolean UNIX_TimeZone::getInstanceID(CIMProperty &p) const
 
 String UNIX_TimeZone::getInstanceID() const
 {
-	return String ("");
+	return String (current->filename);
 }
 
 Boolean UNIX_TimeZone::getCaption(CIMProperty &p) const
@@ -58,7 +62,7 @@ Boolean UNIX_TimeZone::getCaption(CIMProperty &p) const
 
 String UNIX_TimeZone::getCaption() const
 {
-	return String ("");
+	return String(current->descr);
 }
 
 Boolean UNIX_TimeZone::getDescription(CIMProperty &p) const
@@ -102,7 +106,7 @@ Boolean UNIX_TimeZone::getTimeZoneID(CIMProperty &p) const
 
 String UNIX_TimeZone::getTimeZoneID() const
 {
-	return String ("");
+	return String (current->filename);
 }
 
 Boolean UNIX_TimeZone::getTimeZoneStartDate(CIMProperty &p) const
@@ -135,7 +139,7 @@ Boolean UNIX_TimeZone::getStandardName(CIMProperty &p) const
 
 String UNIX_TimeZone::getStandardName() const
 {
-	return String ("");
+	return String (""); //current->filename);
 }
 
 Boolean UNIX_TimeZone::getStandardCaption(CIMProperty &p) const
@@ -307,17 +311,32 @@ CIMDateTime UNIX_TimeZone::getDaylightStartInterval() const
 
 Boolean UNIX_TimeZone::initialize()
 {
-	return false;
+	zones = NULL;
+	current = NULL;
+	read_zones();
+	if (zones == NULL) return false;
+	current = zones;
+	return true;
 }
 
 Boolean UNIX_TimeZone::load(int &pIndex)
 {
+	if (current == NULL) return false;
+	if (pIndex > 0) current = current->next;
+	if (current != NULL)
+	{
+		cout << current->descr << endl;
+		cout << current->filename << endl;
+		return true;
+	}
 	return false;
 }
 
 Boolean UNIX_TimeZone::finalize()
 {
-	return false;
+	zones = NULL;
+	current = NULL;
+	return true;
 }
 
 Boolean UNIX_TimeZone::find(Array<CIMKeyBinding> &kbArray)
@@ -325,7 +344,6 @@ Boolean UNIX_TimeZone::find(Array<CIMKeyBinding> &kbArray)
 	CIMKeyBinding kb;
 	String timeZoneIDKey;
 	String timeZoneStartDateKey;
-
 
 	for(Uint32 i = 0; i < kbArray.size(); i++)
 	{
@@ -335,9 +353,12 @@ Boolean UNIX_TimeZone::find(Array<CIMKeyBinding> &kbArray)
 		else if (keyName.equal(PROPERTY_TIME_ZONE_START_DATE)) timeZoneStartDateKey = kb.getValue();
 	}
 
-
-
-/* EXecute find with extracted keys */
+	/* Execute find with extracted keys */
+	for(int i = 0; load(i); i++)
+	{
+		if (String::equal(getTimeZoneID(), timeZoneIDKey))
+			return true;
+	}
 
 	return false;
 }

@@ -80,7 +80,7 @@ Boolean UNIX_LocalFileSystem::getElementName(CIMProperty &p) const
 
 String UNIX_LocalFileSystem::getElementName() const
 {
-	return String("RemoteFileSystem");
+	return String("LocalFileSystem");
 }
 
 Boolean UNIX_LocalFileSystem::getInstallDate(CIMProperty &p) const

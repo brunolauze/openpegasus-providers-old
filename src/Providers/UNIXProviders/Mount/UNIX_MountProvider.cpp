@@ -67,7 +67,6 @@ CIMInstance UNIX_MountProvider::constructInstance(
 
 Array<CIMKeyBinding> UNIX_MountProvider::constructKeyBindings(const UNIX_Mount& _p) const
 {
-
 	Array<CIMKeyBinding> keys;
 
 	CIMKeyBinding k1(
@@ -93,7 +92,7 @@ Array<CIMKeyBinding> UNIX_MountProvider::constructKeyBindings(const UNIX_Mount& 
 #define CLASS_IMPLEMENTATION UNIX_Mount
 #define CLASS_IMPLEMENTATION_NAME "UNIX_Mount"
 #define BASE_CLASS_NAME "CIM_Mount"
-#define NUMKEYS_CLASS_IMPLEMENTATION 0
+#define NUMKEYS_CLASS_IMPLEMENTATION 2
 
 
 #include "UNIXProviderBase.hpp"
