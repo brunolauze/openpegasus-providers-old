@@ -71,6 +71,7 @@ public:
 	static int indexOf (char* base, char* str, int startIndex);
 	static int lastIndexOf (char* base, char* str);
 	static std::string encode(std::string str);
+	static std::string replace( std::string src, std::string const& target, std::string const& repl);
 	static String extractStringParameter(const Array<CIMParamValue>&, String);
 	static Uint32 extractUint32Parameter(const Array<CIMParamValue>& inParameters, String);
 	static CIMDateTime extractDateTimeParameter(const Array<CIMParamValue>& inParameters, String);

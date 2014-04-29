@@ -553,6 +553,8 @@ Boolean UNIX_SoftwareElement::initialize()
     it = NULL;
     pkg = NULL;
     int ret;
+    try
+    {
     if (!pkg_initialized())
 		if (pkg_init(NULL, NULL) != EPKG_OK)
 			throw new CIMException(CIM_ERR_FAILED, "Cannot init software manager");
@@ -581,6 +583,12 @@ Boolean UNIX_SoftwareElement::initialize()
 	        throw new CIMException(CIM_ERR_FAILED, "Sofware database is corrupted");
 	        //return false; /* (EX_IOERR); */
     
+	}
+	catch(Exception &ex)
+	{
+		cout << ex.getMessage() << endl;
+
+	}
 	return true;
 }
 
@@ -590,6 +598,8 @@ Boolean UNIX_SoftwareElement::load(int &pIndex)
 	char *pkgname;
 	const char *reponame = NULL;
 	pkgname = NULL;
+	try 
+	{
 	if (db == NULL)
 	{
 		if (!remote)
@@ -619,6 +629,12 @@ Boolean UNIX_SoftwareElement::load(int &pIndex)
 	}
 	if ((ret = pkgdb_it_next(it, &pkg, query_flags)) == EPKG_OK) {
 		return true;
+	}
+	}
+	catch(Exception &ex)
+	{
+		cout << ex.getMessage() << endl;
+
 	}
 	return false;
 }

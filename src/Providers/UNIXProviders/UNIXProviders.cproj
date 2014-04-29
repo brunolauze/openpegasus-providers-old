@@ -865,6 +865,20 @@
     <Compile Include="BootOSFromFS\UNIX_BootOSFromFS_TRU64.cpp" />
     <Compile Include="BootOSFromFS\UNIX_BootOSFromFS_VMS.cpp" />
     <Compile Include="BootOSFromFS\UNIX_BootOSFromFS_ZOS.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthorityProvider.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_AIX.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_DARWIN.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_FREEBSD.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_HPUX.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_LINUX.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_SOLARIS.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_STUB.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_TRU64.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_VMS.cpp" />
+    <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_ZOS.cpp" />
+    <Compile Include="INIReader.cpp" />
+    <Compile Include="ini.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CIMHelper.h" />
@@ -4102,6 +4116,55 @@
     <None Include="BootOSFromFS\UNIX_BootOSFromFS_ZOS.hxx" />
     <None Include="BootOSFromFS\UNIX_BootOSFromFSMain.cpp" />
     <None Include="ManagementController\UNIX_ManagementControllerMain.cpp" />
+    <None Include="CertificateAuthority\Makefile" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_AIX.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_DARWIN.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_FREEBSD.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_HPUX.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_LINUX.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_SOLARIS.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_STUB.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_TRU64.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_VMS.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityDeps_ZOS.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_AIX.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_DARWIN.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_FREEBSD.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_HPUX.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_LINUX.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_SOLARIS.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_STUB.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_TRU64.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_VMS.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityPrivate_ZOS.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityProvider.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_AIX.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_AIX.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_DARWIN.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_DARWIN.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_FREEBSD.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_FREEBSD.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_HPUX.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_HPUX.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_LINUX.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_LINUX.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_SOLARIS.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_SOLARIS.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_STUB.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_STUB.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_TRU64.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_TRU64.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_VMS.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_VMS.hxx" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_WIN32.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_ZOS.hpp" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthority_ZOS.hxx" />
+    <None Include="INIReader.h" />
+    <None Include="ini.h" />
+    <None Include="CertificateAuthority\UNIX_CertificateAuthorityMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Account\" />
@@ -4178,5 +4241,6 @@
     <Folder Include="TimeZone\" />
     <Folder Include="ManagementController\" />
     <Folder Include="BootOSFromFS\" />
+    <Folder Include="CertificateAuthority\" />
   </ItemGroup>
 </Project>

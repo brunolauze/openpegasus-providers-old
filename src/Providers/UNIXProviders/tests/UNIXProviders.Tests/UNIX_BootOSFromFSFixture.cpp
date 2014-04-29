@@ -61,7 +61,6 @@ void UNIX_BootOSFromFSFixture::Run()
 		propertyCount = instance.getPropertyCount();
 		for(Uint32 i = 0; i < propertyCount; i++)
 		{
-
 			CIMProperty propertyItem = instance.getProperty(i);
 			if (propertyItem.getName().equal("Antecedent") ||
 				propertyItem.getName().equal("Dependent"))

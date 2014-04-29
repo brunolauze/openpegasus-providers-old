@@ -83,16 +83,99 @@ else
 	SOURCES += UNIX_BootOSFromFS_STUB.cpp
 endif
 
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
+
+SOURCES += \
+	../OperatingSystem/UNIX_OperatingSystem.cpp \
+	../OperatingSystem/UNIX_OperatingSystemProvider.cpp
+
+ifeq ($(OS), aix)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_AIX.cpp
+endif
+ifeq ($(OS), darwin)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_DARWIN.cpp
+endif
+ifeq ($(OS), freebsd)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_FREEBSD.cpp
+endif
+ifeq ($(OS), hpux)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_HPUX.cpp
+endif
+ifeq ($(OS), linux)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_LINUX.cpp
+endif
+ifeq ($(OS), solaris)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_SOLARIS.cpp
+endif
+ifeq ($(OS), tru64)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_TRU64.cpp
+endif
+ifeq ($(OS), vms)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_VMS.cpp
+endif
+ifeq ($(OS), win32)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_WIN32.cpp
+endif
+ifeq ($(OS), zos)
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_ZOS.cpp
+endif
+ifeq (, $(filter aix,darwin,freebsd,hpux,linux,solaris,tru64,vms,win32,zos $(OS)))
+
+else
+	SOURCE += ../OperatingSystem/UNIX_OperatingSystem_STUB.cpp
+endif
+
+
+SOURCES += \
+	../LocalFileSystem/UNIX_LocalFileSystem.cpp \
+	../LocalFileSystem/UNIX_LocalFileSystemProvider.cpp
+
+ifeq ($(OS), aix)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_AIX.cpp
+endif
+ifeq ($(OS), darwin)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_DARWIN.cpp
+endif
+ifeq ($(OS), freebsd)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_FREEBSD.cpp
+endif
+ifeq ($(OS), hpux)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_HPUX.cpp
+endif
+ifeq ($(OS), linux)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_LINUX.cpp
+endif
+ifeq ($(OS), solaris)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_SOLARIS.cpp
+endif
+ifeq ($(OS), tru64)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_TRU64.cpp
+endif
+ifeq ($(OS), vms)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_VMS.cpp
+endif
+ifeq ($(OS), win32)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_WIN32.cpp
+endif
+ifeq ($(OS), zos)
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_ZOS.cpp
+endif
+ifeq (, $(filter aix,darwin,freebsd,hpux,linux,solaris,tru64,vms,win32,zos $(OS)))
+
+else
+	SOURCE += ../LocalFileSystem/UNIX_LocalFileSystem_STUB.cpp
+endif
+
 
 EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
+
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \

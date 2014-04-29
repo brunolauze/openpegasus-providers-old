@@ -35,7 +35,7 @@
         <Variable name="LD_LIBRARY_PATH" value="../../../../bin/Debug:/usr/local/lib/pegasus/lib:/usr/local/lib:/usr/lib:/lib" />
       </EnvironmentVariables>
     </EnvironmentVariables>
-    <Commandlineparameters>UNIX_BootOSFromFS</Commandlineparameters>
+    <Commandlineparameters>UNIX_CertificateAuthority</Commandlineparameters>
     <ConsolePause>false</ConsolePause>
     <LibPaths>
       <LibPaths>
@@ -99,6 +99,7 @@
     <Compile Include="UNIX_TimeZoneFixture.cpp" />
     <Compile Include="UNIX_TimeServiceFixture.cpp" />
     <Compile Include="UNIX_BootOSFromFSFixture.cpp" />
+    <Compile Include="UNIX_CertificateAuthorityFixture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CIMFixtureBase.h" />
@@ -148,5 +149,6 @@
     <None Include="UNIX_TimeZoneFixture.h" />
     <None Include="UNIX_TimeServiceFixture.h" />
     <None Include="UNIX_BootOSFromFSFixture.h" />
+    <None Include="UNIX_CertificateAuthorityFixture.h" />
   </ItemGroup>
 </Project>

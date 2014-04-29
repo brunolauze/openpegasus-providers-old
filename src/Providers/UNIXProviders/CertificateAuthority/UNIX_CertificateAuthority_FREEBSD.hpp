@@ -29,6 +29,7 @@
 //
 //%/////////////////////////////////////////////////////////////////////////
 
+#include <INIReader.h>
 
 UNIX_CertificateAuthority::UNIX_CertificateAuthority(void)
 {
@@ -455,10 +456,51 @@ Uint8 UNIX_CertificateAuthority::getMaxChainLength() const
 	return Uint8(0);
 }
 
-
+static string formatString(string val, string dir)
+{
+	if (val.find("./") == 0)
+		return CIMHelper::replace(val, "./", "/etcl/ssl");
+	return CIMHelper::replace(val, "$dir", dir);
+}
 
 Boolean UNIX_CertificateAuthority::initialize()
 {
+	INIReader reader("/etc/ssl/openssl.cnf");
+	if (reader.ParseError() < 0) 
+	{
+		cout << "INI have errors: " << reader.ParseError() << endl;
+		return false;
+	}
+	string tsa_policy1 = reader.Get("new_oids", "tsa_policy1", "");
+	string tsa_policy2 = reader.Get("new_oids", "tsa_policy2", "");
+	string tsa_policy3 = reader.Get("new_oids", "tsa_policy3", "");
+	string casection = reader.Get("ca", "default_ca", "");
+	if (casection.size() == 0) return false;
+	cout << "CA Section: " << casection <<  endl;
+	string directory = formatString(reader.Get(casection, "dir", "/etc/ssl"), "");
+	string certsdir = formatString(reader.Get(casection, "certs", "/etc/ssl/certs"), directory);
+	string crldir = formatString(reader.Get(casection, "crl_dir", "/etc/ssl/crl"), directory);
+	string database = formatString(reader.Get(casection, "database", "/etc/ssl/index.txt"), directory);
+	string newcertsdir = formatString(reader.Get(casection, "new_certs_dir", "/etc/ssl/newcerts"), directory);
+	string cacert = formatString(reader.Get(casection, "certificate", "/etc/ssl/cacert.pem"), directory);
+	string cakey = formatString(reader.Get(casection, "private_key", "/etc/ssl/cakey.pem"), directory);
+	string serial = formatString(reader.Get(casection, "serial", "/etc/ssl/serial"), directory);
+	string crlnumber = formatString(reader.Get(casection, "crlnumber", "/etc/ssl/crlnumber"), directory);
+	string crlcert = formatString(reader.Get(casection, "crl", "/etc/ssl/crl.pem"), directory);
+	string randomfile = formatString(reader.Get(casection, "RANDFILE", "/etc/ssl/private/.rand"), directory);
+	string x509ext = formatString(reader.Get(casection, "x509_extensions", "usr_cert"), directory);
+	string caname = formatString(reader.Get(casection, "name_opt", "ca_default"), directory);
+	string certname = formatString(reader.Get(casection, "cert_opt", "ca_default"), directory);
+	long days = reader.GetInteger(casection, "days", 365);
+	long crldays = reader.GetInteger(casection, "crl_days", 30);
+
+	cout <<  "Directory: " << directory << endl;
+	cout <<  "Certs: " << certsdir << endl;
+	cout <<  "CRL: " << crldir << endl;
+
+
+	cout <<  "Days: " << days << endl;
+	cout <<  "CRL Days: " << crldays << endl;
 	return false;
 }
 

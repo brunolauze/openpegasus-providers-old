@@ -564,7 +564,7 @@ Boolean UNIX_DatabaseSystem::isEnabled(DBTYPE type)
 Boolean UNIX_DatabaseSystem::load(int &pIndex)
 {
 	UNIX_SoftwareElement softwareElement;
-
+	softwareElement.setScope("UNIX_ComputerSystem");
 	// check if postgresql is installed
 	if (pIndex == 0)
 	{

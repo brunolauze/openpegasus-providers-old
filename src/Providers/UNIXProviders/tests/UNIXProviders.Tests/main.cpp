@@ -169,7 +169,7 @@
 //#include "UNIX_CardOnCardFixture.h"
 //#include "UNIX_CASignsPublicKeyCertificateFixture.h"
 //#include "UNIX_CDROMDriveFixture.h"
-//#include "UNIX_CertificateAuthorityFixture.h"
+#include "UNIX_CertificateAuthorityFixture.h"
 //#include "UNIX_CertificateManagementCapabilitiesFixture.h"
 //#include "UNIX_CertificateManagementServiceFixture.h"
 //#include "UNIX_ChangerDeviceFixture.h"
@@ -1270,7 +1270,7 @@ int main (int argc, char *argv[])
 	//if (IsTarget(s, "UNIX_CardOnCard")) { UNIX_CardOnCardFixture cardOnCard; cardOnCard.Run(); }
 	//if (IsTarget(s, "UNIX_CASignsPublicKeyCertificate")) { UNIX_CASignsPublicKeyCertificateFixture cASignsPublicKeyCertificate; cASignsPublicKeyCertificate.Run(); }
 	//if (IsTarget(s, "UNIX_CDROMDrive")) { UNIX_CDROMDriveFixture cDROMDrive; cDROMDrive.Run(); }
-	//if (IsTarget(s, "UNIX_CertificateAuthority")) { UNIX_CertificateAuthorityFixture certificateAuthority; certificateAuthority.Run(); }
+	if (IsTarget(s, "UNIX_CertificateAuthority")) { UNIX_CertificateAuthorityFixture certificateAuthority; certificateAuthority.Run(); }
 	//if (IsTarget(s, "UNIX_CertificateManagementCapabilities")) { UNIX_CertificateManagementCapabilitiesFixture certificateManagementCapabilities; certificateManagementCapabilities.Run(); }
 	//if (IsTarget(s, "UNIX_CertificateManagementService")) { UNIX_CertificateManagementServiceFixture certificateManagementService; certificateManagementService.Run(); }
 	//if (IsTarget(s, "UNIX_ChangerDevice")) { UNIX_ChangerDeviceFixture changerDevice; changerDevice.Run(); }

@@ -79,7 +79,14 @@ DIRS = \
 	ComputerSystemPackage \
 	Mount \
 	InstalledSoftwareElement \
-	Meta_Class
+	SCSIController \
+	ServiceProcess \
+	TimeService \
+	TimeZone \
+	SystemAdministrator \
+	SystemAdministratorGroup \
+	BootOSFromFS \
+	Meta_Class 
 
 TEST_DIRS = 
 
