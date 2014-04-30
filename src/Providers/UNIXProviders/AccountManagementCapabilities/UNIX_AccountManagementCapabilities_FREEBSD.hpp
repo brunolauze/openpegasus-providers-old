@@ -83,6 +83,17 @@ String UNIX_AccountManagementCapabilities::getElementName() const
 	return String("AccountManagementCapabilities");
 }
 
+Boolean UNIX_AccountManagementCapabilities::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_AccountManagementCapabilities::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_AccountManagementCapabilities::getElementNameEditSupported(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_ELEMENT_NAME_EDIT_SUPPORTED, getElementNameEditSupported());

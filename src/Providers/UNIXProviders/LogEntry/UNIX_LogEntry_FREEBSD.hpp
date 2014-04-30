@@ -88,6 +88,18 @@ String UNIX_LogEntry::getElementName() const
 	return String("LogEntry");
 }
 
+
+Boolean UNIX_LogEntry::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_LogEntry::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_LogEntry::getRecordFormat(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_RECORD_FORMAT, getRecordFormat());

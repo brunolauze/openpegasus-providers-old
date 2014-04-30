@@ -83,6 +83,17 @@ String UNIX_VLAN::getElementName() const
 	return String("VLAN");
 }
 
+Boolean UNIX_VLAN::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_VLAN::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_VLAN::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

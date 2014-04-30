@@ -68,6 +68,8 @@ public:
 	virtual String getDescription() const;
 	virtual Boolean getElementName(CIMProperty&) const;
 	virtual String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	virtual Boolean getInstallDate(CIMProperty&) const;
 	virtual CIMDateTime getInstallDate() const;
 	virtual Boolean getName(CIMProperty&) const;
@@ -110,6 +112,8 @@ public:
 	virtual String getPrimaryOwnerName() const;
 	virtual Boolean getPrimaryOwnerContact(CIMProperty&) const;
 	virtual String getPrimaryOwnerContact() const;
+	virtual Boolean getAllocationState(CIMProperty&) const;
+	virtual String getAllocationState() const;
 	virtual Boolean getRoles(CIMProperty&) const;
 	virtual Array<String> getRoles() const;
 	virtual Boolean getOtherIdentifyingInfo(CIMProperty&) const;

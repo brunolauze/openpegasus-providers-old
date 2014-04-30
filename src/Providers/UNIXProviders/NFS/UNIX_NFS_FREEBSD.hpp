@@ -78,6 +78,17 @@ Boolean UNIX_NFS::getElementName(CIMProperty &p) const
 	return true;
 }
 
+Boolean UNIX_NFS::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_NFS::getGeneration() const
+{
+	return Uint64(0);
+}
+
 String UNIX_NFS::getElementName() const
 {
 	return String("RemoteFileSystem");

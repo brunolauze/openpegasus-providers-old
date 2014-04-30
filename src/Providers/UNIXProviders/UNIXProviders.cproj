@@ -892,7 +892,6 @@
     <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_VMS.cpp" />
     <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_ZOS.cpp" />
     <Compile Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificate.cpp" />
-    <Compile Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificateMain.cpp" />
     <Compile Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificateProvider.cpp" />
     <Compile Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificate_AIX.cpp" />
     <Compile Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificate_DARWIN.cpp" />
@@ -905,7 +904,6 @@
     <Compile Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificate_VMS.cpp" />
     <Compile Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificate_ZOS.cpp" />
     <Compile Include="PublicKeyCertificate\UNIX_PublicKeyCertificate.cpp" />
-    <Compile Include="PublicKeyCertificate\UNIX_PublicKeyCertificateMain.cpp" />
     <Compile Include="PublicKeyCertificate\UNIX_PublicKeyCertificateProvider.cpp" />
     <Compile Include="PublicKeyCertificate\UNIX_PublicKeyCertificate_AIX.cpp" />
     <Compile Include="PublicKeyCertificate\UNIX_PublicKeyCertificate_DARWIN.cpp" />
@@ -918,6 +916,18 @@
     <Compile Include="PublicKeyCertificate\UNIX_PublicKeyCertificate_VMS.cpp" />
     <Compile Include="PublicKeyCertificate\UNIX_PublicKeyCertificate_ZOS.cpp" />
     <Compile Include="OpenSSLHelper.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesProvider.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_AIX.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_DARWIN.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_FREEBSD.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_HPUX.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_LINUX.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_SOLARIS.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_STUB.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_TRU64.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_VMS.cpp" />
+    <Compile Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_ZOS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CIMHelper.h" />
@@ -4344,6 +4354,59 @@
     <None Include="PublicKeyCertificate\UNIX_PublicKeyCertificate_ZOS.hpp" />
     <None Include="PublicKeyCertificate\UNIX_PublicKeyCertificate_ZOS.hxx" />
     <None Include="OpenSSLHelper.h" />
+    <None Include="CIM_CredentialManagementService.h" />
+    <None Include="CIM_AllocatedLogicalElement.h" />
+    <None Include="CIM_MediaAccessDevice.h" />
+    <None Include="CredentialManagementCapabilities\Makefile" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_AIX.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_DARWIN.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_FREEBSD.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_HPUX.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_LINUX.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_SOLARIS.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_STUB.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_TRU64.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_VMS.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesDeps_ZOS.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_AIX.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_DARWIN.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_FREEBSD.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_HPUX.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_LINUX.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_SOLARIS.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_STUB.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_TRU64.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_VMS.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesPrivate_ZOS.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesProvider.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_AIX.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_AIX.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_DARWIN.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_DARWIN.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_FREEBSD.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_FREEBSD.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_HPUX.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_HPUX.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_LINUX.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_LINUX.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_SOLARIS.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_SOLARIS.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_STUB.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_STUB.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_TRU64.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_TRU64.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_VMS.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_VMS.hxx" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_WIN32.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_ZOS.hpp" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilities_ZOS.hxx" />
+    <None Include="CIM_EnabledLogicalElementCapabilities.h" />
+    <None Include="CredentialManagementCapabilities\UNIX_CredentialManagementCapabilitiesMain.cpp" />
+    <None Include="PublicKeyCertificate\UNIX_PublicKeyCertificateMain.cpp" />
+    <None Include="CAHasPublicCertificate\UNIX_CAHasPublicCertificateMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Account\" />
@@ -4424,5 +4487,6 @@
     <Folder Include="CertificateManagementCapabilities\" />
     <Folder Include="CAHasPublicCertificate\" />
     <Folder Include="PublicKeyCertificate\" />
+    <Folder Include="CredentialManagementCapabilities\" />
   </ItemGroup>
 </Project>

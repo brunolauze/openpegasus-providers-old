@@ -83,6 +83,17 @@ String UNIX_IPNetworkConnection::getElementName() const
 	return String("IPNetworkConnection");
 }
 
+Boolean UNIX_IPNetworkConnection::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_IPNetworkConnection::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_IPNetworkConnection::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

@@ -84,6 +84,17 @@ String UNIX_RebootAction::getElementName() const
 	return String("RebootAction");
 }
 
+Boolean UNIX_RebootAction::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_RebootAction::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_RebootAction::getName(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_NAME, getName());

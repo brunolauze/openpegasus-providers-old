@@ -83,6 +83,18 @@ String UNIX_DatabaseService::getElementName() const
 	return String("DatabaseService");
 }
 
+
+Boolean UNIX_DatabaseService::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_DatabaseService::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_DatabaseService::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

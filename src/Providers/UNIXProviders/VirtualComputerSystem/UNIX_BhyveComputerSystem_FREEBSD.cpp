@@ -86,6 +86,18 @@ String UNIX_BhyveComputerSystem::getElementName() const
 	return String("BhyveComputerSystem");
 }
 
+
+Boolean UNIX_BhyveComputerSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_BhyveComputerSystem::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_BhyveComputerSystem::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -338,6 +350,17 @@ Boolean UNIX_BhyveComputerSystem::getPrimaryOwnerContact(CIMProperty &p) const
 String UNIX_BhyveComputerSystem::getPrimaryOwnerContact() const
 {
 	return String ("");
+}
+
+Boolean UNIX_BhyveComputerSystem::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_BhyveComputerSystem::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_BhyveComputerSystem::getRoles(CIMProperty &p) const

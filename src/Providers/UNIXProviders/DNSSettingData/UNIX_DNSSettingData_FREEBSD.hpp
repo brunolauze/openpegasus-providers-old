@@ -83,6 +83,17 @@ String UNIX_DNSSettingData::getElementName() const
 	return String("DNSSettingData");
 }
 
+Boolean UNIX_DNSSettingData::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_DNSSettingData::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_DNSSettingData::getChangeableType(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_CHANGEABLE_TYPE, getChangeableType());

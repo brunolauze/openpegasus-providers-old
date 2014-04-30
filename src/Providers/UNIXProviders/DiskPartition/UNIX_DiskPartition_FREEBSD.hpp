@@ -82,6 +82,18 @@ String UNIX_DiskPartition::getElementName() const
 	return String("DiskPartition");
 }
 
+
+Boolean UNIX_DiskPartition::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_DiskPartition::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_DiskPartition::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -290,6 +302,17 @@ Boolean UNIX_DiskPartition::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_DiskPartition::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+Boolean UNIX_DiskPartition::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_DiskPartition::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_DiskPartition::getSystemCreationClassName(CIMProperty &p) const

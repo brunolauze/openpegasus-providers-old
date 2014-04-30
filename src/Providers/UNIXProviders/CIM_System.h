@@ -33,7 +33,7 @@
 #define __CIM_SYSTEM_H
 
 
-#include "CIM_EnabledLogicalElement.h"
+#include "CIM_AllocatedLogicalElement.h"
 
 
 #define PROPERTY_CREATION_CLASS_NAME				"CreationClassName"
@@ -46,7 +46,7 @@
 
 
 class CIM_System :
-	public CIM_EnabledLogicalElement
+	public CIM_AllocatedLogicalElement
 {
 public:
 

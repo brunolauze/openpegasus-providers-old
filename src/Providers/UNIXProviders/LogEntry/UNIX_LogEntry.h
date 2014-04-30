@@ -71,6 +71,8 @@ public:
 	virtual String getDescription() const;
 	virtual Boolean getElementName(CIMProperty&) const;
 	virtual String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	virtual Boolean getRecordFormat(CIMProperty&) const;
 	virtual String getRecordFormat() const;
 	virtual Boolean getRecordData(CIMProperty&) const;

@@ -167,6 +167,18 @@ String UNIX_MessageLog::getElementName() const
 	return String("MessageLog");
 }
 
+
+Boolean UNIX_MessageLog::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_MessageLog::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_MessageLog::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

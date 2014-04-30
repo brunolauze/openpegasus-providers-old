@@ -95,6 +95,17 @@ String UNIX_ComputerSystem::getElementName() const
 	return String("ComputerSystem");
 }
 
+Boolean UNIX_ComputerSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_ComputerSystem::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_ComputerSystem::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -347,6 +358,17 @@ Boolean UNIX_ComputerSystem::getPrimaryOwnerContact(CIMProperty &p) const
 String UNIX_ComputerSystem::getPrimaryOwnerContact() const
 {
 	return String ("");
+}
+
+Boolean UNIX_ComputerSystem::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_ComputerSystem::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_ComputerSystem::getRoles(CIMProperty &p) const

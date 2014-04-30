@@ -83,6 +83,17 @@ String UNIX_Cluster::getElementName() const
 	return String("Cluster");
 }
 
+Boolean UNIX_Cluster::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_Cluster::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_Cluster::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -346,6 +357,17 @@ Boolean UNIX_Cluster::getPrimaryOwnerContact(CIMProperty &p) const
 String UNIX_Cluster::getPrimaryOwnerContact() const
 {
 	return String ("");
+}
+
+Boolean UNIX_Cluster::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_Cluster::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_Cluster::getRoles(CIMProperty &p) const

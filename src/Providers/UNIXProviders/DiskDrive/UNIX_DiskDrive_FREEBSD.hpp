@@ -89,6 +89,18 @@ String UNIX_DiskDrive::getElementName() const
 	return String("DiskDrive");
 }
 
+
+Boolean UNIX_DiskDrive::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_DiskDrive::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_DiskDrive::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -297,6 +309,17 @@ Boolean UNIX_DiskDrive::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_DiskDrive::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+Boolean UNIX_DiskDrive::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_DiskDrive::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_DiskDrive::getSystemCreationClassName(CIMProperty &p) const

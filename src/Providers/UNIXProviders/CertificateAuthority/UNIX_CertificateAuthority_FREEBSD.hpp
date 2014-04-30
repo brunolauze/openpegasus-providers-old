@@ -85,6 +85,17 @@ String UNIX_CertificateAuthority::getElementName() const
 	return String("CertificateAuthority");
 }
 
+Boolean UNIX_CertificateAuthority::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_CertificateAuthority::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_CertificateAuthority::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

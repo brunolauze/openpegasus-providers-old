@@ -97,6 +97,16 @@ String UNIX_OperatingSystem::getElementName() const
 {
 	return String("OperatingSystem");
 }
+Boolean UNIX_OperatingSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_OperatingSystem::getGeneration() const
+{
+	return Uint64(0);
+}
 
 Boolean UNIX_OperatingSystem::getInstallDate(CIMProperty &p) const
 {

@@ -83,6 +83,17 @@ String UNIX_VirtualSystemSettingData::getElementName() const
 	return String("VirtualSystemSettingData");
 }
 
+Boolean UNIX_VirtualSystemSettingData::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_VirtualSystemSettingData::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_VirtualSystemSettingData::getChangeableType(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_CHANGEABLE_TYPE, getChangeableType());

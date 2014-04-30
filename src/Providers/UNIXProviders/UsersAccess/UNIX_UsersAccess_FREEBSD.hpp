@@ -83,6 +83,18 @@ String UNIX_UsersAccess::getElementName() const
 	return String("UsersAccess");
 }
 
+
+Boolean UNIX_UsersAccess::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_UsersAccess::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_UsersAccess::getCreationClassName(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_CREATION_CLASS_NAME, getCreationClassName());

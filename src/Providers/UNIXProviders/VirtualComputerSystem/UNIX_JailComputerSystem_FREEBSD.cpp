@@ -118,6 +118,17 @@ String UNIX_JailComputerSystem::getElementName() const
 	return String("JailComputerSystem");
 }
 
+Boolean UNIX_JailComputerSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_JailComputerSystem::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_JailComputerSystem::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -386,6 +397,17 @@ Boolean UNIX_JailComputerSystem::getPrimaryOwnerContact(CIMProperty &p) const
 String UNIX_JailComputerSystem::getPrimaryOwnerContact() const
 {
 	return String ("");
+}
+
+Boolean UNIX_JailComputerSystem::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_JailComputerSystem::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_JailComputerSystem::getRoles(CIMProperty &p) const

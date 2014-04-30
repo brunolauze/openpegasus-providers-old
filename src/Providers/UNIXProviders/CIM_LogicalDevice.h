@@ -33,7 +33,7 @@
 #define __CIM_LOGICALDEVICE_H
 
 
-#include "CIM_EnabledLogicalElement.h"
+#include "CIM_AllocatedLogicalElement.h"
 
 
 #define PROPERTY_SYSTEM_CREATION_CLASS_NAME				"SystemCreationClassName"
@@ -56,7 +56,7 @@
 
 
 class CIM_LogicalDevice :
-	public CIM_EnabledLogicalElement
+	public CIM_AllocatedLogicalElement
 {
 public:
 

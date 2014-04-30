@@ -84,6 +84,17 @@ String UNIX_VirtualComputerSystem::getElementName() const
 	return String("VirtualComputerSystem");
 }
 
+Boolean UNIX_VirtualComputerSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_VirtualComputerSystem::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_VirtualComputerSystem::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -314,6 +325,17 @@ Boolean UNIX_VirtualComputerSystem::getPrimaryOwnerContact(CIMProperty &p) const
 String UNIX_VirtualComputerSystem::getPrimaryOwnerContact() const
 {
 	return currentSystem->getPrimaryOwnerContact();
+}
+
+Boolean UNIX_VirtualComputerSystem::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_VirtualComputerSystem::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_VirtualComputerSystem::getRoles(CIMProperty &p) const

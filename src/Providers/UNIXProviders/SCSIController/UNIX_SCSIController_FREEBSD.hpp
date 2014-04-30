@@ -83,6 +83,17 @@ String UNIX_SCSIController::getElementName() const
 	return String("SCSIController");
 }
 
+Boolean UNIX_SCSIController::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_SCSIController::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_SCSIController::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -302,6 +313,17 @@ Boolean UNIX_SCSIController::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_SCSIController::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+Boolean UNIX_SCSIController::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_SCSIController::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_SCSIController::getSystemCreationClassName(CIMProperty &p) const

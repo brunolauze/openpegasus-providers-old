@@ -85,6 +85,17 @@ String UNIX_AccountManagementService::getElementName() const
 	return String("AccountManagementService");
 }
 
+Boolean UNIX_AccountManagementService::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_AccountManagementService::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_AccountManagementService::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

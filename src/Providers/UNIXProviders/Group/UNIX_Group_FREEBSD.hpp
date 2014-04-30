@@ -87,6 +87,17 @@ String UNIX_Group::getElementName() const
 	return String("Group");
 }
 
+Boolean UNIX_Group::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_Group::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_Group::getCreationClassName(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_CREATION_CLASS_NAME, getCreationClassName());

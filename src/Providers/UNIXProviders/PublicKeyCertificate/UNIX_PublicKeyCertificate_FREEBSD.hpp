@@ -83,6 +83,17 @@ String UNIX_PublicKeyCertificate::getElementName() const
 	return String("PublicKeyCertificate");
 }
 
+Boolean UNIX_PublicKeyCertificate::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_PublicKeyCertificate::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_PublicKeyCertificate::getIssued(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_ISSUED, getIssued());

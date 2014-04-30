@@ -116,6 +116,18 @@ String UNIX_EthernetPort::getElementName() const
 	return String("EthernetPort");
 }
 
+
+Boolean UNIX_EthernetPort::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_EthernetPort::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_EthernetPort::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -336,6 +348,17 @@ Boolean UNIX_EthernetPort::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_EthernetPort::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+Boolean UNIX_EthernetPort::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_EthernetPort::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_EthernetPort::getSystemCreationClassName(CIMProperty &p) const

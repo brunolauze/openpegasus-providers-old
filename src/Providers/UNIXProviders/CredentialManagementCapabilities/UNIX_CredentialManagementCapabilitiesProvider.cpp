@@ -43,7 +43,7 @@ UNIX_CredentialManagementCapabilitiesProvider::~UNIX_CredentialManagementCapabil
 CIMInstance UNIX_CredentialManagementCapabilitiesProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_CredentialManagementCapabilities &_p)
+	const UNIX_CredentialManagementCapabilities &_p) const
 {
 	CIMProperty p;
 
@@ -77,7 +77,7 @@ CIMInstance UNIX_CredentialManagementCapabilitiesProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_CredentialManagementCapabilitiesProvider::constructKeyBindings(const UNIX_CredentialManagementCapabilities& _p)
+Array<CIMKeyBinding> UNIX_CredentialManagementCapabilitiesProvider::constructKeyBindings(const UNIX_CredentialManagementCapabilities& _p) const
 
 {
 

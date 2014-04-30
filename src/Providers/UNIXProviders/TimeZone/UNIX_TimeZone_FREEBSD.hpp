@@ -87,6 +87,18 @@ String UNIX_TimeZone::getElementName() const
 	return String("TimeZone");
 }
 
+Boolean UNIX_TimeZone::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_TimeZone::getGeneration() const
+{
+	return Uint64(0);
+}
+
+
 Boolean UNIX_TimeZone::getSettingID(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_SETTING_ID, getSettingID());

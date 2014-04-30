@@ -93,6 +93,17 @@ String UNIX_BIOSElement::getElementName() const
 	return String("BIOSElement");
 }
 
+Boolean UNIX_BIOSElement::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_BIOSElement::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_BIOSElement::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

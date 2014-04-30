@@ -60,6 +60,8 @@ public:
 	String getDescription() const;
 	Boolean getElementName(CIMProperty&) const;
 	String getElementName() const;
+	Boolean getGeneration(CIMProperty&) const;
+	Uint64 getGeneration() const;
 	Boolean getInstallDate(CIMProperty&) const;
 	CIMDateTime getInstallDate() const;
 	Boolean getName(CIMProperty&) const;
@@ -145,6 +147,8 @@ public:
 	String getDescription() const;
 	Boolean getElementName(CIMProperty&) const;
 	String getElementName() const;
+	Boolean getGeneration(CIMProperty&) const;
+	Uint64 getGeneration() const;
 	Boolean getInstallDate(CIMProperty&) const;
 	CIMDateTime getInstallDate() const;
 	Boolean getName(CIMProperty&) const;
@@ -229,6 +233,8 @@ public:
 	String getDescription() const;
 	Boolean getElementName(CIMProperty&) const;
 	String getElementName() const;
+	Boolean getGeneration(CIMProperty&) const;
+	Uint64 getGeneration() const;
 	Boolean getInstallDate(CIMProperty&) const;
 	CIMDateTime getInstallDate() const;
 	Boolean getName(CIMProperty&) const;

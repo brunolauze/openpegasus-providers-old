@@ -83,6 +83,17 @@ String UNIX_UDPProtocolEndpoint::getElementName() const
 	return String("UDPProtocolEndpoint");
 }
 
+Boolean UNIX_UDPProtocolEndpoint::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_UDPProtocolEndpoint::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_UDPProtocolEndpoint::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

@@ -84,6 +84,17 @@ String UNIX_EthernetAdapter::getElementName() const
 	return String("EthernetAdapter");
 }
 
+
+Boolean UNIX_EthernetAdapter::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+Uint64 UNIX_EthernetAdapter::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_EthernetAdapter::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -271,6 +282,17 @@ Boolean UNIX_EthernetAdapter::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_EthernetAdapter::getTransitioningToState() const
 {
 	return underlyingClass.getTransitioningToState();
+}
+
+Boolean UNIX_EthernetAdapter::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_EthernetAdapter::getAllocationState() const
+{
+	return underlyingClass.getAllocationState();
 }
 
 Boolean UNIX_EthernetAdapter::getSystemCreationClassName(CIMProperty &p) const

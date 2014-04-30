@@ -52,6 +52,17 @@ Boolean OpenPAMService::getElementName(CIMProperty &p) const
 	return true;
 }
 
+Boolean OpenPAMService::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 OpenPAMService::getGeneration() const
+{
+	return Uint64(0);
+}
+
 String OpenPAMService::getElementName() const
 {
 	return String("AccountManagementService");

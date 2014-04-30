@@ -83,6 +83,17 @@ String UNIX_DataFile::getElementName() const
 	return String("DataFile");
 }
 
+Boolean UNIX_DataFile::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_DataFile::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_DataFile::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

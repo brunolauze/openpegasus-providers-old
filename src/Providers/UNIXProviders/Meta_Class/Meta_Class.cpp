@@ -87,6 +87,18 @@ String Meta_Class::getElementName() const
 	return String("Class");
 }
 
+
+Boolean Meta_Class::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 Meta_Class::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean Meta_Class::getName(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_NAME, getName());

@@ -56,6 +56,16 @@ String OpenLdapService::getElementName() const
 	return String("AccountManagementService");
 }
 
+Boolean OpenLdapService::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 OpenLdapService::getGeneration() const
+{
+	return Uint64(0);
+}
 Boolean OpenLdapService::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

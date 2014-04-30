@@ -79,6 +79,8 @@ public:
 	virtual String getDescription() const;
 	virtual Boolean getElementName(CIMProperty&) const;
 	virtual String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	virtual Boolean getSettingID(CIMProperty&) const;
 	virtual String getSettingID() const;
 	virtual Boolean getTimeZoneID(CIMProperty&) const;

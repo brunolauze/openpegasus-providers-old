@@ -83,6 +83,18 @@ String UNIX_ManagementController::getElementName() const
 	return String("ManagementController");
 }
 
+Boolean UNIX_ManagementController::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_ManagementController::getGeneration() const
+{
+	return Uint64(0);
+}
+
+
 Boolean UNIX_ManagementController::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -302,6 +314,17 @@ Boolean UNIX_ManagementController::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_ManagementController::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+Boolean UNIX_ManagementController::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_ManagementController::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_ManagementController::getSystemCreationClassName(CIMProperty &p) const

@@ -83,6 +83,16 @@ String UNIX_CertificateManagementCapabilities::getElementName() const
 	return String("CertificateManagementCapabilities");
 }
 
+Boolean UNIX_CertificateManagementCapabilities::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_CertificateManagementCapabilities::getGeneration() const
+{
+	return Uint64(0);
+}
 Boolean UNIX_CertificateManagementCapabilities::getElementNameEditSupported(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_ELEMENT_NAME_EDIT_SUPPORTED, getElementNameEditSupported());

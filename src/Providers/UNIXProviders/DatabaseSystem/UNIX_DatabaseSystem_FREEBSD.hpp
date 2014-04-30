@@ -83,6 +83,17 @@ String UNIX_DatabaseSystem::getElementName() const
 	return String("DatabaseSystem");
 }
 
+Boolean UNIX_DatabaseSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_DatabaseSystem::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_DatabaseSystem::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -330,6 +341,17 @@ Boolean UNIX_DatabaseSystem::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_DatabaseSystem::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+Boolean UNIX_DatabaseSystem::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_DatabaseSystem::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_DatabaseSystem::getCreationClassName(CIMProperty &p) const

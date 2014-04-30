@@ -43,7 +43,7 @@ UNIX_PublicKeyCertificateProvider::~UNIX_PublicKeyCertificateProvider()
 CIMInstance UNIX_PublicKeyCertificateProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_PublicKeyCertificate &_p)
+	const UNIX_PublicKeyCertificate &_p) const
 {
 	CIMProperty p;
 
@@ -85,7 +85,7 @@ CIMInstance UNIX_PublicKeyCertificateProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_PublicKeyCertificateProvider::constructKeyBindings(const UNIX_PublicKeyCertificate& _p)
+Array<CIMKeyBinding> UNIX_PublicKeyCertificateProvider::constructKeyBindings(const UNIX_PublicKeyCertificate& _p) const
 
 {
 

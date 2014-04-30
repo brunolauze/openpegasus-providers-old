@@ -84,6 +84,17 @@ String UNIX_PhysicalMemory::getElementName() const
 	return String("PhysicalMemory");
 }
 
+Boolean UNIX_PhysicalMemory::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_PhysicalMemory::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_PhysicalMemory::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

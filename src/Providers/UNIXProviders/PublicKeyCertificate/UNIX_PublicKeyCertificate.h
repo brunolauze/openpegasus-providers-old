@@ -70,6 +70,8 @@ public:
 	virtual String getDescription() const;
 	virtual Boolean getElementName(CIMProperty&) const;
 	virtual String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	virtual Boolean getIssued(CIMProperty&) const;
 	virtual CIMDateTime getIssued() const;
 	virtual Boolean getExpires(CIMProperty&) const;

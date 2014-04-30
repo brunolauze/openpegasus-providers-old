@@ -94,6 +94,17 @@ String UNIX_Process::getElementName() const
 	return String("Process");
 }
 
+Boolean UNIX_Process::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_Process::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_Process::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

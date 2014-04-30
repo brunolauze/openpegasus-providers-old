@@ -83,6 +83,17 @@ String UNIX_FileSystem::getElementName() const
 	return String("FileSystem");
 }
 
+Boolean UNIX_FileSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_FileSystem::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_FileSystem::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

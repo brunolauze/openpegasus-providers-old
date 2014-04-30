@@ -43,7 +43,7 @@ UNIX_CAHasPublicCertificateProvider::~UNIX_CAHasPublicCertificateProvider()
 CIMInstance UNIX_CAHasPublicCertificateProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_CAHasPublicCertificate &_p)
+	const UNIX_CAHasPublicCertificate &_p) const
 {
 	CIMProperty p;
 
@@ -65,7 +65,7 @@ CIMInstance UNIX_CAHasPublicCertificateProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_CAHasPublicCertificateProvider::constructKeyBindings(const UNIX_CAHasPublicCertificate& _p)
+Array<CIMKeyBinding> UNIX_CAHasPublicCertificateProvider::constructKeyBindings(const UNIX_CAHasPublicCertificate& _p) const
 
 {
 

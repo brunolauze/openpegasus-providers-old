@@ -83,6 +83,17 @@ String UNIX_RemoteFileSystem::getElementName() const
 	return String("RemoteFileSystem");
 }
 
+Boolean UNIX_RemoteFileSystem::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_RemoteFileSystem::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_RemoteFileSystem::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

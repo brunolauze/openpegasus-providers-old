@@ -83,6 +83,17 @@ String UNIX_ResourcePool::getElementName() const
 	return String("ResourcePool");
 }
 
+Boolean UNIX_ResourcePool::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_ResourcePool::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_ResourcePool::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

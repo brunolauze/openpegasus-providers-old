@@ -83,6 +83,17 @@ String UNIX_AllocationCapabilities::getElementName() const
 	return String("AllocationCapabilities");
 }
 
+Boolean UNIX_AllocationCapabilities::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_AllocationCapabilities::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_AllocationCapabilities::getResourceType(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_RESOURCE_TYPE, getResourceType());

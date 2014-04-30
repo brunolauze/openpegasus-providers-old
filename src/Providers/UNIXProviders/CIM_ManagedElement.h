@@ -40,7 +40,7 @@
 #define PROPERTY_CAPTION				"Caption"
 #define PROPERTY_DESCRIPTION				"Description"
 #define PROPERTY_ELEMENT_NAME				"ElementName"
-
+#define PROPERTY_GENERATION				"Generation"
 
 class CIM_ManagedElement :
 	public CIM_ClassBase
@@ -62,6 +62,8 @@ public:
 	virtual String getDescription() const=0;
 	virtual Boolean getElementName(CIMProperty&) const=0;
 	virtual String getElementName() const=0;
+	virtual Boolean getGeneration(CIMProperty&) const=0;
+ 	virtual Uint64 getGeneration() const=0;
 
 private:
 

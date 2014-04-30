@@ -29,6 +29,8 @@ public:
 	String getDescription() const;
 	Boolean getElementName(CIMProperty&) const;
 	String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	Boolean getInstallDate(CIMProperty&) const;
 	CIMDateTime getInstallDate() const;
 	Boolean getName(CIMProperty&) const;
@@ -71,6 +73,8 @@ public:
 	String getPrimaryOwnerName() const;
 	Boolean getPrimaryOwnerContact(CIMProperty&) const;
 	String getPrimaryOwnerContact() const;
+	Boolean getAllocationState(CIMProperty&) const;
+	String getAllocationState() const;
 	Boolean getRoles(CIMProperty&) const;
 	Array<String> getRoles() const;
 	Boolean getOtherIdentifyingInfo(CIMProperty&) const;
@@ -135,6 +139,8 @@ public:
 	String getDescription() const;
 	Boolean getElementName(CIMProperty&) const;
 	String getElementName() const;
+	Boolean getGeneration(CIMProperty&) const;
+	Uint64 getGeneration() const;
 	Boolean getInstallDate(CIMProperty&) const;
 	CIMDateTime getInstallDate() const;
 	Boolean getName(CIMProperty&) const;
@@ -177,6 +183,8 @@ public:
 	String getPrimaryOwnerName() const;
 	Boolean getPrimaryOwnerContact(CIMProperty&) const;
 	String getPrimaryOwnerContact() const;
+	Boolean getAllocationState(CIMProperty&) const;
+	String getAllocationState() const;
 	Boolean getRoles(CIMProperty&) const;
 	Array<String> getRoles() const;
 	Boolean getOtherIdentifyingInfo(CIMProperty&) const;

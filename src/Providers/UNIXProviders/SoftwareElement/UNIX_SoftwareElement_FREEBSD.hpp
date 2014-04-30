@@ -274,6 +274,17 @@ String UNIX_SoftwareElement::getElementName() const
 	return String("SoftwareElement");
 }
 
+Boolean UNIX_SoftwareElement::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_SoftwareElement::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_SoftwareElement::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

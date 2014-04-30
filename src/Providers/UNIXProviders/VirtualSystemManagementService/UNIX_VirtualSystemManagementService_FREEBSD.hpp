@@ -83,6 +83,17 @@ String UNIX_VirtualSystemManagementService::getElementName() const
 	return String("VirtualSystemManagementService");
 }
 
+Boolean UNIX_VirtualSystemManagementService::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_VirtualSystemManagementService::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_VirtualSystemManagementService::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

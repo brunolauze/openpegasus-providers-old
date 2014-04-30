@@ -63,6 +63,8 @@ public:
 	virtual String getDescription() const;
 	virtual Boolean getElementName(CIMProperty&) const;
 	virtual String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	virtual Boolean getInstallDate(CIMProperty&) const;
 	virtual CIMDateTime getInstallDate() const;
 	virtual Boolean getName(CIMProperty&) const;
@@ -97,6 +99,8 @@ public:
 	virtual Array<Uint16> getAvailableRequestedStates() const;
 	virtual Boolean getTransitioningToState(CIMProperty&) const;
 	virtual Uint16 getTransitioningToState() const;
+	virtual Boolean getAllocationState(CIMProperty&) const;
+	virtual String getAllocationState() const;
 	virtual Boolean getSystemCreationClassName(CIMProperty&) const;
 	virtual String getSystemCreationClassName() const;
 	virtual Boolean getSystemName(CIMProperty&) const;

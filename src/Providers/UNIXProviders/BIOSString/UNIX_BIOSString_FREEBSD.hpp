@@ -83,6 +83,18 @@ String UNIX_BIOSString::getElementName() const
 	return String("BIOSString");
 }
 
+
+Boolean UNIX_BIOSString::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_BIOSString::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_BIOSString::getAttributeName(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_ATTRIBUTE_NAME, getAttributeName());

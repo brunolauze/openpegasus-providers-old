@@ -85,6 +85,17 @@ String UNIX_BIOSFeature::getElementName() const
 	return String("BIOSFeature");
 }
 
+Boolean UNIX_BIOSFeature::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_BIOSFeature::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_BIOSFeature::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

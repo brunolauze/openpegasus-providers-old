@@ -83,6 +83,17 @@ String UNIX_SystemSetting::getElementName() const
 	return String("SystemSetting");
 }
 
+Boolean UNIX_SystemSetting::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_SystemSetting::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_SystemSetting::getSettingID(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_SETTING_ID, getSettingID());

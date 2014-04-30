@@ -83,6 +83,17 @@ String UNIX_CredentialManagementCapabilities::getElementName() const
 	return String("CredentialManagementCapabilities");
 }
 
+Boolean UNIX_CredentialManagementCapabilities::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_CredentialManagementCapabilities::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_CredentialManagementCapabilities::getElementNameEditSupported(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_ELEMENT_NAME_EDIT_SUPPORTED, getElementNameEditSupported());

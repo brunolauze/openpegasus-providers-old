@@ -83,6 +83,17 @@ String UNIX_CreateDirectoryAction::getElementName() const
 	return String("CreateDirectoryAction");
 }
 
+Boolean UNIX_CreateDirectoryAction::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_CreateDirectoryAction::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_CreateDirectoryAction::getName(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_NAME, getName());

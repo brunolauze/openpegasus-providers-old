@@ -83,6 +83,17 @@ String UNIX_FileSpecification::getElementName() const
 	return String("FileSpecification");
 }
 
+Boolean UNIX_FileSpecification::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_FileSpecification::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_FileSpecification::getName(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_NAME, getName());

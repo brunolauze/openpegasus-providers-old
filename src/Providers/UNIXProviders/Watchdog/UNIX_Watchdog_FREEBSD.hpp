@@ -83,6 +83,17 @@ String UNIX_Watchdog::getElementName() const
 	return String("Watchdog");
 }
 
+Boolean UNIX_Watchdog::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_Watchdog::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_Watchdog::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());
@@ -302,6 +313,18 @@ Boolean UNIX_Watchdog::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_Watchdog::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+
+Boolean UNIX_Watchdog::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_Watchdog::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_Watchdog::getSystemCreationClassName(CIMProperty &p) const

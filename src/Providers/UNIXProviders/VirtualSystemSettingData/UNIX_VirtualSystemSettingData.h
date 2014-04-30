@@ -80,6 +80,8 @@ public:
 	virtual String getDescription() const;
 	virtual Boolean getElementName(CIMProperty&) const;
 	virtual String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	virtual Boolean getChangeableType(CIMProperty&) const;
 	virtual Uint16 getChangeableType() const;
 	virtual Boolean getConfigurationName(CIMProperty&) const;

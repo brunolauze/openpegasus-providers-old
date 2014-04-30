@@ -86,6 +86,17 @@ String UNIX_DeviceFile::getElementName() const
 	return String("DeviceFile");
 }
 
+Boolean UNIX_DeviceFile::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_DeviceFile::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_DeviceFile::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

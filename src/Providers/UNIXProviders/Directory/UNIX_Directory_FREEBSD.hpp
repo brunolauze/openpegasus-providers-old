@@ -83,6 +83,17 @@ String UNIX_Directory::getElementName() const
 	return String("Directory");
 }
 
+Boolean UNIX_Directory::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_Directory::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_Directory::getInstallDate(CIMProperty &p) const
 {
 	p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

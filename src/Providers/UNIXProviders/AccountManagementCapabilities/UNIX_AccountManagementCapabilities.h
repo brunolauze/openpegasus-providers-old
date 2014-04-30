@@ -69,6 +69,8 @@ public:
 	virtual String getDescription() const;
 	virtual Boolean getElementName(CIMProperty&) const;
 	virtual String getElementName() const;
+	virtual Boolean getGeneration(CIMProperty&) const;
+	virtual Uint64 getGeneration() const;
 	virtual Boolean getElementNameEditSupported(CIMProperty&) const;
 	virtual Boolean getElementNameEditSupported() const;
 	virtual Boolean getMaxElementNameLen(CIMProperty&) const;

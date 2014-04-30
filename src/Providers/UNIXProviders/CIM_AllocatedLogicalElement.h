@@ -29,60 +29,33 @@
 //
 //%/////////////////////////////////////////////////////////////////////////
 
-#ifndef __UNIX_SYSTEMSETTING_H
-#define __UNIX_SYSTEMSETTING_H
+#ifndef __CIM_ALLOCATEDLOGICALELEMENT_H
+#define __CIM_ALLOCATEDLOGICALELEMENT_H
 
 
-#include "CIM_Setting.h"
-
-#include "UNIX_SystemSettingDeps.h"
+#include "CIM_EnabledLogicalElement.h"
 
 
-#define PROPERTY_SYSTEM_CREATION_CLASS_NAME				"SystemCreationClassName"
-#define PROPERTY_SYSTEM_NAME				"SystemName"
-#define PROPERTY_CREATION_CLASS_NAME				"CreationClassName"
+#define PROPERTY_ALLOCATION_STATE				"AllocationState"
 
 
-class UNIX_SystemSetting :
-	public CIM_Setting
+class CIM_AllocatedLogicalElement :
+	public CIM_EnabledLogicalElement
 {
 public:
 
-	UNIX_SystemSetting();
-	~UNIX_SystemSetting();
+	virtual Boolean initialize()=0;
+	virtual Boolean load(int&)=0;
+	virtual Boolean finalize()=0;
+	virtual Boolean find(Array<CIMKeyBinding>&)=0;
+	virtual Boolean validateKey(CIMKeyBinding&) const=0;
+	virtual void setScope(CIMName)=0;
 
-	virtual Boolean initialize();
-	virtual Boolean load(int&);
-	virtual Boolean finalize();
-	virtual Boolean find(Array<CIMKeyBinding>&);
-	virtual Boolean validateKey(CIMKeyBinding&) const;
-	virtual void setScope(CIMName);
-
-	virtual Boolean getInstanceID(CIMProperty&) const;
-	virtual String getInstanceID() const;
-	virtual Boolean getCaption(CIMProperty&) const;
-	virtual String getCaption() const;
-	virtual Boolean getDescription(CIMProperty&) const;
-	virtual String getDescription() const;
-	virtual Boolean getElementName(CIMProperty&) const;
-	virtual String getElementName() const;
-	virtual Boolean getGeneration(CIMProperty&) const;
-	virtual Uint64 getGeneration() const;
-	virtual Boolean getSettingID(CIMProperty&) const;
-	virtual String getSettingID() const;
-	virtual Boolean getSystemCreationClassName(CIMProperty&) const;
-	virtual String getSystemCreationClassName() const;
-	virtual Boolean getSystemName(CIMProperty&) const;
-	virtual String getSystemName() const;
-	virtual Boolean getCreationClassName(CIMProperty&) const;
-	virtual String getCreationClassName() const;
+	virtual Boolean getAllocationState(CIMProperty&) const=0;
+	virtual String getAllocationState() const=0;
 
 private:
-	CIMName currentScope;
-
-#	include "UNIX_SystemSettingPrivate.h"
-
 
 };
 
-#endif /* UNIX_SYSTEMSETTING */
+#endif /* CIM_ALLOCATEDLOGICALELEMENT */

@@ -78,6 +78,18 @@ Boolean UNIX_LogicalDisk::getElementName(CIMProperty &p) const
 	return true;
 }
 
+
+Boolean UNIX_LogicalDisk::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_LogicalDisk::getGeneration() const
+{
+	return Uint64(0);
+}
+
 String UNIX_LogicalDisk::getElementName() const
 {
 	return String("LogicalDisk");
@@ -302,6 +314,17 @@ Boolean UNIX_LogicalDisk::getTransitioningToState(CIMProperty &p) const
 Uint16 UNIX_LogicalDisk::getTransitioningToState() const
 {
 	return Uint16(0);
+}
+
+Boolean UNIX_LogicalDisk::getAllocationState(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_ALLOCATION_STATE, getAllocationState());
+	return true;
+}
+
+String UNIX_LogicalDisk::getAllocationState() const
+{
+	return String("");
 }
 
 Boolean UNIX_LogicalDisk::getSystemCreationClassName(CIMProperty &p) const

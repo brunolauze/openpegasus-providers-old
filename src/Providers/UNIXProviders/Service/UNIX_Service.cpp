@@ -79,6 +79,17 @@ String UNIX_Service::getElementName() const
 	return String("Service");
 }
 
+Boolean UNIX_Service::getGeneration(CIMProperty &p) const
+{
+	p = CIMProperty(PROPERTY_GENERATION, getGeneration());
+	return true;
+}
+
+Uint64 UNIX_Service::getGeneration() const
+{
+	return Uint64(0);
+}
+
 Boolean UNIX_Service::getInstallDate(CIMProperty &_p) const
 {
 	_p = CIMProperty(PROPERTY_INSTALL_DATE, getInstallDate());

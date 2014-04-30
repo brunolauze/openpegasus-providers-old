@@ -63,7 +63,6 @@
 #	include "UNIX_Account_STUB.hpp"
 #endif
 
-
 Boolean UNIX_Account::validateKey(CIMKeyBinding &kb) const
 {
 
