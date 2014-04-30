@@ -30,6 +30,7 @@
 //%/////////////////////////////////////////////////////////////////////////
 
 #include <INIReader.h>
+#include <unistd.h>
 
 UNIX_CertificateAuthority::UNIX_CertificateAuthority(void)
 {
@@ -48,7 +49,7 @@ Boolean UNIX_CertificateAuthority::getInstanceID(CIMProperty &p) const
 
 String UNIX_CertificateAuthority::getInstanceID() const
 {
-	return String ("");
+	return String ("openssl");
 }
 
 Boolean UNIX_CertificateAuthority::getCaption(CIMProperty &p) const
@@ -59,7 +60,7 @@ Boolean UNIX_CertificateAuthority::getCaption(CIMProperty &p) const
 
 String UNIX_CertificateAuthority::getCaption() const
 {
-	return String ("");
+	return String ("OpenSSL Certificate Authority");
 }
 
 Boolean UNIX_CertificateAuthority::getDescription(CIMProperty &p) const
@@ -92,18 +93,7 @@ Boolean UNIX_CertificateAuthority::getInstallDate(CIMProperty &p) const
 
 CIMDateTime UNIX_CertificateAuthority::getInstallDate() const
 {
-	struct tm* clock;			// create a time structure
-	time_t val = time(NULL);
-	clock = gmtime(&(val));	// Get the last modified time and put it into the time structure
-	return CIMDateTime(
-		clock->tm_year + 1900,
-		clock->tm_mon + 1,
-		clock->tm_mday,
-		clock->tm_hour,
-		clock->tm_min,
-		clock->tm_sec,
-		0,0,
-		clock->tm_gmtoff);
+	return CIMHelper::getInstallDate(caCertificatePath);
 }
 
 Boolean UNIX_CertificateAuthority::getName(CIMProperty &p) const
@@ -114,7 +104,7 @@ Boolean UNIX_CertificateAuthority::getName(CIMProperty &p) const
 
 String UNIX_CertificateAuthority::getName() const
 {
-	return String ("");
+	return getInstanceID();
 }
 
 Boolean UNIX_CertificateAuthority::getOperationalStatus(CIMProperty &p) const
@@ -126,7 +116,7 @@ Boolean UNIX_CertificateAuthority::getOperationalStatus(CIMProperty &p) const
 Array<Uint16> UNIX_CertificateAuthority::getOperationalStatus() const
 {
 	Array<Uint16> as;
-	
+	as.append(2); //OK
 
 	return as;
 
@@ -141,7 +131,7 @@ Boolean UNIX_CertificateAuthority::getStatusDescriptions(CIMProperty &p) const
 Array<String> UNIX_CertificateAuthority::getStatusDescriptions() const
 {
 	Array<String> as;
-	
+	as.append("OK");
 
 	return as;
 
@@ -368,7 +358,7 @@ Boolean UNIX_CertificateAuthority::getStartMode(CIMProperty &p) const
 
 String UNIX_CertificateAuthority::getStartMode() const
 {
-	return String ("");
+	return String ("Automatic");
 }
 
 Boolean UNIX_CertificateAuthority::getStarted(CIMProperty &p) const
@@ -379,7 +369,7 @@ Boolean UNIX_CertificateAuthority::getStarted(CIMProperty &p) const
 
 Boolean UNIX_CertificateAuthority::getStarted() const
 {
-	return Boolean(false);
+	return Boolean(true);
 }
 
 Boolean UNIX_CertificateAuthority::getCAPolicyStatement(CIMProperty &p) const
@@ -390,7 +380,7 @@ Boolean UNIX_CertificateAuthority::getCAPolicyStatement(CIMProperty &p) const
 
 String UNIX_CertificateAuthority::getCAPolicyStatement() const
 {
-	return String ("");
+	return policy;
 }
 
 Boolean UNIX_CertificateAuthority::getCRL(CIMProperty &p) const
@@ -402,7 +392,7 @@ Boolean UNIX_CertificateAuthority::getCRL(CIMProperty &p) const
 Array<String> UNIX_CertificateAuthority::getCRL() const
 {
 	Array<String> as;
-	
+
 
 	return as;
 
@@ -420,7 +410,6 @@ Array<String> UNIX_CertificateAuthority::getCRLDistributionPoint() const
 	
 
 	return as;
-
 }
 
 Boolean UNIX_CertificateAuthority::getCADistinguishedName(CIMProperty &p) const
@@ -431,7 +420,7 @@ Boolean UNIX_CertificateAuthority::getCADistinguishedName(CIMProperty &p) const
 
 String UNIX_CertificateAuthority::getCADistinguishedName() const
 {
-	return String ("");
+	return subject;
 }
 
 Boolean UNIX_CertificateAuthority::getCRLRefreshFrequency(CIMProperty &p) const
@@ -442,7 +431,7 @@ Boolean UNIX_CertificateAuthority::getCRLRefreshFrequency(CIMProperty &p) const
 
 Uint8 UNIX_CertificateAuthority::getCRLRefreshFrequency() const
 {
-	return Uint8(0);
+	return crlhours;
 }
 
 Boolean UNIX_CertificateAuthority::getMaxChainLength(CIMProperty &p) const
@@ -453,18 +442,19 @@ Boolean UNIX_CertificateAuthority::getMaxChainLength(CIMProperty &p) const
 
 Uint8 UNIX_CertificateAuthority::getMaxChainLength() const
 {
-	return Uint8(0);
+	return Uint8(2);
 }
 
 static string formatString(string val, string dir)
 {
 	if (val.find("./") == 0)
-		return CIMHelper::replace(val, "./", "/etcl/ssl");
+		return CIMHelper::replace(val, "./", "/etc/ssl/");
 	return CIMHelper::replace(val, "$dir", dir);
 }
 
 Boolean UNIX_CertificateAuthority::initialize()
 {
+	present = false;
 	INIReader reader("/etc/ssl/openssl.cnf");
 	if (reader.ParseError() < 0) 
 	{
@@ -474,6 +464,19 @@ Boolean UNIX_CertificateAuthority::initialize()
 	string tsa_policy1 = reader.Get("new_oids", "tsa_policy1", "");
 	string tsa_policy2 = reader.Get("new_oids", "tsa_policy2", "");
 	string tsa_policy3 = reader.Get("new_oids", "tsa_policy3", "");
+
+	policy.assign(tsa_policy1.c_str());
+	if (tsa_policy2.size() > 0)  
+	{
+		if (tsa_policy1.size() > 0) policy.append(";");
+		policy.append(tsa_policy2.c_str());
+	}
+	if (tsa_policy3.size() > 0)  
+	{
+		if (tsa_policy2.size() > 0) policy.append(";");
+		policy.append(tsa_policy3.c_str());
+	}
+
 	string casection = reader.Get("ca", "default_ca", "");
 	if (casection.size() == 0) return false;
 	cout << "CA Section: " << casection <<  endl;
@@ -496,22 +499,49 @@ Boolean UNIX_CertificateAuthority::initialize()
 
 	cout <<  "Directory: " << directory << endl;
 	cout <<  "Certs: " << certsdir << endl;
+	cout <<  "CA Certificate Path: " << cacert << endl;
 	cout <<  "CRL: " << crldir << endl;
 
 
 	cout <<  "Days: " << days << endl;
 	cout <<  "CRL Days: " << crldays << endl;
-	return false;
+
+	crlhours = Uint8(crldays * 24);
+
+	if (access(cacert.c_str(), R_OK) != -1)
+	{
+		String cmd("openssl x509 -noout -in ");
+		cmd.append(cacert.c_str());
+		cmd.append(" -subject");
+		FILE* pipe = popen(cmd.getCString(), "r");
+	    if (!pipe) return false;
+	    char buffer[256];
+	    if(!feof(pipe)) {
+	    	if (fgets(buffer, 256, pipe) != NULL)
+	    	{
+	    		if (CIMHelper::startsWith(buffer, strdup("subject= ")))
+	    		{
+	    			String caname(buffer);
+	    			subject = caname.subString(9, strlen(buffer) - 10);
+	    			caCertificatePath.assign(cacert.c_str());
+	    			present = true;
+	    		}
+	    	}
+    	}
+        fclose(pipe);
+	}
+	return true;
 }
 
 Boolean UNIX_CertificateAuthority::load(int &pIndex)
 {
+	if (pIndex == 0 && present) return true;
 	return false;
 }
 
 Boolean UNIX_CertificateAuthority::finalize()
 {
-	return false;
+	return true;
 }
 
 Boolean UNIX_CertificateAuthority::find(Array<CIMKeyBinding> &kbArray)
@@ -535,7 +565,7 @@ Boolean UNIX_CertificateAuthority::find(Array<CIMKeyBinding> &kbArray)
 
 
 
-/* EXecute find with extracted keys */
+	/* Execute find with extracted keys */
 
 	return false;
 }

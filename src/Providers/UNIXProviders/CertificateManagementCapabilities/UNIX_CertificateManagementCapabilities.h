@@ -42,7 +42,7 @@
 #define PROPERTY_INPUT_FORMATS_SUPPORTED				"InputFormatsSupported"
 #define PROPERTY_OUTPUT_FORMATS_SUPPORTED				"OutputFormatsSupported"
 #define PROPERTY_ASYMMETRIC_KEY_GENERATION				"AsymmetricKeyGeneration"
-#define PROPERTY_SUPPORTED_SIGNATURE_ALGORITHMS				"SupportedSignatureAlgorithms"
+#define PROPERTY_SUPPORTED_SIGNATURE_ALGORITHMS			"SupportedSignatureAlgorithms"
 
 
 class UNIX_CertificateManagementCapabilities :

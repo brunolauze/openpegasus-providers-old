@@ -132,7 +132,11 @@ public:
 
 private:
 	CIMName currentScope;
-
+	String policy;
+	Uint8 crlhours;
+	String subject;
+	String caCertificatePath;
+	bool present;
 #	include "UNIX_CertificateAuthorityPrivate.h"
 
 

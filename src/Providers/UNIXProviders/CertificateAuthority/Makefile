@@ -29,8 +29,7 @@
 #//
 #//%/////////////////////////////////////////////////////////////////////////
 
-ROOT = ../../../../..
-
+ROOT = ../../../..
 
 DIR = Providers/ManagedSystem/UNIXProviders/CertificateAuthority
 
@@ -40,9 +39,10 @@ LIBRARY = UNIX_CertificateAuthorityProvider
 
 EXTRA_INCLUDES += -I/usr/local/include -I./..
 
-
 SOURCES = \
 	../CIMHelper.cpp \
+	../ini.c \
+	../INIReader.cpp \
 	UNIX_CertificateAuthorityMain.cpp \
 	UNIX_CertificateAuthority.cpp \
 	UNIX_CertificateAuthorityProvider.cpp
@@ -83,14 +83,14 @@ else
 	SOURCES += UNIX_CertificateAuthority_STUB.cpp
 endif
 
-LIBRARIES = \
-	pegprovider \
-	pegclient \
-	pegcommon \
-	pegquerycommon \
-	pegqueryexpression \
-	pegcql \
-	pegwql
+EXTRA_LIBRARIES = \
+	-lpegprovider \
+	-lpegclient \
+	-lpegcommon \
+	-lpegquerycommon \
+	-lpegqueryexpression \
+	-lpegcql \
+	-lpegwql
 
 EXTRA_LIBRARIES = \
 	-pthread \

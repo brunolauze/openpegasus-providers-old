@@ -2169,5 +2169,13 @@
     <None Include="UNIX_Service20.mof" />
     <None Include="UNIX_Service20R.mof" />
     <None Include="Makefile" />
+    <None Include="Web\UNIX_WebApplicationPool20.mof" />
+    <None Include="Web\UNIX_WebService20.mof" />
+    <None Include="Web\UNIX_WebServer20.mof" />
+    <None Include="Web\UNIX_WebCompressionSchemeSetting20.mof" />
+    <None Include="Web\UNIX_WebVirtualDirectory20.mof" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Web\" />
   </ItemGroup>
 </Project>

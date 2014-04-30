@@ -43,7 +43,7 @@ UNIX_CertificateManagementCapabilitiesProvider::~UNIX_CertificateManagementCapab
 CIMInstance UNIX_CertificateManagementCapabilitiesProvider::constructInstance(
 	const CIMName &className,
 	const CIMNamespaceName &nameSpace,
-	const UNIX_CertificateManagementCapabilities &_p)
+	const UNIX_CertificateManagementCapabilities &_p) const
 {
 	CIMProperty p;
 
@@ -84,7 +84,7 @@ CIMInstance UNIX_CertificateManagementCapabilitiesProvider::constructInstance(
 	return inst;
 }
 
-Array<CIMKeyBinding> UNIX_CertificateManagementCapabilitiesProvider::constructKeyBindings(const UNIX_CertificateManagementCapabilities& _p)
+Array<CIMKeyBinding> UNIX_CertificateManagementCapabilitiesProvider::constructKeyBindings(const UNIX_CertificateManagementCapabilities& _p) const
 
 {
 

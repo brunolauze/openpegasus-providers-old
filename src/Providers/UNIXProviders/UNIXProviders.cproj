@@ -879,6 +879,18 @@
     <Compile Include="CertificateAuthority\UNIX_CertificateAuthority_ZOS.cpp" />
     <Compile Include="INIReader.cpp" />
     <Compile Include="ini.c" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesProvider.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_AIX.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_DARWIN.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_FREEBSD.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_HPUX.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_LINUX.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_SOLARIS.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_STUB.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_TRU64.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_VMS.cpp" />
+    <Compile Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_ZOS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CIMHelper.h" />
@@ -4165,6 +4177,53 @@
     <None Include="INIReader.h" />
     <None Include="ini.h" />
     <None Include="CertificateAuthority\UNIX_CertificateAuthorityMain.cpp" />
+    <None Include="CertificateManagementCapabilities\Makefile" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_AIX.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_DARWIN.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_FREEBSD.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_HPUX.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_LINUX.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_SOLARIS.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_STUB.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_TRU64.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_VMS.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesDeps_ZOS.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_AIX.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_DARWIN.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_FREEBSD.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_HPUX.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_LINUX.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_SOLARIS.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_STUB.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_TRU64.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_VMS.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesPrivate_ZOS.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesProvider.h" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_AIX.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_AIX.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_DARWIN.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_DARWIN.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_FREEBSD.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_FREEBSD.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_HPUX.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_HPUX.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_LINUX.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_LINUX.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_SOLARIS.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_SOLARIS.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_STUB.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_STUB.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_TRU64.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_TRU64.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_VMS.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_VMS.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_WIN32.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_ZOS.hpp" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilities_ZOS.hxx" />
+    <None Include="CertificateManagementCapabilities\UNIX_CertificateManagementCapabilitiesMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Account\" />
@@ -4242,5 +4301,6 @@
     <Folder Include="ManagementController\" />
     <Folder Include="BootOSFromFS\" />
     <Folder Include="CertificateAuthority\" />
+    <Folder Include="CertificateManagementCapabilities\" />
   </ItemGroup>
 </Project>
