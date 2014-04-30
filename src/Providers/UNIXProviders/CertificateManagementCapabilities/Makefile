@@ -92,7 +92,7 @@ EXTRA_LIBRARIES = \
 	-lpegcql \
 	-lpegwql
 
-EXTRA_LIBRARIES = \
+EXTRA_LIBRARIES += \
 	-pthread \
 	-lutil \
 	-lgeom \
